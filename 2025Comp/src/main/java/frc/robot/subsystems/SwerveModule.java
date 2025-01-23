@@ -91,9 +91,8 @@ public class SwerveModule {
 		//driveEncoder = driveMotor.getEncoder();
 		driveMotorConfig.encoder.positionConversionFactor(Constants.DRIVE_POSITION_CONVERSION);
 		driveMotorConfig.encoder.velocityConversionFactor(Constants.DRIVE_VELOCITY_FACTOR);
-		driveMotorConfig.encoder.uvwAverageDepth(4); //need to figure out if we are hallsensore or quadrature
-    driveMotorConfig.encoder.quadratureAverageDepth(4);
-		driveMotorConfig.encoder.quadratureMeasurementPeriod(16);
+		driveMotorConfig.encoder.uvwAverageDepth(4); // i think this is correct due to Neos using a hall-sensor encoder.
+    		driveMotorConfig.encoder.uvwMeasurementPeriod(16);
 		//driveMotorConfig.configureCANStatusFrames(10, 20, 20, 500, 500, 200, 200, driveMotor); //Magic numbers other teams and YAGSL uses. Makes things happier
 		//driveMotor.burnFlash();
 
