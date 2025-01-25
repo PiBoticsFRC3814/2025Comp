@@ -42,12 +42,12 @@ import frc.robot.Constants;
 
 public class SwerveModule {
 	public  SparkMax            driveMotor;
-  public  SparkMaxConfig              driveMotorConfig;
+  	public  SparkMaxConfig      driveMotorConfig;
 	private SparkClosedLoopController driveVelocityPIDController;  //i this needed anymore?  seems the closed loop control is handeled in the config
 	private SparkClosedLoopController steerPIDController;
 
 	public  SparkMax            steerMotor;
-  public  SparkMaxConfig      steerMorConfig;
+  	public  SparkMaxConfig      steerMotorConfig;
 	private CANcoder              steerAngleEncoder;
 	private SimpleMotorFeedforward driveFF;
 
@@ -61,12 +61,12 @@ public class SwerveModule {
 	/* the SwerveModule subsystem */
 	public SwerveModule( int swerveModIndex ) {
 		driveMotor = new SparkMax( Constants.SWERVE_DRIVE_MOTOR_IDS[swerveModIndex], MotorType.kBrushless);
-    driveMotorConfig = new SparkMaxConfig();
-    driveMotorConfig.inverted(Constants.DRIVE_MOTOR_INVERTED[swerveModIndex]);
-    driveMotorConfig.idleMode(IdleMode.kBrake);
+    	driveMotorConfig = new SparkMaxConfig();
+    	driveMotorConfig.inverted(Constants.DRIVE_MOTOR_INVERTED[swerveModIndex]);
+    	driveMotorConfig.idleMode(IdleMode.kBrake);
 		//driveMotor.IdleMode(IdleMode.kBrake);
-    //driveMotor.setIdleMode(IdleMode.kBrake);
-    driveMotorConfig.voltageCompensation(Constants.SWERVE_VOLT_COMP);
+    	//driveMotor.setIdleMode(IdleMode.kBrake);
+    	driveMotorConfig.voltageCompensation(Constants.SWERVE_VOLT_COMP);
 		//driveMotor.enableVoltageCompensation(Constants.SWERVE_VOLT_COMP);
 		//driveMotor.setInverted( Constants.DRIVE_MOTOR_INVERTED[swerveModIndex] );
 		driveMotorConfig.openLoopRampRate( 0.2 );
@@ -82,39 +82,45 @@ public class SwerveModule {
 		//driveVelocityPIDController.setOutputRange(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][5], Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][6]);
 
     //new REV PID stuff?
-    driveMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
-    driveMotorConfig.closedLoop.pidf(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][0],Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][1],Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][2],Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][4]);
-    driveMotorConfig.closedLoop.iZone(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][3]);
-    driveMotorConfig.closedLoop.outputRange(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][5],Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][6]);
+    	driveMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
+    	driveMotorConfig.closedLoop.pidf(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][0],Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][1],Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][2],Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][4]);
+    	driveMotorConfig.closedLoop.iZone(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][3]);
+    	driveMotorConfig.closedLoop.outputRange(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][5],Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][6]);
 
 
 		//driveEncoder = driveMotor.getEncoder();
 		driveMotorConfig.encoder.positionConversionFactor(Constants.DRIVE_POSITION_CONVERSION);
 		driveMotorConfig.encoder.velocityConversionFactor(Constants.DRIVE_VELOCITY_FACTOR);
 		driveMotorConfig.encoder.uvwAverageDepth(4); // i think this is correct due to Neos using a hall-sensor encoder.
-    		driveMotorConfig.encoder.uvwMeasurementPeriod(16);
-		//driveMotorConfig.configureCANStatusFrames(10, 20, 20, 500, 500, 200, 200, driveMotor); //Magic numbers other teams and YAGSL uses. Makes things happier
+    	driveMotorConfig.encoder.uvwMeasurementPeriod(16);
+		configureCANStatusFrames(10, 20, 20, 500, 500, 200, 200, driveMotorConfig); //Magic numbers other teams and YAGSL uses. Makes things happier
 		//driveMotor.burnFlash();
 
 		driveMotor.configure(driveMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 
-		steerMotor = new CANSparkMax( Constants.SWERVE_STEER_MOTOR_IDS[swerveModIndex], MotorType.kBrushless );
-		steerMotor.enableVoltageCompensation(Constants.SWERVE_VOLT_COMP);
-		steerMotor.setIdleMode(IdleMode.kBrake);
-		steerMotor.setInverted( Constants.STEER_MOTOR_INVERTED[swerveModIndex] );
-		steerMotor.setSmartCurrentLimit(25, 25);
+		steerMotor = new SparkMax( Constants.SWERVE_STEER_MOTOR_IDS[swerveModIndex], MotorType.kBrushless );
+		steerMotorConfig = new SparkMaxConfig();
+		steerMotorConfig.voltageCompensation(Constants.SWERVE_VOLT_COMP);
+		steerMotorConfig.idleMode(IdleMode.kBrake);
+		steerMotorConfig.inverted( Constants.STEER_MOTOR_INVERTED[swerveModIndex] );
+		steerMotorConfig.smartCurrentLimit(25, 25);
 
 		steerPIDController = steerMotor.getPIDController();
 
-		steerPIDController.setP(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][0]);
-		steerPIDController.setI(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][1]);
-		steerPIDController.setD(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][2]);
-		steerPIDController.setIZone(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][3]); 
-		steerPIDController.setOutputRange(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][5], Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][6]);
-		steerPIDController.setPositionPIDWrappingEnabled(true);
-		steerPIDController.setPositionPIDWrappingMinInput(0);
-		steerPIDController.setPositionPIDWrappingMaxInput(2 * Math.PI);
+		//steerPIDController.setP(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][0]);
+		//steerPIDController.setI(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][1]);
+		//steerPIDController.setD(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][2]);
+		//steerPIDController.setIZone(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][3]); 
+		//steerPIDController.setOutputRange(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][5], Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][6]);
+		//steerPIDController.setPositionPIDWrappingEnabled(true);
+		//steerPIDController.setPositionPIDWrappingMinInput(0);
+		//steerPIDController.setPositionPIDWrappingMaxInput(2 * Math.PI);
+		steerMotorConfig.closedLoop.pidf(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][0],Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][1],Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][2],Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][4]);
+		steerMotorConfig.closedLoop.iZone(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][3]);
+		steerMotorConfig.closedLoop.outputRange(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][5],Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][6]);
+		steerMotorConfig.closedLoop.positionWrappingEnabled(true);
+
 		
 		steerEncoder = steerMotor.getEncoder();
 		steerEncoder.setPositionConversionFactor(Constants.STEER_POSITION_FACTOR);
@@ -134,16 +140,16 @@ public class SwerveModule {
     }
 
 	public void configureCANStatusFrames(
-      int CANStatus0, int CANStatus1, int CANStatus2, int CANStatus3, int CANStatus4, int CANStatus5, int CANStatus6, CANSparkMax motor)
+      int CANStatus0, int CANStatus1, int CANStatus2, int CANStatus3, int CANStatus4, int CANStatus5, int CANStatus6, SparkMaxConfig config)
   {
-    motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, CANStatus0);
-    motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, CANStatus1);
-    motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, CANStatus2);
-    motor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, CANStatus3);
-    motor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, CANStatus4);
-    motor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, CANStatus5);
-    motor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, CANStatus6);
-    //  https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces
+    config.signals.appliedOutputPeriodMs(CANStatus0);
+	config.signals.motorTemperaturePeriodMs(CANStatus1);
+	config.signals.primaryEncoderPositionPeriodMs(CANStatus2);
+	config.signals.analogVoltagePeriodMs(CANStatus3);
+	config.signals.externalOrAltEncoderPosition(CANStatus4);
+	config.signals.absoluteEncoderPositionPeriodMs(CANStatus5);
+	config.signals.absoluteEncoderVelocityPeriodMs(CANStatus6);
+    //  https://docs.revrobotics.com/brushless/spark-max/control-interfaces
   }
 
 
