@@ -119,5 +119,6 @@ public final class Constants {
 		{ 1.0e-4, 0.0, 2.0e-4, 0.0, 1.65e-4, -1.0, 1.0 }  //Front Left
 	};
   public static double kRotTransFactor = 0.045; 
+
 }
 

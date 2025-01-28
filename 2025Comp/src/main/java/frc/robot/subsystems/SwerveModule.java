@@ -35,6 +35,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -106,8 +107,6 @@ public class SwerveModule {
 		steerMotorConfig.inverted( Constants.STEER_MOTOR_INVERTED[swerveModIndex] );
 		steerMotorConfig.smartCurrentLimit(25, 25);
 
-		steerPIDController = steerMotor.getPIDController();
-
 		//steerPIDController.setP(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][0]);
 		//steerPIDController.setI(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][1]);
 		//steerPIDController.setD(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][2]);
@@ -120,15 +119,18 @@ public class SwerveModule {
 		steerMotorConfig.closedLoop.iZone(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][3]);
 		steerMotorConfig.closedLoop.outputRange(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][5],Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][6]);
 		steerMotorConfig.closedLoop.positionWrappingEnabled(true);
-
 		
-		steerEncoder = steerMotor.getEncoder();
-		steerEncoder.setPositionConversionFactor(Constants.STEER_POSITION_FACTOR);
-		steerEncoder.setVelocityConversionFactor(Constants.STEER_VELOCITY_FACTOR);
-		steerEncoder.setAverageDepth(4);
-		steerEncoder.setMeasurementPeriod(16);
-		configureCANStatusFrames(10, 20, 20, 500, 500, 200, 200, steerMotor);
-		steerMotor.burnFlash();
+		//steerEncoder = steerMotor.getEncoder();
+		//steerEncoder.setPositionConversionFactor(Constants.STEER_POSITION_FACTOR);
+		//steerEncoder.setVelocityConversionFactor(Constants.STEER_VELOCITY_FACTOR);
+		//steerEncoder.setAverageDepth(4);
+		//steerEncoder.setMeasurementPeriod(16);
+		//configureCANStatusFrames(10, 20, 20, 500, 500, 200, 200, steerMotor);
+		//steerMotor.burnFlash();
+		steerMotorConfig.encoder.positionConversionFactor(Constants.STEER_POSITION_FACTOR);
+		driveMotorConfig.encoder.velocityConversionFactor(Constants.STEER_VELOCITY_FACTOR);
+		driveMotorConfig.encoder.uvwAverageDepth(4); // i think this is correct due to Neos using a hall-sensor encoder.
+    	driveMotorConfig.encoder.uvwMeasurementPeriod(16);
 
 		steerAngleEncoder = new CANcoder( Constants.SWERVE_ENCODER_IDS[swerveModIndex] );
 		steerEncoder.setPosition(getAbsolutePosition());
@@ -164,7 +166,9 @@ public class SwerveModule {
 
 	public void setDesiredState(SwerveModuleState desiredState) {
         // Optimize the reference state to avoid spinning further than 90 degrees
-        SwerveModuleState state = SwerveModuleState.optimize(desiredState, new Rotation2d(getStateAngle()));
+        SwerveModuleState state;
+		state = desiredState;
+		state.optimize(new Rotation2d(getStateAngle()));
 	if((Math.abs(state.angle.getRadians() - getStateAngle()) < Math.toRadians(1.0) ) && steerEncoder.getVelocity() < Math.toRadians(5.0)){
 		steerMotor.set(0);
 	} else {
@@ -241,7 +245,7 @@ public class SwerveModule {
 public double getAbsolutePosition()
   {
 
-    StatusSignal<Double> angle = steerAngleEncoder.getAbsolutePosition();
+    StatusSignal<Angle> angle = steerAngleEncoder.getAbsolutePosition();
 
     // Taken from democat's library.
     // Source: https://github.com/democat3457/swerve-lib/blob/7c03126b8c22f23a501b2c2742f9d173a5bcbc40/src/main/java/com/swervedrivespecialties/swervelib/ctre/CanCoderFactoryBuilder.java#L51-L74
@@ -254,7 +258,7 @@ public double getAbsolutePosition()
       angle = angle.waitForUpdate(STATUS_TIMEOUT_SECONDS);
     }
 
-    return angle.getValue() * Math.PI * 2.0;
+    return angle.getValueAsDouble() * Math.PI * 2.0;
   }
 
   public void initDefaultCommand() {
