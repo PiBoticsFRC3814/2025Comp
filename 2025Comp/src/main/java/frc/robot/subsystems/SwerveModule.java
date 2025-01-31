@@ -96,9 +96,10 @@ public class SwerveModule {
     	driveMotorConfig.encoder.uvwMeasurementPeriod(16);
 		configureCANStatusFrames(10, 20, 20, 500, 500, 200, 200, driveMotorConfig); //Magic numbers other teams and YAGSL uses. Makes things happier
 		//driveMotor.burnFlash();
-
+		
 		driveMotor.configure(driveMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
+		driveVelocityPIDController = driveMotor.getClosedLoopController();
+		driveEncoder = driveMotor.getEncoder();
 
 		steerMotor = new SparkMax( Constants.SWERVE_STEER_MOTOR_IDS[swerveModIndex], MotorType.kBrushless );
 		steerMotorConfig = new SparkMaxConfig();
@@ -128,11 +129,15 @@ public class SwerveModule {
 		//configureCANStatusFrames(10, 20, 20, 500, 500, 200, 200, steerMotor);
 		//steerMotor.burnFlash();
 		steerMotorConfig.encoder.positionConversionFactor(Constants.STEER_POSITION_FACTOR);
-		driveMotorConfig.encoder.velocityConversionFactor(Constants.STEER_VELOCITY_FACTOR);
-		driveMotorConfig.encoder.uvwAverageDepth(4); // i think this is correct due to Neos using a hall-sensor encoder.
-    	driveMotorConfig.encoder.uvwMeasurementPeriod(16);
+		steerMotorConfig.encoder.velocityConversionFactor(Constants.STEER_VELOCITY_FACTOR);
+		steerMotorConfig.encoder.uvwAverageDepth(4); // i think this is correct due to Neos using a hall-sensor encoder.
+    	steerMotorConfig.encoder.uvwMeasurementPeriod(16);
 
 		steerAngleEncoder = new CANcoder( Constants.SWERVE_ENCODER_IDS[swerveModIndex] );
+
+		steerMotor.configure(steerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+		steerPIDController = steerMotor.getClosedLoopController();
+		steerEncoder = steerMotor.getEncoder();
 		steerEncoder.setPosition(getAbsolutePosition());
 
 		index = swerveModIndex;
