@@ -28,10 +28,13 @@ import frc.robot.subsystems.GyroSwerveDrive;
 //import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.RobotStates;
 
+import java.io.ObjectInputStream.GetField;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -90,8 +93,8 @@ public class RobotContainer {
     //NamedCommands.registerCommand("shootAmp", new ShootAmp(m_shooter, m_intake, m_robotStates));
     NamedCommands.registerCommand("gyroReset", new GyroReset(m_gyroSwerveDrive));
 
-    chooserFirst.setDefaultOption("Center", "Center Auto");
-    chooserFirst.addOption("Amp Side", "Left Auto");
+    chooserFirst.setDefaultOption("Test", "Test Auto");
+    /*chooserFirst.addOption("Amp Side", "Left Auto");
     chooserFirst.addOption("Stage Side", "Right Auto");
     chooserFirst.addOption("Shoot test", "New Auto");
     chooserFirst.addOption("4 Note Front", "YESSSSS");
@@ -139,6 +142,14 @@ public class RobotContainer {
     .withWidget(BuiltInWidgets.kGyro)
     .withSize(2, 2)
     .withPosition(8, 0);
+
+    Shuffleboard.getTab("Test")
+    .add("Sim", m_gyroSwerveDrive.getPose())
+    .withSize(3,3)
+    .withWidget(BuiltInWidgets.kTextView)
+    .withPosition(8, 5)
+;
+
     Shuffleboard.getTab("Test")
     .add("Auton", chooserFirst)
     .withWidget(BuiltInWidgets.kSplitButtonChooser)
