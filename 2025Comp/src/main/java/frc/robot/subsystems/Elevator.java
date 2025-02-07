@@ -17,13 +17,19 @@ public class Elevator extends SubsystemBase {
 
   TalonSRX elevator1;
   TalonSRX elevator2;
-  Boolean high = false;
-  Boolean middle = false;
-  Boolean low = false;
+  Boolean coral1 = false;
+  Boolean coral2 = false;
+  Boolean coral3 = false;
+  Boolean coral4 = false;
+  Boolean processor = false;
+  Boolean net = false;
   Boolean stowed = true;
-  DigitalInput highPosition;
-  DigitalInput middlePosition;
-  DigitalInput lowPosition;
+  DigitalInput coral1Position;
+  DigitalInput coral2Position;
+  DigitalInput coral3Position;
+  DigitalInput coral4Position;
+  DigitalInput processorPosition;
+  DigitalInput netPosition;
 
   public Elevator() {
 
@@ -36,9 +42,9 @@ public class Elevator extends SubsystemBase {
 
     elevator2.follow(elevator1);
 
-    highPosition = new DigitalInput(Constants.ELEVATOR_POSITION[0]);
-    middlePosition = new DigitalInput(Constants.ELEVATOR_POSITION[1]);
-    lowPosition = new DigitalInput(Constants.ELEVATOR_POSITION[2]);
+    //highPosition = new DigitalInput(Constants.ELEVATOR_POSITION[0]);
+    //middlePosition = new DigitalInput(Constants.ELEVATOR_POSITION[1]);
+    //lowPosition = new DigitalInput(Constants.ELEVATOR_POSITION[2]);
 
   }
 
