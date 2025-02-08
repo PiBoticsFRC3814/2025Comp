@@ -107,6 +107,6 @@ public final class Constants {
   public static final double ELEVATOR_MAX_UP_SPEED = 1.0;
   public static final double ELEVATOR_MAX_DOWN_SPEED = -1.0;
 
-  public static final int[] ELEVATOR_POSITION = {0,1,2};
+  public static final int[] ELEVATOR_POSITION = {0,1,2,3,4,5};
 }
 
