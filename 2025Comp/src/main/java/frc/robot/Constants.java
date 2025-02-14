@@ -33,6 +33,7 @@ public final class Constants {
   public static final int[] SWERVE_DRIVE_MOTOR_IDS = {23, 21, 20, 22};//{22, 23, 20, 21}; {21, 22, 20, 23}
   public static final int[] SWERVE_STEER_MOTOR_IDS = {33, 31, 30, 32};//{32, 33, 30, 31}; {31, 32, 30, 33};
   public static final int[] SWERVE_ENCODER_IDS =     {43, 41, 40, 42};//{42, 43, 40, 41}; {41, 42, 40, 43};
+  
 
   public static final int swerveModuleNumber = 4;
 
@@ -107,6 +108,10 @@ public final class Constants {
   public static final double ELEVATOR_MAX_UP_SPEED = 1.0;
   public static final double ELEVATOR_MAX_DOWN_SPEED = -1.0;
 
+
   public static final int[] ELEVATOR_POSITION = {0,1,2,3,4,5};
+
+  public static final int[] CLIMB_MOTOR_IDS = {60,61};
+  public static final double[] CLIMB_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
 }
 
