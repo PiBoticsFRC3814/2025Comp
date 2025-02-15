@@ -113,5 +113,20 @@ public final class Constants {
 
   public static final int[] CLIMB_MOTOR_IDS = {60,61};
   public static final double[] CLIMB_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
+
+  public static final int[] CORAL_MOTOR_IDS = {70,71,72,73};
+  public static final int CORAL_MOTOR_CURRENT_LIMIT = 20;
+  public static final double CORAL_MAX_IN_SPEED = 0.5;
+  public static final double CORAL_MAX_OUT_SPEED = -0.5;
+  public static final int ALGAE_MOTOR_CURRENT_LIMIT = 20;
+  public static final double ALGAE_IN_SPEED = 0.5;
+  public static final double ALGAE_OUT_SPEED = -0.5;
+  public static final double[] ANGLE_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
+  public static final double ALGAE_POSITION_FACTOR = 2.0 * Math.PI / (9*9*4); 
+  public static final double ALGAE_VELOCITY_FACTOR = ALGAE_POSITION_FACTOR / (60);
+  public static final double ALGEA_MIDDLE_ANGLE = -45.0;
+  public static final double ALGEA_TOP_ANGLE = -90.0;
+  public static final double ALGEA_INTAKE_ANGLE = -40.0;
+  
 }
 

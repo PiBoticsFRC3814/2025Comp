@@ -15,21 +15,21 @@ public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
 
 
-  TalonSRX elevator1;
-  TalonSRX elevator2;
-  Boolean coral1 = false;
-  Boolean coral2 = false;
-  Boolean coral3 = false;
-  Boolean coral4 = false;
-  Boolean processor = false;
-  Boolean net = false;
-  Boolean stowed = true;
-  DigitalInput coral1Position;
-  DigitalInput coral2Position;
-  DigitalInput coral3Position;
-  DigitalInput coral4Position;
-  DigitalInput processorPosition;
-  DigitalInput netPosition;
+  public TalonSRX elevator1;
+  public TalonSRX elevator2;
+  public Boolean coral1 = false;
+  public Boolean coral2 = false;
+  public Boolean coral3 = false;
+  public Boolean coral4 = false;
+  public Boolean processor = false;
+  public Boolean net = false;
+  public Boolean stowed = true;
+  public DigitalInput coral1Position;
+  public DigitalInput coral2Position;
+  public DigitalInput coral3Position;
+  public DigitalInput coral4Position;
+  public DigitalInput processorPosition;
+  public DigitalInput netPosition;
 
   public Elevator() {
 
