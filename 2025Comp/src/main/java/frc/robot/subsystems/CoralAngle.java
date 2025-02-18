@@ -44,12 +44,12 @@ public class CoralAngle extends SubsystemBase {
 	
     angleMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
     angleMotorConfig.closedLoop.pidf(Constants.CLIMB_PID_CONSTANTS[0],
-                                        Constants.CLIMB_PID_CONSTANTS[1],
-                                        Constants.CLIMB_PID_CONSTANTS[2],
-                                        Constants.CLIMB_PID_CONSTANTS[4]);
+                                    Constants.CLIMB_PID_CONSTANTS[1],
+                                    Constants.CLIMB_PID_CONSTANTS[2],
+                                    Constants.CLIMB_PID_CONSTANTS[4]);
     angleMotorConfig.closedLoop.iZone(Constants.CLIMB_PID_CONSTANTS[3]);
     angleMotorConfig.closedLoop.outputRange(Constants.CLIMB_PID_CONSTANTS[5],
-                                        Constants.CLIMB_PID_CONSTANTS[6]);
+                                    Constants.CLIMB_PID_CONSTANTS[6]);
     angleMotorConfig.closedLoop.positionWrappingEnabled(true);
 		angleMotorConfig.encoder.positionConversionFactor(Constants.ALGAE_POSITION_FACTOR);
 		angleMotorConfig.encoder.velocityConversionFactor(Constants.ALGAE_VELOCITY_FACTOR);
