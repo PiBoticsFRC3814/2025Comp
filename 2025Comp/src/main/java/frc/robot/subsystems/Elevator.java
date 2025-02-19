@@ -47,7 +47,7 @@ public class Elevator extends SubsystemBase {
     coral3Position = new DigitalInput(Constants.ELEVATOR_POSITION[2]);
     coral4Position = new DigitalInput(Constants.ELEVATOR_POSITION[3]);
     processorPosition = new DigitalInput(Constants.ELEVATOR_POSITION[4]);
-    netPosition = new DigitalInput(Constants.ELEVATOR_POSITION[4]);
+    netPosition = new DigitalInput(Constants.ELEVATOR_POSITION[5]);
     //highPosition = new DigitalInput(Constants.ELEVATOR_POSITION[0]);
     //middlePosition = new DigitalInput(Constants.ELEVATOR_POSITION[1]);
     //lowPosition = new DigitalInput(Constants.ELEVATOR_POSITION[2]);

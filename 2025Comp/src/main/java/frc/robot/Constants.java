@@ -118,7 +118,7 @@ public final class Constants {
   public static final int CORAL_MOTOR_CURRENT_LIMIT = 20;
   public static final double CORAL_MAX_IN_SPEED = 0.5;
   public static final double CORAL_MAX_OUT_SPEED = -0.5;
-  
+
   public static final int ALGAE_MOTOR_CURRENT_LIMIT = 20;
   public static final double ALGAE_IN_SPEED = 0.5;
   public static final double ALGAE_OUT_SPEED = -0.5;

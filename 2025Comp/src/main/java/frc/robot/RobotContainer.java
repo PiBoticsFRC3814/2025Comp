@@ -10,6 +10,7 @@ import frc.robot.commands.Autos;
 //import frc.robot.commands.DriveSlow;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.GoToCoral1;
+import frc.robot.commands.GoToCoral1Angle;
 import frc.robot.commands.GoToCoral2;
 import frc.robot.commands.GoToCoral3;
 import frc.robot.commands.GoToCoral4;
@@ -59,8 +60,8 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.IntakeCoral;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -72,12 +73,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   //public final FlywheelShooter m_shooter = new FlywheelShooter();
-  public final Elevator m_Coral1 = new Elevator();
-  public final Elevator m_Coral2 = new Elevator();
-  public final Elevator m_Coral3 = new Elevator();
-  public final Elevator m_Coral4 = new Elevator();
-  public final Elevator m_Processor = new Elevator();
-  public final Elevator m_Net = new Elevator();
+  public final Elevator m_elevator = new Elevator();
   public final CoralIntake m_intake = new CoralIntake();
   public final RobotStates m_robotStates = new RobotStates();
   public final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
@@ -141,12 +137,13 @@ public class RobotContainer {
     //new JoystickButton(controlStick, Button.kRightBumper.value).whileFalse(new IntakeStop(m_intake));
     new JoystickButton(controlStick, Button.kLeftBumper.value).whileTrue(new IntakeCoral(m_intake));
     new JoystickButton(driveStick, Button.kX.value).whileTrue(new GyroReset(m_gyroSwerveDrive));
-    new JoystickButton(controlStick, Button.kA.value).whileTrue(new GoToCoral1(m_Coral1));
-    new JoystickButton(controlStick, Button.kB.value).whileTrue(new GoToCoral2(m_Coral2));
-    new JoystickButton(controlStick, Button.kY.value).whileTrue(new GoToCoral3(m_Coral3));
-    new JoystickButton(controlStick, Button.kRightBumper.value).whileTrue(new GoToCoral4(m_Coral4));
-    new JoystickButton(controlStick, Button.kLeftStick.value).whileTrue(new GoToProcessor(m_Processor));
-    new JoystickButton(controlStick, Button.kRightStick.value).whileTrue(new GoToNet(m_Net));
+    new JoystickButton(controlStick, Button.kA.value).whileTrue(new GoToCoral1(m_elevator));
+    new JoystickButton(controlStick, Button.kB.value).whileTrue(new GoToCoral2(m_elevator));
+    new JoystickButton(controlStick, Button.kY.value).whileTrue(new GoToCoral3(m_elevator));
+    new JoystickButton(controlStick, Button.kRightBumper.value).whileTrue(new GoToCoral4(m_elevator));
+    new JoystickButton(controlStick, Button.kLeftStick.value).whileTrue(new GoToProcessor(m_elevator));
+    new JoystickButton(controlStick, Button.kRightStick.value).whileTrue(new GoToNet(m_elevator));
+    new JoystickButton(controlStick, Button.kA.value).whileTrue(new GoToCoral1Angle(m_elevator));
     //new JoystickButton(controlStick, 7).whileTrue(new MaxShoot(m_shooter, m_intake, m_robotStates));
     //new JoystickButton(driveStick, Button.kRightBumper.value).whileTrue(new DriveFast(m_robotStates));
     //new JoystickButton(driveStick, Button.kRightBumper.value).whileFalse(new DriveSlow(m_robotStates));
@@ -166,24 +163,19 @@ public class RobotContainer {
     Shuffleboard.getTab("Test")
     .add("Sim", m_gyroSwerveDrive.getPose())
     .withSize(3,3)
-    .withWidget(BuiltInWidgets.kTextView)
-    .withPosition(8, 5)
-;
+    .withWidget(BuiltInWidgets.kField)
+    .withPosition(8, 5);
 
     Shuffleboard.getTab("Test")
     .add("Auton", chooserFirst)
     .withWidget(BuiltInWidgets.kSplitButtonChooser)
     .withSize(3,1)
     .withPosition(0,0);
-    Shuffleboard.getTab("Test");
-    /*.add("Note", m_intake.gotNote)
-    .withWidget(BuiltInWidgets.kBooleanBox)
-    .withSize(2,3)
-    .withPosition(9, 2);
-    /*Shuffleboard.getTab("Test")
-    .addCamera("Limelight", "limelight", null)
-    .withSize(4, 3)
-    .withPosition(0, 1);*/
+
+    Shuffleboard.getTab("Test")
+    .add("Elevator", m_elevator.getLastKnownPosistion())
+    .withWidget(BuiltInWidgets.kTextView)
+    .withSize(2,1);
   }
 
   /**

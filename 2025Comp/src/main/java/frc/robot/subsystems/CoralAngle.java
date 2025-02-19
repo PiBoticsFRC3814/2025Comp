@@ -29,10 +29,6 @@ public class CoralAngle extends SubsystemBase {
  public SparkLimitSwitch forwardAngleMotorLimit;
  public SparkLimitSwitch reverseAgnleMotorLimit;
  
- public double angleMiddleIdeal;
- public double angleIntakeIdeal;
- public double angleTopIdeal;
-
  public SparkMaxConfig angleMotorConfig;
  public CoralAngle() {
     angleMotor = new SparkMax( Constants.CORAL_MOTOR_IDS[1], MotorType.kBrushless );
@@ -81,16 +77,48 @@ public class CoralAngle extends SubsystemBase {
   }
  }
 
- public void goToMiddleCoral(){
-  if (getMotorAngleDegrees() < Constants.ALGEA_MIDDLE_ANGLE){
-    angleMotor.set(setAngleMotorSpeed(angleMiddleIdeal));
+ public boolean goToMiddleCoral(){
+  if (getMotorAngleDegrees() < Constants.ALGEA_MIDDLE_ANGLE+1){
+    angleMotor.set(setAngleMotorSpeed(Constants.ALGEA_MIDDLE_ANGLE));
   }
-  else if (getMotorAngleDegrees() > Constants.ALGEA_MIDDLE_ANGLE){
-    angleMotor.set(-setAngleMotorSpeed(angleMiddleIdeal));  
+  else if (getMotorAngleDegrees() > Constants.ALGEA_MIDDLE_ANGLE-1){
+    angleMotor.set(-setAngleMotorSpeed(Constants.ALGEA_MIDDLE_ANGLE));  
   }
   else {
     angleMotor.stopMotor();
+    return true;
   }
+  return false;
+ }
+
+ public boolean goToTopCoral(){
+  if (getMotorAngleDegrees() < Constants.ALGEA_TOP_ANGLE+1){
+    angleMotor.set(setAngleMotorSpeed(Constants.ALGEA_TOP_ANGLE));
+  }
+  else if (getMotorAngleDegrees() > Constants.ALGEA_TOP_ANGLE-1){
+    angleMotor.set(-setAngleMotorSpeed(Constants.ALGEA_TOP_ANGLE));  
+  }
+  else {
+    angleMotor.stopMotor();
+    return true;
+  }
+  return false;
+ }
+
+ public boolean goToIntakeCoral(){
+  if (getMotorAngleDegrees() < Constants.ALGEA_INTAKE_ANGLE+1){
+    angleMotor.set(setAngleMotorSpeed(Constants.ALGEA_INTAKE_ANGLE));
+  }
+  else if (getMotorAngleDegrees() > Constants.ALGEA_INTAKE_ANGLE-1){
+    //experiment with -1 and +1 for range
+    angleMotor.set(-setAngleMotorSpeed(Constants.ALGEA_INTAKE_ANGLE));  
+    //it might not exactly reach the angle, so we need to add a range
+  }
+  else {
+    angleMotor.stopMotor();
+    return true;
+  }
+  return false;
  }
 
  public double setAngleMotorSpeed(double angle){
