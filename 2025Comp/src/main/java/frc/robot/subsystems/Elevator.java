@@ -15,21 +15,23 @@ public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
 
 
-  public TalonSRX elevator1;
-  public TalonSRX elevator2;
-  public Boolean coral1 = false;
-  public Boolean coral2 = false;
-  public Boolean coral3 = false;
-  public Boolean coral4 = false;
-  public Boolean processor = false;
-  public Boolean net = false;
-  public Boolean stowed = true;
-  public DigitalInput coral1Position;
-  public DigitalInput coral2Position;
-  public DigitalInput coral3Position;
-  public DigitalInput coral4Position;
-  public DigitalInput processorPosition;
-  public DigitalInput netPosition;
+  TalonSRX elevator1;
+  TalonSRX elevator2;
+  Boolean coral1 = false;
+  Boolean coral2 = false;
+  Boolean coral3 = false;
+  Boolean coral4 = false;
+  Boolean processor = false;
+  Boolean net = false;
+  Boolean stowed = true;
+  Boolean intake = false;
+  DigitalInput coral1Position;
+  DigitalInput coral2Position;
+  DigitalInput coral3Position;
+  DigitalInput coral4Position;
+  DigitalInput processorPosition;
+  DigitalInput netPosition;
+  DigitalInput intakePosition;
 
   public Elevator() {
 
@@ -48,6 +50,7 @@ public class Elevator extends SubsystemBase {
     coral4Position = new DigitalInput(Constants.ELEVATOR_POSITION[3]);
     processorPosition = new DigitalInput(Constants.ELEVATOR_POSITION[4]);
     netPosition = new DigitalInput(Constants.ELEVATOR_POSITION[5]);
+    intakePosition = new DigitalInput(Constants.ELEVATOR_POSITION[6]);
     //highPosition = new DigitalInput(Constants.ELEVATOR_POSITION[0]);
     //middlePosition = new DigitalInput(Constants.ELEVATOR_POSITION[1]);
     //lowPosition = new DigitalInput(Constants.ELEVATOR_POSITION[2]);
@@ -64,15 +67,17 @@ public class Elevator extends SubsystemBase {
       processor = false;
       net = false;
       stowed = false;
+      intake = false;
     }
     if (coral2Position.get()) {
-    coral1 = false;
-    coral2 = true;
-    coral3 = false;
-    coral4 = false;
-    processor = false;
-    net = false;
-    stowed = false;
+      coral1 = false;
+      coral2 = true;
+      coral3 = false;
+      coral4 = false;
+      processor = false;
+      net = false;
+      stowed = false;
+      intake = false;
     }
     if (coral3Position.get()) {
       coral1 = false;
@@ -83,6 +88,7 @@ public class Elevator extends SubsystemBase {
       processor = false;
       net = false;
       stowed = false;
+      intake = false;
     }
     if (coral4Position.get()) {
       coral1 = false;
@@ -92,6 +98,7 @@ public class Elevator extends SubsystemBase {
       processor = false;
       net = false;
       stowed = false;
+      intake = false;
     }
     if (processorPosition.get()) {
       coral1 = false;
@@ -101,6 +108,7 @@ public class Elevator extends SubsystemBase {
       processor = true;
       net = false;
       stowed = false;
+      intake = false;
     }
     if (netPosition.get()) {
       coral1 = false;
@@ -110,6 +118,17 @@ public class Elevator extends SubsystemBase {
       processor = false;
       net = true;
       stowed = false;
+      intake = false;
+    }
+    if (intakePosition.get()) {
+      coral1 = false;
+      coral2 = false;
+      coral3 = false;
+      coral4 = false;
+      processor = false;
+      net = false;
+      stowed = false;
+      intake = true;
     }
   
   }
@@ -124,6 +143,7 @@ public class Elevator extends SubsystemBase {
       processor = false;
       net = false;
       stowed = false;
+      intake = false;
     }
     if (coral2Position.get()) {
     coral1 = false;
@@ -133,6 +153,7 @@ public class Elevator extends SubsystemBase {
     processor = false;
     net = false;
     stowed = false;
+    intake = false;
     }
     if (coral3Position.get()) {
       coral1 = false;
@@ -143,6 +164,7 @@ public class Elevator extends SubsystemBase {
       processor = false;
       net = false;
       stowed = false;
+      intake = false;
     }
     if (coral4Position.get()) {
       coral1 = false;
@@ -152,6 +174,7 @@ public class Elevator extends SubsystemBase {
       processor = false;
       net = false;
       stowed = false;
+      intake = false;
     }
     if (processorPosition.get()) {
       coral1 = false;
@@ -161,6 +184,7 @@ public class Elevator extends SubsystemBase {
       processor = true;
       net = false;
       stowed = false;
+      intake = false;
     }
     if (netPosition.get()) {
       coral1 = false;
@@ -170,6 +194,17 @@ public class Elevator extends SubsystemBase {
       processor = false;
       net = true;
       stowed = false;
+      intake = false;
+    }
+    if (intakePosition.get()) {
+      coral1 = false;
+      coral2 = false;
+      coral3 = false;
+      coral4 = false;
+      processor = false;
+      net = false;
+      stowed = false;
+      intake = true;
     }
   }
 
@@ -185,19 +220,22 @@ public class Elevator extends SubsystemBase {
       return 3;
     }
     else if (coral3) {
-      return 4;
+      return 5;
     }
     else if (coral4) {
-      return 5;
+      return 6;
     }
     else if (processor){
       return 1;
     }
     else if (net){
-      return 6;
+      return 7;
     }
     else if (stowed){
       return 0;
+    }
+    else if (intake){
+      return 4;
     }
     else return 0;
   
@@ -218,6 +256,7 @@ public class Elevator extends SubsystemBase {
         processor = false;
         net = false;
         stowed = false;
+        intake = false;
         return coral1;
       }
     }
@@ -235,6 +274,7 @@ public class Elevator extends SubsystemBase {
         processor = false;
         net = false;
         stowed = false;
+        intake = false;
         return coral1;
       }
     }
@@ -244,7 +284,7 @@ public class Elevator extends SubsystemBase {
     if (direction) {
       if (!coral2Position.get()){
         elevator1.set(TalonSRXControlMode.PercentOutput, Constants.ELEVATOR_MAX_UP_SPEED);
-        return coral1;
+        return coral2;
       }
       else {
         elevator1.set(TalonSRXControlMode.PercentOutput,0.0);
@@ -255,6 +295,7 @@ public class Elevator extends SubsystemBase {
         processor = false;
         net = false;
         stowed = false;
+        intake = false;
         return coral2;
       }
     }
@@ -272,6 +313,7 @@ public class Elevator extends SubsystemBase {
         processor = false;
         net = false;
         stowed = false;
+        intake = false;
         return coral2;
       }
     }
@@ -292,6 +334,7 @@ public class Elevator extends SubsystemBase {
         processor = false;
         net = false;
         stowed = false;
+        intake = false;
         return coral3;
       }
     }
@@ -309,6 +352,7 @@ public class Elevator extends SubsystemBase {
         processor = false;
         net = false;
         stowed = false;
+        intake = false;
         return coral3;
       }
     }
@@ -329,6 +373,7 @@ public class Elevator extends SubsystemBase {
         processor = false;
         net = false;
         stowed = false;
+        intake = false;
         return coral4;
       }
     }
@@ -346,6 +391,7 @@ public class Elevator extends SubsystemBase {
         processor = false;
         net = false;
         stowed = false;
+        intake = false;
         return coral4;
       }
     }
@@ -366,6 +412,7 @@ public class Elevator extends SubsystemBase {
         processor = true;
         net = false;
         stowed = false;
+        intake = false;
         return processor;
       }
     }
@@ -383,6 +430,7 @@ public class Elevator extends SubsystemBase {
         processor = true;
         net = false;
         stowed = false;
+        intake = false;
         return processor;
       }
     }
@@ -403,7 +451,8 @@ public class Elevator extends SubsystemBase {
         processor = false;
         net = true;
         stowed = false;
-        return coral1;
+        intake = false;
+        return net;
       }
     }
     else {
@@ -420,7 +469,47 @@ public class Elevator extends SubsystemBase {
         processor = false;
         net = true;
         stowed = false;
+        intake = false;
         return net;
+      }
+    }
+  }
+
+  public boolean GoToIntake (boolean direction) {
+    if (direction) {
+      if (!intakePosition.get()){
+        elevator1.set(TalonSRXControlMode.PercentOutput, Constants.ELEVATOR_MAX_UP_SPEED);
+        return intake;
+      }
+      else {
+        elevator1.set(TalonSRXControlMode.PercentOutput,0.0);
+        coral1 = false;
+        coral2 = false;
+        coral3 = false;
+        coral4 = false;
+        processor = false;
+        net = false;
+        stowed = false;
+        intake = true;
+        return intake;
+      }
+    }
+    else {
+      if (!intakePosition.get()){
+        elevator1.set(TalonSRXControlMode.PercentOutput, Constants.ELEVATOR_MAX_DOWN_SPEED);
+        return intake;
+      }
+      else {
+        elevator1.set(TalonSRXControlMode.PercentOutput,0.0);
+        coral1 = false;
+        coral2 = false;
+        coral3 = false;
+        coral4 = false;
+        processor = false;
+        net = false;
+        stowed = false;
+        intake = true;
+        return intake;
       }
     }
   }

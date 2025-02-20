@@ -109,7 +109,7 @@ public final class Constants {
   public static final double ELEVATOR_MAX_DOWN_SPEED = -1.0;
 
 
-  public static final int[] ELEVATOR_POSITION = {0,1,2,3,4,5};
+  public static final int[] ELEVATOR_POSITION = {0,1,2,3,4,5,6};
 
   public static final int[] CLIMB_MOTOR_IDS = {60,61};
   public static final double[] CLIMB_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};

@@ -4,23 +4,19 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.GoToCoral1;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.CoralAngle;
-import frc.robot.commands.AngleMiddle;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class GoToCoral1Angle extends ParallelCommandGroup {
+public class GoToCoral4Angle extends ParallelCommandGroup {
   /** Creates a new ElevatorAndAngle. */
-  public GoToCoral1Angle(Elevator coral, CoralAngle angle) {
+  public GoToCoral4Angle(Elevator coral, CoralAngle angle) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new GoToCoral1(coral),new AngleMiddle(angle));
+    addCommands(new GoToCoral4(coral),new AngleTop(angle));
 
   }
 }

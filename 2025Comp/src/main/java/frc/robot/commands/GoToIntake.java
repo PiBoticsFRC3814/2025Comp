@@ -8,14 +8,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class GoToCoral3 extends Command {
-  /** Creates a new GoToCoral3. */
+public class GoToIntake extends Command {
+  /** Creates a new GoToCoral4 */
   int position = 0;
   Elevator m_elevator;
   boolean inPosition = false;
   boolean direction = false;
 
-  public GoToCoral3(Elevator elevator) {
+  public GoToIntake(Elevator elevator) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_elevator = elevator;  
     addRequirements(elevator);
@@ -33,12 +33,12 @@ public class GoToCoral3 extends Command {
   @Override
   public void execute() {
     position = m_elevator.getLastKnownPosistion();
-    if (position <5) {
+    if (position <4) {
       direction = true;
       m_elevator.goToCoral1(direction);
       inPosition = false;
     }
-    else if (position >5) {
+    else if (position >4) {
       direction = false;
       m_elevator.goToCoral1(direction);
       inPosition = false;

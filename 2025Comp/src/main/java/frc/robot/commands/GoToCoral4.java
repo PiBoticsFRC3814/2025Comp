@@ -33,12 +33,12 @@ public class GoToCoral4 extends Command {
   @Override
   public void execute() {
     position = m_elevator.getLastKnownPosistion();
-    if (position <5) {
+    if (position <6) {
       direction = true;
       m_elevator.goToCoral1(direction);
       inPosition = false;
     }
-    else if (position >5) {
+    else if (position >6) {
       direction = false;
       m_elevator.goToCoral1(direction);
       inPosition = false;

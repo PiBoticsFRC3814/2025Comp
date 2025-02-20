@@ -15,12 +15,12 @@ import frc.robot.commands.AngleMiddle;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class GoToCoral1Angle extends ParallelCommandGroup {
+public class GoToCoral2Angle extends ParallelCommandGroup {
   /** Creates a new ElevatorAndAngle. */
-  public GoToCoral1Angle(Elevator coral, CoralAngle angle) {
+  public GoToCoral2Angle(Elevator coral, CoralAngle angle) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new GoToCoral1(coral),new AngleMiddle(angle));
+    addCommands(new GoToCoral2(coral),new AngleMiddle(angle));
 
   }
 }

@@ -33,12 +33,12 @@ public class GoToNet extends Command {
   @Override
   public void execute() {
     position = m_elevator.getLastKnownPosistion();
-    if (position <6) {
+    if (position <7) {
       direction = true;
       m_elevator.goToCoral1(direction);
       inPosition = false;
     }
-    else if (position >6) {
+    else if (position >7) {
       direction = false;
       m_elevator.goToCoral1(direction);
       inPosition = false;
