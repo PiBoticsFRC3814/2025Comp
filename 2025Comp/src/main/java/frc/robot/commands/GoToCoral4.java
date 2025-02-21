@@ -32,21 +32,21 @@ public class GoToCoral4 extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    position = m_elevator.getLastKnownPosistion();
-    if (position <6) {
-      direction = true;
-      m_elevator.goToCoral1(direction);
-      inPosition = false;
-    }
-    else if (position >6) {
-      direction = false;
-      m_elevator.goToCoral1(direction);
-      inPosition = false;
-    }
-    else {
-      m_elevator.stopElevator();
-      inPosition = true;
-    }
+  //  position = m_elevator.getLastKnownPosistion();
+  //  if (position <6) {
+  //    direction = true;
+  //    m_elevator.goToCoral1(direction);
+  //    inPosition = false;
+  //  }
+  //  else if (position >6) {
+  //    direction = false;
+  //    m_elevator.goToCoral1(direction);
+  //    inPosition = false;
+  //  }
+  //  else {
+  //    m_elevator.stopElevator();
+  //    inPosition = true;
+  //  }
   }
 
   // Called once the command ends or is interrupted.

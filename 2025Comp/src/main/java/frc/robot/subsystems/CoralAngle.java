@@ -39,16 +39,16 @@ public class CoralAngle extends SubsystemBase {
 		angleMotorConfig.smartCurrentLimit(25, 25);
 	
     angleMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
-    angleMotorConfig.closedLoop.pidf(Constants.CLIMB_PID_CONSTANTS[0],
-                                    Constants.CLIMB_PID_CONSTANTS[1],
-                                    Constants.CLIMB_PID_CONSTANTS[2],
-                                    Constants.CLIMB_PID_CONSTANTS[4]);
-    angleMotorConfig.closedLoop.iZone(Constants.CLIMB_PID_CONSTANTS[3]);
-    angleMotorConfig.closedLoop.outputRange(Constants.CLIMB_PID_CONSTANTS[5],
-                                    Constants.CLIMB_PID_CONSTANTS[6]);
+    angleMotorConfig.closedLoop.pidf(Constants.CORAL_PID_CONSTANTS[0],
+                                    Constants.CORAL_PID_CONSTANTS[1],
+                                    Constants.CORAL_PID_CONSTANTS[2],
+                                    Constants.CORAL_PID_CONSTANTS[4]);
+    angleMotorConfig.closedLoop.iZone(Constants.CORAL_PID_CONSTANTS[3]);
+    angleMotorConfig.closedLoop.outputRange(Constants.CORAL_PID_CONSTANTS[5],
+                                    Constants.CORAL_PID_CONSTANTS[6]);
     angleMotorConfig.closedLoop.positionWrappingEnabled(true);
-		angleMotorConfig.encoder.positionConversionFactor(Constants.ALGAE_POSITION_FACTOR);
-		angleMotorConfig.encoder.velocityConversionFactor(Constants.ALGAE_VELOCITY_FACTOR);
+		angleMotorConfig.encoder.positionConversionFactor(Constants.CORAL_POSITION_FACTOR);
+		angleMotorConfig.encoder.velocityConversionFactor(Constants.CORAL_VELOCITY_FACTOR);
 		angleMotorConfig.encoder.uvwAverageDepth(4); // i think this is correct due to Neos using a hall-sensor encoder.
     angleMotorConfig.encoder.uvwMeasurementPeriod(16);
 
@@ -78,11 +78,11 @@ public class CoralAngle extends SubsystemBase {
  }
 
  public boolean goToMiddleCoral(){
-  if (getMotorAngleDegrees() < Constants.ALGEA_MIDDLE_ANGLE+1){
-    angleMotor.set(setAngleMotorSpeed(Constants.ALGEA_MIDDLE_ANGLE));
+  if (getMotorAngleDegrees() < Constants.CORAL_MIDDLE_ANGLE+1){
+    angleMotor.set(setAngleMotorSpeed(Constants.CORAL_MIDDLE_ANGLE));
   }
-  else if (getMotorAngleDegrees() > Constants.ALGEA_MIDDLE_ANGLE-1){
-    angleMotor.set(-setAngleMotorSpeed(Constants.ALGEA_MIDDLE_ANGLE));  
+  else if (getMotorAngleDegrees() > Constants.CORAL_MIDDLE_ANGLE-1){
+    angleMotor.set(-setAngleMotorSpeed(Constants.CORAL_MIDDLE_ANGLE));  
   }
   else {
     angleMotor.stopMotor();
@@ -92,11 +92,11 @@ public class CoralAngle extends SubsystemBase {
  }
 
  public boolean goToTopCoral(){
-  if (getMotorAngleDegrees() < Constants.ALGEA_TOP_ANGLE+1){
-    angleMotor.set(setAngleMotorSpeed(Constants.ALGEA_TOP_ANGLE));
+  if (getMotorAngleDegrees() < Constants.CORAL_TOP_ANGLE+1){
+    angleMotor.set(setAngleMotorSpeed(Constants.CORAL_TOP_ANGLE));
   }
-  else if (getMotorAngleDegrees() > Constants.ALGEA_TOP_ANGLE-1){
-    angleMotor.set(-setAngleMotorSpeed(Constants.ALGEA_TOP_ANGLE));  
+  else if (getMotorAngleDegrees() > Constants.CORAL_TOP_ANGLE-1){
+    angleMotor.set(-setAngleMotorSpeed(Constants.CORAL_TOP_ANGLE));  
   }
   else {
     angleMotor.stopMotor();
@@ -106,12 +106,12 @@ public class CoralAngle extends SubsystemBase {
  }
 
  public boolean goToIntakeCoral(){
-  if (getMotorAngleDegrees() < Constants.ALGEA_INTAKE_ANGLE+1){
-    angleMotor.set(setAngleMotorSpeed(Constants.ALGEA_INTAKE_ANGLE));
+  if (getMotorAngleDegrees() < Constants.CORAL_INTAKE_ANGLE+1){
+    angleMotor.set(setAngleMotorSpeed(Constants.CORAL_INTAKE_ANGLE));
   }
-  else if (getMotorAngleDegrees() > Constants.ALGEA_INTAKE_ANGLE-1){
+  else if (getMotorAngleDegrees() > Constants.CORAL_INTAKE_ANGLE-1){
     //experiment with -1 and +1 for range
-    angleMotor.set(-setAngleMotorSpeed(Constants.ALGEA_INTAKE_ANGLE));  
+    angleMotor.set(-setAngleMotorSpeed(Constants.CORAL_INTAKE_ANGLE));  
     //it might not exactly reach the angle, so we need to add a range
   }
   else {

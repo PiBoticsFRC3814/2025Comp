@@ -104,10 +104,19 @@ public final class Constants {
 
 
   public static final int[] ELEVATOR_IDS = {50,51};
+  public static final double[] ELEVATOR_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
+  public static final double ELEVATOR_POSITION_FACTOR = 1;
+  public static final double ELEVATOR_VELOCITY_FACTOR = 1;
   public static final int ELAVATOR_CURRENT_LIMIT = 50;
   public static final double ELEVATOR_MAX_UP_SPEED = 1.0;
   public static final double ELEVATOR_MAX_DOWN_SPEED = -1.0;
-
+  public static final double ELEVATOR_HOME_SPEED = -1.0;
+  public static final double ELAVATOR_PROCCESOR_DISTANCE = 0.0; //Template value, units are millimeters
+  public static final double ELEVATOR_CORAL1_DISTANCE = 0.0; //Template value, units are millimeters
+  public static final double ELEVATOR_CORAL2_DISTANCE = 0.0; //Template value, units are millimeters
+  public static final double ELEVATOR_CORAL3_DISTANCE = 0.0; //Template value, units are millimeters
+  public static final double ELEVATOR_CORAL4_DISTANCE = 0.0; //Template value, units are millimeters
+  public static final double ELEVATOR_NET_DISTANCE = 0.0; //Template value, units are millimeters
 
   public static final int[] ELEVATOR_POSITION = {0,1,2,3,4,5,6};
 
@@ -118,16 +127,17 @@ public final class Constants {
   public static final int CORAL_MOTOR_CURRENT_LIMIT = 20;
   public static final double CORAL_MAX_IN_SPEED = 0.5;
   public static final double CORAL_MAX_OUT_SPEED = -0.5;
+  public static final double[] CORAL_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
+  public static final double CORAL_POSITION_FACTOR = 2.0 * Math.PI / (9*9*4); 
+  public static final double CORAL_VELOCITY_FACTOR = CORAL_POSITION_FACTOR / (60);
+  public static final double CORAL_MIDDLE_ANGLE = -45.0;
+  public static final double CORAL_TOP_ANGLE = -90.0;
+  public static final double CORAL_INTAKE_ANGLE = -40.0;
+  
 
   public static final int ALGAE_MOTOR_CURRENT_LIMIT = 20;
   public static final double ALGAE_IN_SPEED = 0.5;
   public static final double ALGAE_OUT_SPEED = -0.5;
   public static final double[] ANGLE_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
-  public static final double ALGAE_POSITION_FACTOR = 2.0 * Math.PI / (9*9*4); 
-  public static final double ALGAE_VELOCITY_FACTOR = ALGAE_POSITION_FACTOR / (60);
-  public static final double ALGEA_MIDDLE_ANGLE = -45.0;
-  public static final double ALGEA_TOP_ANGLE = -90.0;
-  public static final double ALGEA_INTAKE_ANGLE = -40.0;
-  
 }
 
