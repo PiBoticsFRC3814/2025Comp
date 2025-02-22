@@ -44,6 +44,7 @@ public class Climber extends SubsystemBase {
 
     climberMotor1.configure(climberMotor1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
+    climberMotor2Config = new SparkMaxConfig();
     climberMotor2Config.follow(climberMotor1,true);	
 
     climberMotor2.configure(climberMotor2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
