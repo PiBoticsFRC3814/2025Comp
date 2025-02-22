@@ -18,7 +18,7 @@ public class AlgaeIntake extends SubsystemBase {
 
   public AlgaeIntake() {
     algaeMotor1 = new TalonSRX(Constants.CORAL_MOTOR_IDS[2]);
-    algaeMotor1 = new TalonSRX(Constants.CORAL_MOTOR_IDS[3]);
+    algaeMotor2 = new TalonSRX(Constants.CORAL_MOTOR_IDS[3]);
 
     algaeMotor1.configPeakCurrentLimit(Constants.ALGAE_MOTOR_CURRENT_LIMIT);
     algaeMotor2.configPeakCurrentLimit(Constants.ALGAE_MOTOR_CURRENT_LIMIT);
@@ -32,7 +32,7 @@ public class AlgaeIntake extends SubsystemBase {
     algaeMotor1.set(TalonSRXControlMode.PercentOutput, Constants.ALGAE_IN_SPEED);
   }
 
-  public void aOutake(){
+  public void aOuttake(){
     algaeMotor1.set(TalonSRXControlMode.PercentOutput, Constants.ALGAE_OUT_SPEED);
   }
 

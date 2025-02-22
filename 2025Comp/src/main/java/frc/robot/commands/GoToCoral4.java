@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -24,29 +25,13 @@ public class GoToCoral4 extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    position = m_elevator.getLastKnownPosistion();
-    direction = false;
     inPosition = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  //  position = m_elevator.getLastKnownPosistion();
-  //  if (position <6) {
-  //    direction = true;
-  //    m_elevator.goToCoral1(direction);
-  //    inPosition = false;
-  //  }
-  //  else if (position >6) {
-  //    direction = false;
-  //    m_elevator.goToCoral1(direction);
-  //    inPosition = false;
-  //  }
-  //  else {
-  //    m_elevator.stopElevator();
-  //    inPosition = true;
-  //  }
+    inPosition = m_elevator.ArmDistance(Constants.ELEVATOR_CORAL4_DISTANCE);
   }
 
   // Called once the command ends or is interrupted.
@@ -56,7 +41,9 @@ public class GoToCoral4 extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    m_elevator.stopElevator();
+    if (inPosition){
+      m_elevator.stopElevator();
+    }
     return inPosition;
   }
 }

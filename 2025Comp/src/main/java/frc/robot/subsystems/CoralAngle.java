@@ -6,10 +6,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.DigitalInput;
 
 import com.revrobotics.spark.SparkMax;
-import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -31,7 +29,7 @@ public class CoralAngle extends SubsystemBase {
  
  public SparkMaxConfig angleMotorConfig;
  public CoralAngle() {
-    angleMotor = new SparkMax( Constants.CORAL_MOTOR_IDS[1], MotorType.kBrushless );
+    angleMotor = new SparkMax(Constants.CORAL_MOTOR_IDS[1], MotorType.kBrushless);
 	  angleMotorConfig = new SparkMaxConfig();
 		angleMotorConfig.voltageCompensation(Constants.SWERVE_VOLT_COMP);
 		angleMotorConfig.idleMode(IdleMode.kBrake);
@@ -126,6 +124,17 @@ public class CoralAngle extends SubsystemBase {
   return 1.0*(Math.abs(getMotorAngleDegrees() - desiredAngle)/180);  //percent speed based on 180 degrees of range of motion
  }
 
+ public void manualIncreaseAngle(){
+  angleMotor.set(Constants.CORAL_ANGLE_UP_SPEED);
+ }
+
+ public void manualDecreaseAngle(){
+  angleMotor.set(Constants.CORAL_ANGLE_DOWN_SPEED);
+ }
+
+ public void stopAngle(){
+  angleMotor.set(0.0);
+ }
 
   @Override
   public void periodic() {

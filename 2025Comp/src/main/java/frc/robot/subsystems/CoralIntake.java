@@ -26,7 +26,7 @@ public class CoralIntake extends SubsystemBase {
     coralMotor.set(TalonSRXControlMode.PercentOutput, Constants.CORAL_MAX_IN_SPEED);
   }
 
-  public void cOutake(){
+  public void cOuttake(){
     coralMotor.set(TalonSRXControlMode.PercentOutput, Constants.CORAL_MAX_OUT_SPEED);
   }
 

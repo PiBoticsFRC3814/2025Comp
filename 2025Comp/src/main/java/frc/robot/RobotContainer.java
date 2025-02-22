@@ -4,30 +4,14 @@
 
 package frc.robot;
 
-import frc.robot.commands.Autos;
-//import frc.robot.commands.ClimbMaunal;
-//import frc.robot.commands.DriveFast;
-//import frc.robot.commands.DriveSlow;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-//import frc.robot.commands.IntakeRun;
-//import frc.robot.commands.IntakeStop;
-//import frc.robot.commands.ManualCommand;
-//import frc.robot.commands.ManualIntake;
-//import frc.robot.commands.ManualShoot;
-//import frc.robot.commands.MaxShoot;
-//import frc.robot.commands.Outake;
-//import frc.robot.commands.ShootAmp;
-//import frc.robot.commands.ShootSpeaker;
-//import frc.robot.commands.ShooterIntake;
-//import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ExampleSubsystem;
-//import frc.robot.subsystems.FlywheelShooter;
 import frc.robot.subsystems.GyroSwerveDrive;
-//import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.RobotStates;
 
 import java.io.ObjectInputStream.GetField;
+import java.lang.ModuleLayer.Controller;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -35,6 +19,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.ADIS16448_IMU.IMUAxis;
@@ -63,8 +48,10 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   //public final FlywheelShooter m_shooter = new FlywheelShooter();
   public final Elevator m_elevator = new Elevator();
-  public final CoralIntake m_intake = new CoralIntake();
+  public final CoralIntake m_coral = new CoralIntake();
   public final CoralAngle m_angle = new CoralAngle(); 
+  public final AlgaeIntake m_algae = new AlgaeIntake();
+  public final Climber m_climber = new Climber();
   public final RobotStates m_robotStates = new RobotStates();
   public final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
   public final GyroSwerveDrive m_gyroSwerveDrive = new GyroSwerveDrive(m_robotStates, m_gyro);
@@ -74,7 +61,8 @@ public class RobotContainer {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   XboxController driveStick = new XboxController(2);
-  XboxController controlStick = new XboxController(1);
+  //XboxController controlStick = new XboxController(1);
+  GenericHID buttonBoard = new GenericHID(1);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -122,24 +110,25 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    //new JoystickButton(controlStick, Button.kRightBumper.value).whileTrue(new IntakeRun(m_intake, m_robotStates));
-    //new JoystickButton(controlStick, Button.kRightBumper.value).whileFalse(new IntakeStop(m_intake));
-    new JoystickButton(controlStick, Button.kLeftBumper.value).whileTrue(new IntakeCoral(m_intake));
     new JoystickButton(driveStick, Button.kX.value).whileTrue(new GyroReset(m_gyroSwerveDrive));
-    new JoystickButton(controlStick, Button.kA.value).whileTrue(new GoToCoral1Angle(m_elevator, m_angle));
-    new JoystickButton(controlStick, Button.kB.value).whileTrue(new GoToCoral2(m_elevator));
-    new JoystickButton(controlStick, Button.kY.value).whileTrue(new GoToCoral3(m_elevator));
-    new JoystickButton(controlStick, Button.kRightBumper.value).whileTrue(new GoToCoral4(m_elevator));
-    new JoystickButton(controlStick, Button.kLeftStick.value).whileTrue(new GoToProcessor(m_elevator));
-    new JoystickButton(controlStick, Button.kRightStick.value).whileTrue(new GoToNet(m_elevator));
+    new JoystickButton(buttonBoard, 1).whileTrue(new GoToProcessor(m_elevator));
+    new JoystickButton(buttonBoard, 2).whileTrue(new GoToCoral1Angle(m_elevator, m_angle));
+    new JoystickButton(buttonBoard, 3).whileTrue(new GoToCoral2Angle(m_elevator, m_angle));
+    new JoystickButton(buttonBoard, 4).whileTrue(new GoToIntakeAngle(m_elevator, m_angle));
+    new JoystickButton(buttonBoard, 5).whileTrue(new GoToCoral3Angle(m_elevator, m_angle));
+    new JoystickButton(buttonBoard, 6).whileTrue(new GoToCoral4Angle(m_elevator, m_angle));
+    new JoystickButton(buttonBoard, 7).whileTrue(new GoToNet(m_elevator));
+    new JoystickButton(buttonBoard, 8).whileTrue(new ManualElevatorDown(m_elevator));
+    new JoystickButton(buttonBoard, 9).whileTrue(new ManualElevatorUp(m_elevator));
+    new JoystickButton(buttonBoard, 10).whileTrue(new ManualAngleDown(m_angle));
+    new JoystickButton(buttonBoard, 11).whileTrue(new ManualAngleUp(m_angle));
+    new JoystickButton(buttonBoard, 12).whileTrue(new IntakeCoral(m_coral));
+    new JoystickButton(buttonBoard, 13).whileTrue(new OuttakeCoral(m_coral));
+    new JoystickButton(buttonBoard, 14).whileTrue(new IntakeAlgae(m_algae));
+    new JoystickButton(buttonBoard, 15).whileTrue(new OuttakeAlgae(m_algae));
+    new JoystickButton(buttonBoard, 16).whileTrue(new ClimbUp(m_climber));
 
-    //new JoystickButton(controlStick, 7).whileTrue(new MaxShoot(m_shooter, m_intake, m_robotStates));
-    //new JoystickButton(driveStick, Button.kRightBumper.value).whileTrue(new DriveFast(m_robotStates));
-    //new JoystickButton(driveStick, Button.kRightBumper.value).whileFalse(new DriveSlow(m_robotStates));
-    ////new JoystickButton(controlStick, Button.kA.value).whileTrue(new ShooterIntake(m_shooter));
-    //new JoystickButton(controlStick, Button.kY.value).whileTrue(new ManualIntake(m_intake));
-    //new JoystickButton(controlStick, Button.kB.value).whileTrue(new ManualShoot(m_shooter, m_intake, m_robotStates));
+
   }
 
   
@@ -163,7 +152,7 @@ public class RobotContainer {
     .withPosition(0,0);
 
     Shuffleboard.getTab("Test")
-    .add("Elevator", m_elevator.getLastKnownPosistion())
+    .add("Elevator", m_elevator.elevatorEncoder.getPosition())
     .withWidget(BuiltInWidgets.kTextView)
     .withSize(2,1);
   }

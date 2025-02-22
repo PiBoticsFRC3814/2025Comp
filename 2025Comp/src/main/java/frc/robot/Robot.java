@@ -95,7 +95,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.m_gyroSwerveDrive.resetModules();
     LimelightHelpers.setPipelineIndex("limelight", 0);
     m_robotContainer.m_robotStates.autonomous = false;
-    m_robotContainer.m_elevator.setDefaultCommand(new ManualElevator(() -> m_robotContainer.controlStick.getLeftX(), m_robotContainer.m_elevator));
+    //m_robotContainer.m_elevator.setDefaultCommand(new ManualElevator(() -> m_robotContainer.controlStick.getLeftX(), m_robotContainer.m_elevator));
   }
 
   /** This function is called periodically during operator control. */
