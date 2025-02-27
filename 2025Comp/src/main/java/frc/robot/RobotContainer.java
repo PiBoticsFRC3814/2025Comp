@@ -72,15 +72,7 @@ public class RobotContainer {
       new ClimbMaunal(m_climber, () -> -controlStick.getRightY(), () -> controlStick.getLeftY())
     );*/
 
-    //m_shooter.setDefaultCommand(new ManualCommand(m_shooter, () -> controlStick.getLeftTriggerAxis(), () -> controlStick.getRightTriggerAxis()));
     // Configure the trigger bindings
-    double speed = 1300;//SmartDashboard.getNumber("Speed", 0.0);
-    //m_shooter.setDefaultCommand(new ShootWithSlider(m_shooter, () -> speed, () -> m_driverController.getThrottle()));
-
-    //NamedCommands.registerCommand("intakeRun", new IntakeRun(m_intake, m_robotStates));
-    //NamedCommands.registerCommand("intakeStop", new IntakeStop(m_intake));
-    //NamedCommands.registerCommand("SpeakerFire", new ShootSpeaker(m_shooter, m_intake, m_robotStates));
-    //NamedCommands.registerCommand("shootAmp", new ShootAmp(m_shooter, m_intake, m_robotStates));
     NamedCommands.registerCommand("gyroReset", new GyroReset(m_gyroSwerveDrive));
 
     chooserFirst.setDefaultOption("Test", "Test Auto");
@@ -127,6 +119,7 @@ public class RobotContainer {
     new JoystickButton(buttonBoard, 14).whileTrue(new IntakeAlgae(m_algae));
     new JoystickButton(buttonBoard, 15).whileTrue(new OuttakeAlgae(m_algae));
     new JoystickButton(buttonBoard, 16).whileTrue(new ClimbUp(m_climber));
+    //new POVButton(buttonBoard, 0).whileTrue(new ClimbUp(m_climber));
 
 
   }

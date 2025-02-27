@@ -120,33 +120,6 @@ public class GyroSwerveDrive extends SubsystemBase {
             
     );
     
-
-    //AutoBuilder.configureHolonomic(
-    //  this::getPose,
-    //  this::resetOdometry,
-    //  this::getChassisSpeed,
-    //  this::setModuleStates(),
-    //  new HolonomicPathFollowerConfig(
-    //    new PIDConstants(9, 0.0, 0.3),
-    //    new PIDConstants(11.0, 0.0, 0.1),
-    //    Constants.MAX_SPEED_MperS,
-    //    Constants.SWERVE_RADIUS / 25.4 / 1000.0,
-    //    new ReplanningConfig()
-    //  ),
-    //  () -> {
-                    // Boolean supplier that controls when the path will be mirrored for the red alliance
-                    // This will flip the path being followed to the red side of the field.
-                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-                    // Mote this needs to be looked at per game since it can be morrored or rotated red vs blue.  2025 is rotated not mirrored.
-
-     //               var alliance = DriverStation.getAlliance();
-     //               if (alliance.isPresent()) {
-     //                   return alliance.get() == DriverStation.Alliance.Red;
-     //               }
-     //               return false;
-     //           },
-     //           this
-    //);
   }
 
   //help
@@ -174,7 +147,7 @@ public class GyroSwerveDrive extends SubsystemBase {
       }
     }
     
-      swerveMod[0].output();
+    swerveMod[0].output();
 
     poseEstimator.updateWithTime(
       Timer.getFPGATimestamp(),
@@ -182,30 +155,6 @@ public class GyroSwerveDrive extends SubsystemBase {
         getModulePositions()
     );
 
-    double ampdistance = (Math.sqrt(Math.pow(Math.abs(getPose().getX()) - 1.65,2.0) + Math.pow(getPose().getY() - 7.54,2.0)) * 1000.0 / 25.4);
-    m_RobotStates.speakDist = ampdistance;
-    //values from linear regression given datapoints causes I'm too lazy
-    //0 1750
-    //3 1800
-    //6 1900
-    //12 2000
-    ampdistance = ampdistance >= 0.0 ? ampdistance : 0.0;
-    m_RobotStates.inAmp = ampdistance <= 12;
-    m_RobotStates.ampSpeed = (ampdistance >= 1.0 ? 740.16 * Math.log(186.236 * ampdistance + 5334.16) - 4607.85 : 1750.0);
-    double Speakerdistance;
-    try{
-      Speakerdistance = 325 - Math.sqrt(Math.pow(Math.abs(getPose().getX() - 8.308975),2.0) + Math.pow(getPose().getY() - (!m_RobotStates.autonomous && DriverStation.getAlliance().get() == DriverStation.Alliance.Red  ? -1.442593 : 1.442593),2.0)) * 1000 / 25.4;
-    } catch(Exception e){
-      Speakerdistance = 0;
-      System.out.println(e);
-    }
-    //values from linear regression given datapoints causes I'm too lazy
-    //28 3650 -0.1
-    //10 3900 -0.1
-    //0 4500 0.0
-    Speakerdistance = Speakerdistance >= 0.0 ? Speakerdistance : 0.0;
-    m_RobotStates.inSpeaker = Speakerdistance <= 24;
-    m_RobotStates.speakSpeed = Speakerdistance >= 3 ? 1.1 * (-259.36 * Math.log(0.00721146 * (Speakerdistance) + 0.00791717) + 3245.03) : 4600;
   }
 
   public Pose2d getPose(){
@@ -227,10 +176,6 @@ public class GyroSwerveDrive extends SubsystemBase {
     swerveMod[1].setDesiredState(desiredStates[1]);  //FR
     swerveMod[2].setDesiredState(desiredStates[2]);  //RL
     swerveMod[3].setDesiredState(desiredStates[3]);  //RR
-    //m_FLModule.setDesiredState(desiredStates[0]);
-    //m_FRModule.setDesiredState(desiredStates[1]);
-    //m_RLModule.setDesiredState(desiredStates[2]);
-    //m_RRModule.setDesiredState(desiredStates[3]);
   }
 
   public void resetModules(){
@@ -281,7 +226,6 @@ public class GyroSwerveDrive extends SubsystemBase {
     rot *= Constants.MAX_SPEED_MperS / new Rotation2d(Constants.SWERVE_FRAME_LENGTH / 2.0 * 0.0254, Constants.SWERVE_FRAME_WIDTH / 2.0 * 0.0254).getRadians();
     setModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, position.getRotation()));
   }
-
 
   public void resetGyro(){
     gyro.reset();

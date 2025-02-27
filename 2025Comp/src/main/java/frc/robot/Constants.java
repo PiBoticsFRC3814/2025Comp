@@ -84,6 +84,7 @@ public final class Constants {
   public static final double STEER_POSITION_FACTOR = 2.0 * Math.PI / 12.8; 
   public static final double STEER_VELOCITY_FACTOR = STEER_POSITION_FACTOR / 60;
   public static final double MAX_SPEED_MperS = 4.17;
+  public static final double Max_Anglular_Speed = 2.0; //change at some point
 
   public static final double[] DRIVE_FF = {
   // kS  kP   kV
