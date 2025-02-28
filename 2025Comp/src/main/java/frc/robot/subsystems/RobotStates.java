@@ -32,7 +32,7 @@ public class RobotStates extends SubsystemBase {
     center = true;
     fieldElementPose = new Pose2d[23];
     fieldElementPose[0] = new Pose2d(0.0,0.0, Rotation2d.fromDegrees(0)); // dont use this pose array indexed at 0 but april tag indexed at 1 so this is an empty pose
-    fieldElementPose[1] = new Pose2d(0.0,0.0, Rotation2d.fromDegrees(0)); // this is the pose for red left choral intake (perspective of red drivers)
+    fieldElementPose[1] = new Pose2d(16.7,0.0, Rotation2d.fromDegrees(0)); // this is the pose for red left choral intake (perspective of red drivers)
     fieldElementPose[2] = new Pose2d(0.0,0.0, Rotation2d.fromDegrees(0)); // this is the pose for red right choral intake
     fieldElementPose[3] = new Pose2d(0.0,0.0, Rotation2d.fromDegrees(0)); // this is the pose for red proccessor
     fieldElementPose[4] = new Pose2d(0.0,0.0, Rotation2d.fromDegrees(0)); // this is the pose for red side blue barge
