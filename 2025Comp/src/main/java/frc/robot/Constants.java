@@ -69,6 +69,9 @@ public final class Constants {
   public static final double[] TAG_ALIGN_ROT_PID = {0.01, 5.0e-2, 0.002};
   public static final double[] TAG_ALIGN_FWD_PID = {0.4, 0.0, 0.006};
 
+  public static final double AUTO_LEFT_OFFSET = 0.0;
+  public static final double AUTO_RIGHT_OFFSET = 0.0;
+
   public static final boolean[] STEER_MOTOR_INVERTED = {false, false, false, false};
   public static final boolean[] DRIVE_MOTOR_INVERTED = {false, true, false, false};
 

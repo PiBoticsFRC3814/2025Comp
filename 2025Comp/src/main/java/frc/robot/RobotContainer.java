@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -60,9 +61,10 @@ public class RobotContainer {
   public SendableChooser<String> chooserFirst = new SendableChooser<>();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  XboxController driveStick = new XboxController(2);
+  XboxController driveStick = new XboxController(3);
   //XboxController controlStick = new XboxController(1);
-  GenericHID buttonBoard = new GenericHID(1);
+  CommandGenericHID buttonBoard1 = new CommandGenericHID(1);
+  CommandGenericHID buttonBoard2 = new CommandGenericHID(2);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -103,25 +105,26 @@ public class RobotContainer {
    */
   private void configureBindings() {
     new JoystickButton(driveStick, Button.kX.value).whileTrue(new GyroReset(m_gyroSwerveDrive));
-    new JoystickButton(buttonBoard, 1).whileTrue(new GoToProcessor(m_elevator));
-    new JoystickButton(buttonBoard, 2).whileTrue(new GoToCoral1Angle(m_elevator, m_angle));
-    new JoystickButton(buttonBoard, 3).whileTrue(new GoToCoral2Angle(m_elevator, m_angle));
-    new JoystickButton(buttonBoard, 4).whileTrue(new GoToIntakeAngle(m_elevator, m_angle));
-    new JoystickButton(buttonBoard, 5).whileTrue(new GoToCoral3Angle(m_elevator, m_angle));
-    new JoystickButton(buttonBoard, 6).whileTrue(new GoToCoral4Angle(m_elevator, m_angle));
-    new JoystickButton(buttonBoard, 7).whileTrue(new GoToNet(m_elevator));
-    new JoystickButton(buttonBoard, 8).whileTrue(new ManualElevatorDown(m_elevator));
-    new JoystickButton(buttonBoard, 9).whileTrue(new ManualElevatorUp(m_elevator));
-    new JoystickButton(buttonBoard, 10).whileTrue(new ManualAngleDown(m_angle));
-    new JoystickButton(buttonBoard, 11).whileTrue(new ManualAngleUp(m_angle));
-    new JoystickButton(buttonBoard, 12).whileTrue(new IntakeCoral(m_coral));
-    new JoystickButton(buttonBoard, 13).whileTrue(new OuttakeCoral(m_coral));
-    new JoystickButton(buttonBoard, 14).whileTrue(new IntakeAlgae(m_algae));
-    new JoystickButton(buttonBoard, 15).whileTrue(new OuttakeAlgae(m_algae));
-    new JoystickButton(buttonBoard, 16).whileTrue(new ClimbUp(m_climber));
+    buttonBoard1.button(1).whileTrue(new GoToProcessor(m_elevator));
+    buttonBoard1.button(2).whileTrue(new GoToCoral1Angle(m_elevator, m_angle));
+    buttonBoard1.button(3).whileTrue(new GoToCoral2Angle(m_elevator, m_angle));
+    buttonBoard1.button(4).whileTrue(new GoToIntakeAngle(m_elevator, m_angle));
+    buttonBoard1.button(5).whileTrue(new GoToCoral3Angle(m_elevator, m_angle));
+    buttonBoard1.button(6).whileTrue(new GoToCoral4Angle(m_elevator, m_angle));
+    buttonBoard1.button(7).whileTrue(new GoToNet(m_elevator));
+
+    buttonBoard1.axisGreaterThan(0, 0.5).whileTrue(new ManualElevatorUp(m_elevator));
+    buttonBoard1.axisLessThan(0, -0.5).whileTrue(new ManualElevatorDown(m_elevator));
+
+
+    buttonBoard2.axisGreaterThan(0,0.5).whileTrue(new ManualAngleUp(m_angle));
+    buttonBoard2.axisLessThan(0,-0.5).whileTrue(new ManualAngleDown(m_angle));
+    buttonBoard2.button(1).whileTrue(new IntakeCoral(m_coral));
+    buttonBoard2.button(2).whileTrue(new OuttakeCoral(m_coral));
+    buttonBoard2.button(3).whileTrue(new IntakeAlgae(m_algae));
+    buttonBoard2.button(4).whileTrue(new OuttakeAlgae(m_algae));
+    buttonBoard2.button(5).whileTrue(new ClimbUp(m_climber));
     //new POVButton(buttonBoard, 0).whileTrue(new ClimbUp(m_climber));
-
-
   }
 
   

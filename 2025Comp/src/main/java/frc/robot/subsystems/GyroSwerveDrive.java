@@ -10,6 +10,8 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import java.io.ObjectInputFilter.Config;
 
+import javax.lang.model.util.ElementScanner14;
+
 import com.pathplanner.lib.auto.*;
 import com.pathplanner.lib.config.*;
 import com.pathplanner.lib.util.*;
@@ -17,6 +19,7 @@ import com.revrobotics.spark.config.*;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -30,10 +33,11 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 
@@ -56,6 +60,14 @@ public class GyroSwerveDrive extends SubsystemBase {
   public Pose2d currentPose;
   double avgTrust;
 
+  public PIDController translationXController;
+  public PIDController translationYController;
+  public ProfiledPIDController translationRotController;
+  public double xAdjust = 0.0;
+  public double yAdjust = 0.0;
+
+  public Pose2d fieldElementLocation;
+
   private SwerveModule[] swerveMod = {
     new SwerveModule(0), new SwerveModule(1), new SwerveModule(2), new SwerveModule(3)
   }; // this builds the swerve module in entirety (both drive motor and steer motor) from the SwerveModule.java -- builds 4 of them based on normmal number of swerve modules
@@ -70,6 +82,18 @@ public class GyroSwerveDrive extends SubsystemBase {
       // Handle exception as needed
       e.printStackTrace();
     }
+
+    fieldElementLocation = m_RobotStates.fieldElementPose[0];
+    translationXController = new PIDController(Constants.TAG_ALIGN_FWD_PID[0], 
+                                                Constants.TAG_ALIGN_STR_PID[1],
+                                                Constants.TAG_ALIGN_ROT_PID[2]);
+    translationYController = new PIDController(Constants.TAG_ALIGN_FWD_PID[0], 
+                                                Constants.TAG_ALIGN_STR_PID[1],
+                                                Constants.TAG_ALIGN_ROT_PID[2]);
+    translationRotController = new ProfiledPIDController(Constants.TAG_ALIGN_FWD_PID[0], 
+                                                          Constants.TAG_ALIGN_STR_PID[1],
+                                                          Constants.TAG_ALIGN_ROT_PID[2],
+                                                          new Constraints(1.0, 0.1));
 
     turnController.setIntegratorRange(-0.2, 0.2);
     turnController.enableContinuousInput(0.0, 360.0);
@@ -257,5 +281,71 @@ public class GyroSwerveDrive extends SubsystemBase {
       swerveMod[i].driveMotor.set(0.0);
       swerveMod[i].steerMotor.set(0.0);
     }
+  }
+
+  public int getAprilTagID(){
+    double id = LimelightHelpers.getFiducialID("limelight");
+    return (int)id;
+  }
+  
+  public Pose2d getFieldElementLocation(){
+    int id = getAprilTagID();
+    if (id > 0){
+      fieldElementLocation = m_RobotStates.fieldElementPose[id];
+      return fieldElementLocation;
+    } else{
+      return fieldElementLocation;
+    }
+  }
+
+  public boolean goToFieldElementLocation(double offset) { 
+    //this will try to go to a specific april tag and/or scoring location.  this is going to need ALOT of dbugging.
+    Pose2d robotLocation;
+    double xApplied;
+    double yApplied;
+    double rotApplied;
+    double lrAdjust = offset;
+
+    int tagID = getAprilTagID();
+    if (tagID>0){
+      fieldElementLocation = getFieldElementLocation();
+      if (tagID == 8 || tagID == 9 || tagID == 20 || tagID == 19){
+        xAdjust = lrAdjust*Math.cos(Math.toRadians(60));
+      } else if(tagID == 6 || tagID == 11 || tagID == 22 || tagID == 17){
+        xAdjust = -lrAdjust*Math.cos(Math.toRadians(60));
+      } else if(tagID == 7 || tagID == 10 || tagID == 21 || tagID == 18){
+        xAdjust = lrAdjust;
+      } else{
+        xAdjust = 0.0;
+      }
+      if (tagID == 8 || tagID == 6 || tagID == 20 || tagID == 22){
+        yAdjust = lrAdjust*Math.sin(Math.toRadians(60));
+      } else if(tagID == 9 || tagID == 11 || tagID == 19 || tagID == 17){
+        yAdjust = -lrAdjust*Math.sin(Math.toRadians(60));
+      } else if(tagID == 7 || tagID == 10 || tagID == 21 || tagID == 18){
+        yAdjust = 0.0;
+      } else{
+        yAdjust = 0.0;
+      }
+    }    
+    robotLocation = getPose();
+    xApplied = translationXController.calculate(robotLocation.getX() - (fieldElementLocation.getX() + xAdjust));
+    yApplied = translationYController.calculate(robotLocation.getY() - (fieldElementLocation.getY() + yAdjust));
+    rotApplied = translationRotController.calculate(robotLocation.getRotation().getRadians() - fieldElementLocation.getRotation().getRadians());
+    if(Math.abs(robotLocation.getX() - (fieldElementLocation.getX() + xAdjust)) > 0.04
+      && Math.abs(robotLocation.getY() - (fieldElementLocation.getY() + yAdjust)) > 0.05
+      && Math.abs(robotLocation.getRotation().getDegrees() - fieldElementLocation.getRotation().getDegrees()) > 1.0) 
+      {
+        if(DriverStation.getAlliance().get() == Alliance.Red){
+          setModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(xApplied, yApplied, rotApplied, robotLocation.getRotation()));
+          return false;    
+        } else{
+          setModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(-xApplied, -yApplied, rotApplied, robotLocation.getRotation()));
+          return false;
+        } 
+      } else {
+        setModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(0.0,0.0,0.0,robotLocation.getRotation()));
+        return true;
+      }
   }
 }

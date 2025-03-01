@@ -14,6 +14,7 @@ public class ClimbDown extends Command {
   public ClimbDown(Climber climber) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_climber = climber;
+    addRequirements(climber);
   }
 
   // Called when the command is initially scheduled.

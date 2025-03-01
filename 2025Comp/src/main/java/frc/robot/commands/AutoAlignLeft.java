@@ -5,26 +5,43 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Climber;
+import frc.robot.Constants;
+import frc.robot.subsystems.GyroSwerveDrive;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class CilmbStop extends Command {
-  /** Creates a new CilmbStop. */
-  Climber m_climber;
-  public CilmbStop(Climber climber) {
+public class AutoAlignLeft extends Command {
+  /** Creates a new AutoAlignLeft. */
+  boolean isValidTarget = false;
+  boolean inProperPosition = false;
+  GyroSwerveDrive m_drive;
+  double leftOffset = Constants.AUTO_LEFT_OFFSET;
+  
+  public AutoAlignLeft(GyroSwerveDrive drive) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_climber = climber;
-    addRequirements(climber);
+    m_drive = drive;
+    addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    inProperPosition = false;
+    if(m_drive.getAprilTagID()>0){
+      isValidTarget = true;
+    } else {
+      isValidTarget = false;
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climber.climbStop();
+    if (isValidTarget){
+      inProperPosition = m_drive.goToFieldElementLocation(Constants.AUTO_LEFT_OFFSET);
+    } else {
+      System.out.println("no Valid Target");
+      inProperPosition = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -34,6 +51,6 @@ public class CilmbStop extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return inProperPosition;
   }
 }
