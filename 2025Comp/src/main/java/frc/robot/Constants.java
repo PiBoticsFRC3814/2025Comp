@@ -73,20 +73,20 @@ public final class Constants {
   public static final double AUTO_RIGHT_OFFSET = 0.0;
 
   public static final boolean[] STEER_MOTOR_INVERTED = {false, false, false, false};
-  public static final boolean[] DRIVE_MOTOR_INVERTED = {false, true, false, false};
+  public static final boolean[] DRIVE_MOTOR_INVERTED = {false, false, false, false};
 
   /*
    * Swerve constants for swerve module calculations
    */
-  public static final double SWERVE_FRAME_WIDTH = 20.5;
-  public static final double SWERVE_FRAME_LENGTH = 25.5;
+  public static final double SWERVE_FRAME_WIDTH = 22;
+  public static final double SWERVE_FRAME_LENGTH = 22;
   public static final double SWERVE_RADIUS = Math.sqrt(Math.pow(SWERVE_FRAME_LENGTH, 2) + Math.pow(SWERVE_FRAME_WIDTH, 2));
   public static final double SWERVE_PID_TOLERANCE = 2.8e-4;
   public static final double DRIVE_POSITION_CONVERSION = (0.0986 * Math.PI) / (6.75);
   public static final double DRIVE_VELOCITY_FACTOR = DRIVE_POSITION_CONVERSION / 60;
   public static final double STEER_POSITION_FACTOR = 2.0 * Math.PI / 12.8; 
   public static final double STEER_VELOCITY_FACTOR = STEER_POSITION_FACTOR / 60;
-  public static final double MAX_SPEED_MperS = 4.17;
+  public static final double MAX_SPEED_MperS = 4.56;
   public static final double Max_Anglular_Speed = 2.0; //change at some point
 
   public static final double[] DRIVE_FF = {
@@ -128,7 +128,7 @@ public final class Constants {
   public static final int[] CLIMB_MOTOR_IDS = {60,61};
   public static final double[] CLIMB_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
 
-  public static final int[] CORAL_MOTOR_IDS = {70,71,72,73};
+  public static final int[] CORAL_MOTOR_IDS = {10,11,12,13};
   public static final int CORAL_MOTOR_CURRENT_LIMIT = 20;
   public static final double CORAL_MAX_IN_SPEED = 0.5;
   public static final double CORAL_MAX_OUT_SPEED = -0.5;
