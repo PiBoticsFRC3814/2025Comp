@@ -69,7 +69,10 @@ public class GyroSwerveDrive extends SubsystemBase {
   public Pose2d fieldElementLocation;
 
   private SwerveModule[] swerveMod = {
-    new SwerveModule(0), new SwerveModule(1), new SwerveModule(2), new SwerveModule(3)
+    new SwerveModule(0), 
+    new SwerveModule(1), 
+    new SwerveModule(2), 
+    new SwerveModule(3)
   }; // this builds the swerve module in entirety (both drive motor and steer motor) from the SwerveModule.java -- builds 4 of them based on normmal number of swerve modules
 
   public GyroSwerveDrive(RobotStates robotStates, ADIS16470_IMU gyro) {
@@ -172,6 +175,9 @@ public class GyroSwerveDrive extends SubsystemBase {
     }
     
     swerveMod[0].output();
+    swerveMod[1].output();
+    swerveMod[2].output();
+    swerveMod[3].output();
 
     poseEstimator.updateWithTime(
       Timer.getFPGATimestamp(),
@@ -248,7 +254,7 @@ public class GyroSwerveDrive extends SubsystemBase {
     double rot = 0.0;
     if(lock || speakerLock) rot = -turnController.calculate(setAngle, position.getRotation().getDegrees());
     rot *= Constants.MAX_SPEED_MperS / new Rotation2d(Constants.SWERVE_FRAME_LENGTH / 2.0 * 0.0254, Constants.SWERVE_FRAME_WIDTH / 2.0 * 0.0254).getRadians();
-    setModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, position.getRotation()));
+    setModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, position.getRotation())); // third value use rot for stick angle use zSpeed for manual turn
   }
 
   public void resetGyro(){

@@ -167,6 +167,7 @@ public class SwerveModule {
 	public void output(){
 		SmartDashboard.putNumber("speed mod " + index, driveEncoder.getVelocity());
 		SmartDashboard.putNumber("angle mod " + index, new Rotation2d(getStateAngle()).getDegrees());
+		SmartDashboard.putNumber("absolute" + index, (getAbsolutePosition()*180/3.14));
 	}
 
 	public void setDesiredState(SwerveModuleState desiredState) {

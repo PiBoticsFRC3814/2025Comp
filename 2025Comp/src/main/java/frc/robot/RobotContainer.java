@@ -105,26 +105,27 @@ public class RobotContainer {
    */
   private void configureBindings() {
     new JoystickButton(driveStick, Button.kX.value).whileTrue(new GyroReset(m_gyroSwerveDrive));
-    buttonBoard1.button(1).whileTrue(new GoToProcessor(m_elevator));
-    buttonBoard1.button(2).whileTrue(new GoToCoral1Angle(m_elevator, m_angle));
-    buttonBoard1.button(3).whileTrue(new GoToCoral2Angle(m_elevator, m_angle));
-    buttonBoard1.button(4).whileTrue(new GoToIntakeAngle(m_elevator, m_angle));
-    buttonBoard1.button(5).whileTrue(new GoToCoral3Angle(m_elevator, m_angle));
-    buttonBoard1.button(6).whileTrue(new GoToCoral4Angle(m_elevator, m_angle));
-    buttonBoard1.button(7).whileTrue(new GoToNet(m_elevator));
+    new JoystickButton(driveStick, Button.kLeftBumper.value).whileTrue(new AutoAlignLeft(m_gyroSwerveDrive));
+    buttonBoard1.button(1).toggleOnTrue(new GoToProcessor(m_elevator));
+    buttonBoard1.button(2).onTrue(new GoToCoral1Angle(m_elevator, m_angle));
+    buttonBoard1.button(3).onTrue(new FullScore2(m_elevator, m_angle, m_coral));
+    buttonBoard1.button(4).onTrue(new GoToIntakeAngle(m_elevator, m_angle));
+    buttonBoard1.button(5).onTrue(new FullScore3(m_elevator, m_angle, m_coral));
+    buttonBoard1.button(6).onTrue(new FullScoreTop(m_elevator, m_angle, m_coral));
+    buttonBoard1.button(7).onTrue(new GoToNet(m_elevator));
 
-    buttonBoard1.axisGreaterThan(0, 0.5).whileTrue(new ManualElevatorUp(m_elevator));
-    buttonBoard1.axisLessThan(0, -0.5).whileTrue(new ManualElevatorDown(m_elevator));
+    buttonBoard1.axisLessThan(0, -0.5).whileTrue(new ManualElevatorUp(m_elevator));
+    buttonBoard1.axisGreaterThan(0, 0.5).whileTrue(new ManualElevatorDown(m_elevator));
 
 
     buttonBoard2.axisGreaterThan(0,0.5).whileTrue(new ManualAngleUp(m_angle));
     buttonBoard2.axisLessThan(0,-0.5).whileTrue(new ManualAngleDown(m_angle));
-    buttonBoard2.button(1).whileTrue(new IntakeCoral(m_coral));
-    buttonBoard2.button(2).whileTrue(new OuttakeCoral(m_coral));
-    buttonBoard2.button(3).whileTrue(new IntakeAlgae(m_algae));
-    buttonBoard2.button(4).whileTrue(new OuttakeAlgae(m_algae));
+    buttonBoard2.button(3).whileTrue(new IntakeCoral(m_coral));
+    buttonBoard2.button(4).whileTrue(new OuttakeCoral(m_coral));
+    buttonBoard2.button(1).whileTrue(new IntakeAlgae(m_algae));
+    buttonBoard2.button(2).whileTrue(new OuttakeAlgae(m_algae));
     buttonBoard2.button(5).whileTrue(new ClimbUp(m_climber));
-    //new POVButton(buttonBoard, 0).whileTrue(new ClimbUp(m_climber));
+    //new POVButton(buttonBoard, 0).whileTrue(new ClimbUp(m_climber))
   }
 
   
@@ -162,5 +163,8 @@ public class RobotContainer {
     // An example command will be run in autonomous
     m_robotStates.center = chooserFirst.getSelected() == "Center Auto";
     return new PathPlannerAuto(chooserFirst.getSelected());
+  }
+  public Command ArmCoralAngle(){
+    return new AngleArmed(m_angle);
   }
 }

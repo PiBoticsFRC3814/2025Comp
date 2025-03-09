@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.AngleArmed;
 import frc.robot.commands.GyroSwerveDriveCommand;
 import frc.robot.commands.ManualElevator;
 
@@ -19,9 +20,12 @@ import frc.robot.commands.ManualElevator;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Command m_initializecoral;
   //,something
   private final RobotContainer m_robotContainer;
   private final Field2d m_field = new Field2d();
+  boolean autoOnce = false;
+  boolean periodicOnce = false;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -64,15 +68,20 @@ public class Robot extends TimedRobot {
     LimelightHelpers.setPipelineIndex("limelight", 0);
     m_robotContainer.m_gyroSwerveDrive.removeDefaultCommand();
     m_robotContainer.m_gyroSwerveDrive.resetModules();
+    m_initializecoral = m_robotContainer.ArmCoralAngle();
+    m_initializecoral.schedule();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+   
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+
+  }
 
   @Override
   public void teleopInit() {
@@ -98,6 +107,8 @@ public class Robot extends TimedRobot {
     m_robotContainer.m_gyroSwerveDrive.resetModules();
     LimelightHelpers.setPipelineIndex("limelight", 0);
     m_robotContainer.m_robotStates.autonomous = false;
+    m_initializecoral = m_robotContainer.ArmCoralAngle();
+    m_initializecoral.schedule();
     //m_robotContainer.m_elevator.setDefaultCommand(new ManualElevator(() -> m_robotContainer.controlStick.getLeftX(), m_robotContainer.m_elevator));
   }
 
@@ -107,7 +118,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Field", m_field);
     m_field.setRobotPose(m_robotContainer.m_gyroSwerveDrive.getPose());
     SmartDashboard.putNumber("Gyro", m_robotContainer.m_gyro.getAngle(m_robotContainer.m_gyro.getYawAxis()));
-    //SmartDashboard.putBoolean("Note", m_robotContainer.m_intake.gotNote);
+    //SmartDashboard.putBoolean("Note", m_robotContainer.m_intake.gotNote)
   }
 
   @Override
