@@ -86,7 +86,7 @@ public final class Constants {
   public static final double DRIVE_VELOCITY_FACTOR = DRIVE_POSITION_CONVERSION / 60;
   public static final double STEER_POSITION_FACTOR = 2.0 * Math.PI / 12.8; 
   public static final double STEER_VELOCITY_FACTOR = STEER_POSITION_FACTOR / 60;
-  public static final double MAX_SPEED_MperS = 4.56;
+  public static final double MAX_SPEED_MperS = 1.56;
   public static final double Max_Anglular_Speed = 2.0; //change at some point
 
   public static final double[] DRIVE_FF = {
@@ -121,7 +121,7 @@ public final class Constants {
   public static final double ELEVATOR_CORAL3_DISTANCE = 37.0; //Template value, units are millimeters
   public static final double ELEVATOR_CORAL4_DISTANCE = 63.0; //Template value, units are millimeters
   public static final double ELEVATOR_NET_DISTANCE = 0.0; //Template value, units are millimeters
-  public static final double ELEVATOR_INTAKE_DISTANCE = 0.0; //Template value, units are millimeters
+  public static final double ELEVATOR_INTAKE_DISTANCE = 27.5; //Template value, units are millimeters
 
   public static final int[] ELEVATOR_POSITION = {0};
 
@@ -137,7 +137,7 @@ public final class Constants {
   public static final double CORAL_VELOCITY_FACTOR = CORAL_POSITION_FACTOR / (60);
   public static final double CORAL_MIDDLE_ANGLE = -1.533*180/Math.PI;
   public static final double CORAL_TOP_ANGLE = -2.0*180/Math.PI;
-  public static final double CORAL_INTAKE_ANGLE = -1.0*180/Math.PI;
+  public static final double CORAL_INTAKE_ANGLE = -0.947*180/Math.PI;
   public static final double CORAL_ARMED_ANGLE = -0.27*180/Math.PI;
   public static final double CORAL_ANGLE_UP_SPEED = 0.5;
   public static final double CORAL_ANGLE_DOWN_SPEED = -0.5;

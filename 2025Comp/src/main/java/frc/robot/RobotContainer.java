@@ -125,6 +125,7 @@ public class RobotContainer {
     buttonBoard2.button(1).whileTrue(new IntakeAlgae(m_algae));
     buttonBoard2.button(2).whileTrue(new OuttakeAlgae(m_algae));
     buttonBoard2.button(5).whileTrue(new ClimbUp(m_climber));
+    buttonBoard2.button(5).whileFalse(new CilmbStop(m_climber));
     //new POVButton(buttonBoard, 0).whileTrue(new ClimbUp(m_climber))
   }
 
