@@ -77,14 +77,14 @@ public class GyroSwerveDriveCommand extends Command {
   public void execute() {
     //*
     double invert = DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? -1.0 : 1.0;
-    steerAngle = Math.atan2(applyDeadzone(-dZ.getAsDouble() * invert, Constants.JOYSTICK_Z_DEADZONE), applyDeadzone(dZ2.getAsDouble() * invert, Constants.JOYSTICK_Z2_DEADZONE)) / Math.PI * 180.0;
+    steerAngle = Math.atan2(applyDeadzone(-dZ.getAsDouble() * -invert, Constants.JOYSTICK_Z_DEADZONE), applyDeadzone(dZ2.getAsDouble() * -invert, Constants.JOYSTICK_Z2_DEADZONE)) / Math.PI * 180.0;
     driveHeading = (0.5625 < dZ.getAsDouble() * dZ.getAsDouble() + dZ2.getAsDouble() * dZ2.getAsDouble());
     steerAngle = steerAngle < 0.0 ? 360 + steerAngle : steerAngle;
     double mult = triggerPressR.getAsBoolean() ? 1.0 : 0.5;
     //*
     drivetrain.drive(
-        applyDeadzone(-dY.getAsDouble() * invert, Constants.JOYSTICK_X_DEADZONE) * Constants.MAX_SPEED_MperS * mult,
-          applyDeadzone(-dX.getAsDouble() * invert, Constants.JOYSTICK_X_DEADZONE) * Constants.MAX_SPEED_MperS * mult,
+        applyDeadzone(-dY.getAsDouble() * -invert, Constants.JOYSTICK_X_DEADZONE) * Constants.MAX_SPEED_MperS * mult,
+          applyDeadzone(-dX.getAsDouble() * -invert, Constants.JOYSTICK_X_DEADZONE) * Constants.MAX_SPEED_MperS * mult,
             steerAngle,
               driveHeading,
                 false,

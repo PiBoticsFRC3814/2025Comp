@@ -70,7 +70,7 @@ public class SwerveModule {
     	driveMotorConfig.voltageCompensation(Constants.SWERVE_VOLT_COMP);
 		//driveMotor.enableVoltageCompensation(Constants.SWERVE_VOLT_COMP);
 		//driveMotor.setInverted( Constants.DRIVE_MOTOR_INVERTED[swerveModIndex] );
-		driveMotorConfig.openLoopRampRate( 0.2 );
+		driveMotorConfig.openLoopRampRate( 0.1 );
 		driveMotorConfig.smartCurrentLimit(45, 35);
 
     //Stupid old Rev Config System. Will need to update because they broke it in 2025 - Alex

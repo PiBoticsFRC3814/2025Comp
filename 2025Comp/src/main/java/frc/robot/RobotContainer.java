@@ -120,6 +120,8 @@ public class RobotContainer {
 
     buttonBoard2.axisGreaterThan(0,0.5).whileTrue(new ManualAngleUp(m_angle));
     buttonBoard2.axisLessThan(0,-0.5).whileTrue(new ManualAngleDown(m_angle));
+    //buttonBoard2.axisGreaterThan(1,0.5).whileTrue(new Trap(m_angle));
+    //buttonBoard2.axisLessThan(1,-0.5).whileTrue(new Trap(m_angle));
     buttonBoard2.button(3).whileTrue(new IntakeCoral(m_coral));
     buttonBoard2.button(4).whileTrue(new OuttakeCoral(m_coral));
     buttonBoard2.button(1).whileTrue(new IntakeAlgae(m_algae));

@@ -48,10 +48,10 @@ public final class Constants {
 
   public static final double[][] SWERVE_STEER_PID_CONSTANTS = {
     // kP   kI   kD  kIz  kFF  kMn  kMx
-		{ 1.0, 0.2e-1, 0.0, 0.1, 0.0, -1.0, 1.0 }, //Front Right
-		{ 1.0, 0.2e-1, 0.0, 0.1, 0.0, -1.0, 1.0 }, //Rear Right
-		{ 1.0, 0.2e-1, 0.0, 0.1, 0.0, -1.0, 1.0 }, //Rear Left
-		{ 1.0, 0.2e-1, 0.0, 0.1, 0.0, -1.0, 1.0 }  //Front Left
+		{ 0.4, 0.02, 0.00, 0.1, 0.0, -1.0, 1.0 }, //Front Right
+		{ 0.4, 0.02, 0.00, 0.1, 0.0, -1.0, 1.0 }, //Rear Right
+		{ 0.4, 0.02, 0.00, 0.1, 0.0, -1.0, 1.0 }, //Rear Left
+		{ 0.4, 0.02, 0.00, 0.1, 0.0, -1.0, 1.0 }  //Front Left
 	};
 
   public static double[][] SWERVE_DRIVE_PID_CONSTANTS = { 
@@ -86,7 +86,8 @@ public final class Constants {
   public static final double DRIVE_VELOCITY_FACTOR = DRIVE_POSITION_CONVERSION / 60;
   public static final double STEER_POSITION_FACTOR = 2.0 * Math.PI / 12.8; 
   public static final double STEER_VELOCITY_FACTOR = STEER_POSITION_FACTOR / 60;
-  public static final double MAX_SPEED_MperS = 1.56;
+  public static final double MAX_SPEED_MperS = 4.56;
+  public static final double MAX_TURN_SPEED_MperS = 1.0;
   public static final double Max_Anglular_Speed = 2.0; //change at some point
 
   public static final double[] DRIVE_FF = {
@@ -127,6 +128,8 @@ public final class Constants {
 
   public static final int[] CLIMB_MOTOR_IDS = {60,61};
   public static final double[] CLIMB_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
+  public static final double CLIMB_POSITION_CONVERSION = 5*5*4;
+  public static final double CLIMB_MAX_ANGLE = -200.0;
 
   public static final int[] CORAL_MOTOR_IDS = {10,11,12,13};
   public static final int CORAL_MOTOR_CURRENT_LIMIT = 20;
@@ -135,10 +138,10 @@ public final class Constants {
   public static final double[] CORAL_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
   public static final double CORAL_POSITION_FACTOR = 2.0 * Math.PI / (9*9*4); 
   public static final double CORAL_VELOCITY_FACTOR = CORAL_POSITION_FACTOR / (60);
-  public static final double CORAL_MIDDLE_ANGLE = -1.533*180/Math.PI;
-  public static final double CORAL_TOP_ANGLE = -2.0*180/Math.PI;
-  public static final double CORAL_INTAKE_ANGLE = -0.947*180/Math.PI;
-  public static final double CORAL_ARMED_ANGLE = -0.27*180/Math.PI;
+  public static final double CORAL_MIDDLE_ANGLE = -1.533*180/Math.PI + 10;
+  public static final double CORAL_TOP_ANGLE = -2.0*180/Math.PI + 10;
+  public static final double CORAL_INTAKE_ANGLE = -0.947*180/Math.PI +10 ;
+  public static final double CORAL_ARMED_ANGLE = -0.0*180/Math.PI;
   public static final double CORAL_ANGLE_UP_SPEED = 0.5;
   public static final double CORAL_ANGLE_DOWN_SPEED = -0.5;
   
