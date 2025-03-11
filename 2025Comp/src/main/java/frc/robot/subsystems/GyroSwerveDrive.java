@@ -338,25 +338,25 @@ public class GyroSwerveDrive extends SubsystemBase {
     xApplied = translationXController.calculate(robotLocation.getX() - (fieldElementLocation.getX() + xAdjust));
     yApplied = translationYController.calculate(robotLocation.getY() - (fieldElementLocation.getY() + yAdjust));
     if (xApplied < 0){
-      xApplied = xApplied - 0.25;
+      xApplied = xApplied - 0.2;
     } else {
-      xApplied = xApplied + 0.25;
+      xApplied = xApplied + 0.2;
     }
     if (yApplied < 0){
-      yApplied = yApplied - 0.25;
+      yApplied = yApplied - 0.2;
     } else {
-      yApplied = yApplied + 0.25;
+      yApplied = yApplied + 0.2;
     }
     rotApplied = translationRotController.calculate(robotLocation.getRotation().getRadians() - fieldElementLocation.getRotation().getRadians());
-    if(Math.abs(robotLocation.getX() - (fieldElementLocation.getX() + xAdjust)) > 0.04
-      || Math.abs(robotLocation.getY() - (fieldElementLocation.getY() + yAdjust)) > 0.05
+    if(Math.abs(robotLocation.getX() - (fieldElementLocation.getX() + xAdjust)) > 0.01
+      || Math.abs(robotLocation.getY() - (fieldElementLocation.getY() + yAdjust)) > 0.01
       || Math.abs(robotLocation.getRotation().getDegrees() - fieldElementLocation.getRotation().getDegrees()) > 1.0) 
       {
         if(DriverStation.getAlliance().get() == Alliance.Red){
-          if (Math.abs(robotLocation.getX() - (fieldElementLocation.getX() + xAdjust)) < 0.04){
+          if (Math.abs(robotLocation.getX() - (fieldElementLocation.getX() + xAdjust)) < 0.01){
             xApplied = 0.0;
           }
-          if (Math.abs(robotLocation.getY() - (fieldElementLocation.getY() + yAdjust)) > 0.05){
+          if (Math.abs(robotLocation.getY() - (fieldElementLocation.getY() + yAdjust)) > 0.01){
             yApplied = 0.0;
           }
           if (Math.abs(robotLocation.getRotation().getDegrees() - fieldElementLocation.getRotation().getDegrees()) > 1.0){

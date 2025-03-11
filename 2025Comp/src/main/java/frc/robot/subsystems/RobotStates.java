@@ -41,7 +41,7 @@ public class RobotStates extends SubsystemBase {
     fieldElementPose[7] = new Pose2d(13.9,3.3, Rotation2d.fromDegrees(180)); // red side front reef
     fieldElementPose[8] = new Pose2d(13.5,4.7, Rotation2d.fromDegrees(240)); // red side front right reef
     fieldElementPose[9] = new Pose2d(12.6,4.7, Rotation2d.fromDegrees(300)); // red side back right reef
-    fieldElementPose[10] = new Pose2d(12.2-0.483,4.0, Rotation2d.fromDegrees(0)); // red side back reef
+    fieldElementPose[10] = new Pose2d(12.2-0.483+0.051,4.0-0.025, Rotation2d.fromDegrees(0)); // red side back reef
     fieldElementPose[11] = new Pose2d(12.6,3.3, Rotation2d.fromDegrees(60)); // red side back left reef
     fieldElementPose[12] = new Pose2d(0.9,0.7, Rotation2d.fromDegrees(234)); // blue side right choral intake (perspective of blue drivers)
     fieldElementPose[13] = new Pose2d(0.9,7.4, Rotation2d.fromDegrees(126)); // blue side left choral intake
