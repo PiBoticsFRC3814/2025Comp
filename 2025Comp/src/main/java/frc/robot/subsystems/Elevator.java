@@ -44,7 +44,7 @@ public class Elevator extends SubsystemBase {
 		elevatorConfig.voltageCompensation(Constants.SWERVE_VOLT_COMP);
 		elevatorConfig.idleMode(IdleMode.kBrake);
 	  elevatorConfig.inverted(false);
-		elevatorConfig.smartCurrentLimit(40, 75);
+		elevatorConfig.smartCurrentLimit(30, 80);
 	
     elevatorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
     elevatorConfig.closedLoop.pidf(Constants.ELEVATOR_PID_CONSTANTS[0],
