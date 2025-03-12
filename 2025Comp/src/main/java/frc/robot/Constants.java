@@ -48,10 +48,10 @@ public final class Constants {
 
   public static final double[][] SWERVE_STEER_PID_CONSTANTS = {
     // kP   kI   kD  kIz  kFF  kMn  kMx
-		{ 0.4, 0.00, 0.00, 0.1, 0.0, -1.0, 1.0 }, //Front Right
-		{ 0.4, 0.00, 0.00, 0.1, 0.0, -1.0, 1.0 }, //Rear Right
-		{ 0.4, 0.00, 0.00, 0.1, 0.0, -1.0, 1.0 }, //Rear Left
-		{ 0.4, 0.00, 0.00, 0.1, 0.0, -1.0, 1.0 }  //Front Left
+		{ 0.4, 0.01, 0.0, 0.1, 0.0, -1.0, 1.0 }, //Front Right
+		{ 0.4, 0.01, 0.0, 0.1, 0.0, -1.0, 1.0 }, //Rear Right
+		{ 0.4, 0.01, 0.0, 0.1, 0.0, -1.0, 1.0 }, //Rear Left
+		{ 0.4, 0.01, 0.0, 0.1, 0.0, -1.0, 1.0 }  //Front Left
 	};
 
   public static double[][] SWERVE_DRIVE_PID_CONSTANTS = { 
@@ -112,7 +112,6 @@ public final class Constants {
   public static final double[] ELEVATOR_PID_CONSTANTS = {1.0, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
   public static final double ELEVATOR_POSITION_FACTOR = 1.196;
   public static final double ELEVATOR_VELOCITY_FACTOR = 1;
-  public static final int ELAVATOR_CURRENT_LIMIT = 60;
   public static final double ELEVATOR_MAX_UP_SPEED = 1.0;
   public static final double ELEVATOR_MAX_DOWN_SPEED = -0.2;
   public static final double ELEVATOR_HOME_SPEED = -0.3;
@@ -122,7 +121,7 @@ public final class Constants {
   public static final double ELEVATOR_CORAL3_DISTANCE = 37.0; //Template value, units are millimeters
   public static final double ELEVATOR_CORAL4_DISTANCE = 63.0; //Template value, units are millimeters
   public static final double ELEVATOR_NET_DISTANCE = 0.0; //Template value, units are millimeters
-  public static final double ELEVATOR_INTAKE_DISTANCE = 27.5; //Template value, units are millimeters
+  public static final double ELEVATOR_INTAKE_DISTANCE = 25.0; //Template value, units are millimeters
 
   public static final int[] ELEVATOR_POSITION = {0};
 

@@ -35,7 +35,7 @@ public class CoralAngle extends SubsystemBase {
 		angleMotorConfig.idleMode(IdleMode.kBrake);
 	  angleMotorConfig.inverted(false);
     angleMotorConfig.openLoopRampRate( 0.1 );
-		angleMotorConfig.smartCurrentLimit(25, 25);
+		angleMotorConfig.smartCurrentLimit(20, 30);
 	
     angleMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
     angleMotorConfig.closedLoop.pidf(Constants.CORAL_PID_CONSTANTS[0],

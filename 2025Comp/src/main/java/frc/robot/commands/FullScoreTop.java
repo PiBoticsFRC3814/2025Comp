@@ -17,6 +17,6 @@ public class FullScoreTop extends SequentialCommandGroup {
   public FullScoreTop(Elevator coral, CoralAngle angle, CoralIntake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new GoToCoral4Angle(coral, angle), new OuttakeCoral(intake));
+    addCommands(new GoToCoral4Angle(coral, angle), new ShortWait(), new OuttakeCoral(intake));
   }
 }

@@ -52,7 +52,7 @@ public class GyroSwerveDrive extends SubsystemBase {
   private SwerveDriveKinematics kinematics;
   private SwerveDrivePoseEstimator poseEstimator;
   private ADIS16470_IMU gyro;
-  PIDController turnController = new PIDController(0.02, 0.1, 0.001);
+  PIDController turnController = new PIDController(0.02, 0.1, 0.002);
 
   RobotConfig config;
 

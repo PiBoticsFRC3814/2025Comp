@@ -44,7 +44,7 @@ public class Elevator extends SubsystemBase {
 		elevatorConfig.voltageCompensation(Constants.SWERVE_VOLT_COMP);
 		elevatorConfig.idleMode(IdleMode.kBrake);
 	  elevatorConfig.inverted(false);
-		elevatorConfig.smartCurrentLimit(30, 80);
+		elevatorConfig.smartCurrentLimit(80, 100);
 	
     elevatorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
     elevatorConfig.closedLoop.pidf(Constants.ELEVATOR_PID_CONSTANTS[0],
@@ -98,7 +98,7 @@ public class Elevator extends SubsystemBase {
     //elevatorPIDController.setReference(position, ControlType.kPosition);
     //System.out.println("position " + elevatorEncoder.getPosition() + " offset " + elevatorOffset + " desired " + position);
     //return Math.abs(elevatorEncoder.getPosition() - position) <= 10;
-    if (position - elevatorEncoder.getPosition() >= 1.0){
+    if (position - elevatorEncoder.getPosition() >= 0.5){
       elevator.set(1.0);
       return false;
     } else{

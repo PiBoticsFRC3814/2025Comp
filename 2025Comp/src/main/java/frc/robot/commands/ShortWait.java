@@ -6,29 +6,22 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
-import frc.robot.subsystems.GyroSwerveDrive;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class MoveOffLine extends Command {
-  /** Creates a new MoveOffLine. */
+public class ShortWait extends Command {
+  /** Creates a new ShortWait. */
   boolean start = false;
   boolean done = false;
-  GyroSwerveDrive m_drive;
   Timer time;
 
-  
-  public MoveOffLine(GyroSwerveDrive drive) {
+  public ShortWait() {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_drive = drive;
     time = new Timer();
-    addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    start = true;
     done = false;
     time.reset();
     time.start();
@@ -37,12 +30,9 @@ public class MoveOffLine extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (time.get() < 2.0){
-      m_drive.drive(0.5,0,m_drive.getGyroAngle(),false,false,0.0);
-      done = false;
-    } else {
-      m_drive.drive(0.0,0.0,m_drive.getGyroAngle(),false,false,0.0);
-    }
+    if (time.get() > 0.05){
+      done = true;
+    } else done = false ;
   }
 
   // Called once the command ends or is interrupted.
@@ -52,7 +42,6 @@ public class MoveOffLine extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    start = false;
     return done;
   }
 }
