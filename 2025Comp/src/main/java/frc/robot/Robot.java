@@ -107,8 +107,8 @@ public class Robot extends TimedRobot {
     m_robotContainer.m_gyroSwerveDrive.resetModules();
     LimelightHelpers.setPipelineIndex("limelight", 0);
     m_robotContainer.m_robotStates.autonomous = false;
-    m_initializecoral = m_robotContainer.ArmCoralAngle();
-    m_initializecoral.schedule();
+    //m_initializecoral = m_robotContainer.ArmCoralAngle();
+    //m_initializecoral.schedule();
     //m_robotContainer.m_elevator.setDefaultCommand(new ManualElevator(() -> m_robotContainer.controlStick.getLeftX(), m_robotContainer.m_elevator));
   }
 
