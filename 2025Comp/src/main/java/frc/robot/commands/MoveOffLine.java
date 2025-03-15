@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -16,6 +17,7 @@ public class MoveOffLine extends Command {
   boolean done = false;
   GyroSwerveDrive m_drive;
   Timer time;
+  double invert = 0.0;
 
   
   public MoveOffLine(GyroSwerveDrive drive) {
@@ -28,6 +30,7 @@ public class MoveOffLine extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    invert = DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? -1.0 : 1.0;
     start = true;
     done = false;
     time.reset();
@@ -37,8 +40,9 @@ public class MoveOffLine extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
     if (time.get() < 2.0){
-      m_drive.drive(0.5,0,m_drive.getGyroAngle(),false,false,0.0);
+      m_drive.drive(invert,0,m_drive.getGyroAngle(),false,false,0.0);
       done = false;
     } else {
       m_drive.drive(0.0,0.0,m_drive.getGyroAngle(),false,false,0.0);

@@ -44,7 +44,7 @@ public class Elevator extends SubsystemBase {
 		elevatorConfig.voltageCompensation(Constants.SWERVE_VOLT_COMP);
 		elevatorConfig.idleMode(IdleMode.kBrake);
 	  elevatorConfig.inverted(false);
-		elevatorConfig.smartCurrentLimit(80, 100);
+		elevatorConfig.smartCurrentLimit(40, 40);
 	
     elevatorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
     elevatorConfig.closedLoop.pidf(Constants.ELEVATOR_PID_CONSTANTS[0],
@@ -76,7 +76,11 @@ public class Elevator extends SubsystemBase {
   }
 
   public void manualGoDown() {
-    elevator.set(Constants.ELEVATOR_MAX_DOWN_SPEED);   
+    //if (elevatorEncoder.getPosition() > 0.0){
+      elevator.set(Constants.ELEVATOR_MAX_DOWN_SPEED);
+    //} else{
+    //elevator.set(0.0);
+    //}   
   }
 
   public void stopElevator(){
@@ -100,9 +104,11 @@ public class Elevator extends SubsystemBase {
     //return Math.abs(elevatorEncoder.getPosition() - position) <= 10;
     if (position - elevatorEncoder.getPosition() >= 0.5){
       elevator.set(1.0);
+      System.out.println(elevatorEncoder.getPosition());
       return false;
     } else{
-      elevator.set(0.1);
+      elevator.set(0.0);
+      System.out.println("elevator at hight");
       return true;
     }
   }

@@ -52,7 +52,7 @@ public class GyroSwerveDrive extends SubsystemBase {
   private SwerveDriveKinematics kinematics;
   private SwerveDrivePoseEstimator poseEstimator;
   private ADIS16470_IMU gyro;
-  PIDController turnController = new PIDController(0.02, 0.1, 0.002);
+  PIDController turnController = new PIDController(0.04, 0.05, 0.002);
 
   RobotConfig config;
 
@@ -309,7 +309,10 @@ public class GyroSwerveDrive extends SubsystemBase {
     Pose2d robotLocation;
     double xApplied;
     double yApplied;
+    double xDistance;
+    double yDistance;
     double rotApplied;
+    double rotNeed;
     double lrAdjust = offset;
 
     int tagID = getAprilTagID();
@@ -335,19 +338,49 @@ public class GyroSwerveDrive extends SubsystemBase {
       }
     }    
     robotLocation = getPose();
-    xApplied = translationXController.calculate(robotLocation.getX() - (fieldElementLocation.getX() + xAdjust));
-    yApplied = translationYController.calculate(robotLocation.getY() - (fieldElementLocation.getY() + yAdjust));
-    if (xApplied < 0){
-      xApplied = xApplied - 0.2;
-    } else {
-      xApplied = xApplied + 0.2;
+    
+    xDistance = robotLocation.getX() - (fieldElementLocation.getX() + xAdjust);  //distance needed to trqavel in X
+    yDistance = robotLocation.getY() - (fieldElementLocation.getY() + yAdjust);  // distance needed to travel in Y
+    
+    //scaling x speed with minimum of 0.33 m/s and max speed of 4.56 m/s if 2 meters or more away
+    xApplied = Math.abs(xDistance*2.28);
+    if (xApplied > Constants.MAX_SPEED_MperS){
+      xApplied = Constants.MAX_SPEED_MperS;
     }
-    if (yApplied < 0){
-      yApplied = yApplied - 0.2;
-    } else {
-      yApplied = yApplied + 0.2;
+    if (xApplied < Constants.MIN_SPEED_MperS){
+      xApplied = Constants.MIN_SPEED_MperS;
     }
-    rotApplied = translationRotController.calculate(robotLocation.getRotation().getRadians() - fieldElementLocation.getRotation().getRadians());
+    //scaling y speed with minimum of 0.33 m/s and max speed of 4.56 m/s if 2 meters or more away
+    yApplied = Math.abs(yDistance*2.28); 
+    if (yApplied > Constants.MAX_SPEED_MperS) {
+      yApplied = Constants.MAX_SPEED_MperS;
+    }
+    if (yApplied < Constants.MIN_SPEED_MperS){
+      yApplied = Constants.MIN_SPEED_MperS;
+    }
+    
+    //if x or y distance is negative reverse direction
+    if (xDistance < 0){
+      xApplied = -xApplied;
+    }
+    if (yDistance < 0){
+      yApplied = -yApplied;
+    }
+       
+    rotNeed = robotLocation.getRotation().getRadians() - fieldElementLocation.getRotation().getRadians();
+
+    System.out.println("x= " + xDistance + ", y= " + yDistance + ", rot= " +rotNeed);
+    
+    //rotation speed max speed at 45 degrees?  i think?
+    rotApplied = Math.abs(rotNeed*1.27);
+    
+    if (rotApplied > Constants.MAX_TURN_SPEED_MperS){
+      rotApplied = Constants.MAX_TURN_SPEED_MperS;
+    }
+    if (rotApplied < Constants.MIN_TURN_SPEED_MperS){
+      rotApplied = Constants.MAX_TURN_SPEED_MperS;
+    }
+
     if(Math.abs(robotLocation.getX() - (fieldElementLocation.getX() + xAdjust)) > 0.01
       || Math.abs(robotLocation.getY() - (fieldElementLocation.getY() + yAdjust)) > 0.01
       || Math.abs(robotLocation.getRotation().getDegrees() - fieldElementLocation.getRotation().getDegrees()) > 1.0) 
@@ -362,7 +395,7 @@ public class GyroSwerveDrive extends SubsystemBase {
           if (Math.abs(robotLocation.getRotation().getDegrees() - fieldElementLocation.getRotation().getDegrees()) > 1.0){
             rotApplied = 0.0;
           }
-          setModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(-xApplied, -yApplied, -rotApplied, robotLocation.getRotation()));
+          setModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(xApplied, yApplied, rotApplied, robotLocation.getRotation()));
           return false;    
         } else{
           setModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(xApplied, yApplied, rotApplied, robotLocation.getRotation()));

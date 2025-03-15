@@ -53,6 +53,7 @@ public class RobotContainer {
   public final CoralAngle m_angle = new CoralAngle(); 
   public final AlgaeIntake m_algae = new AlgaeIntake();
   public final Climber m_climber = new Climber();
+  public final TrapMotor m_trap = new TrapMotor();
   public final RobotStates m_robotStates = new RobotStates();
   public final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
   public final GyroSwerveDrive m_gyroSwerveDrive = new GyroSwerveDrive(m_robotStates, m_gyro);
@@ -108,10 +109,10 @@ public class RobotContainer {
     new JoystickButton(driveStick, Button.kLeftBumper.value).whileTrue(new AutoAlignLeft(m_gyroSwerveDrive));
     buttonBoard1.button(1).toggleOnTrue(new GoToProcessor(m_elevator));
     buttonBoard1.button(2).onTrue(new GoToCoral1Angle(m_elevator, m_angle));
-    buttonBoard1.button(3).onTrue(new FullScore2(m_elevator, m_angle, m_coral));
+    buttonBoard1.button(3).onTrue(new GoToCoral2Angle(m_elevator, m_angle));
     buttonBoard1.button(4).onTrue(new GoToIntakeAngle(m_elevator, m_angle));
-    buttonBoard1.button(5).onTrue(new FullScore3(m_elevator, m_angle, m_coral));
-    buttonBoard1.button(6).onTrue(new FullScoreTop(m_elevator, m_angle, m_coral));
+    buttonBoard1.button(5).onTrue(new GoToCoral3Angle(m_elevator, m_angle));
+    buttonBoard1.button(6).onTrue(new GoToCoral4Angle(m_elevator, m_angle));
     buttonBoard1.button(7).onTrue(new GoToNet(m_elevator));
 
     buttonBoard1.axisLessThan(0, -0.5).whileTrue(new ManualElevatorUp(m_elevator));
@@ -120,8 +121,8 @@ public class RobotContainer {
 
     buttonBoard2.axisGreaterThan(0,0.5).whileTrue(new ManualAngleUp(m_angle));
     buttonBoard2.axisLessThan(0,-0.5).whileTrue(new ManualAngleDown(m_angle));
-    //buttonBoard2.axisGreaterThan(1,0.5).whileTrue(new Trap(m_angle));
-    //buttonBoard2.axisLessThan(1,-0.5).whileTrue(new Trap(m_angle));
+    buttonBoard2.axisGreaterThan(1,0.5).whileTrue(new TrapClose(m_trap));
+    buttonBoard2.axisLessThan(1,-0.5).whileTrue(new TrapOpen(m_trap));
     buttonBoard2.button(3).whileTrue(new IntakeCoral(m_coral));
     buttonBoard2.button(4).whileTrue(new OuttakeCoral(m_coral));
     buttonBoard2.button(1).whileTrue(new IntakeAlgae(m_algae));
@@ -169,5 +170,8 @@ public class RobotContainer {
   }
   public Command ArmCoralAngle(){
     return new AngleArmed(m_angle);
+  }
+  public Command AutoMoveOffLine(){
+    return new MoveOffLine(m_gyroSwerveDrive);
   }
 }

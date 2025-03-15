@@ -38,6 +38,7 @@ public class AutoAlignLeft extends Command {
   public void execute() {
     if (isValidTarget){
       inProperPosition = m_drive.goToFieldElementLocation(Constants.AUTO_LEFT_OFFSET);
+      System.out.println("moving to location");
     } else {
       System.out.println("no Valid Target");
       inProperPosition = true;

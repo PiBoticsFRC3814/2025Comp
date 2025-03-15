@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,12 +21,14 @@ import frc.robot.commands.ManualElevator;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private Command m_initializecoral;
+  //private Command m_initializecoral;
+  private Command m_getOffLine;
   //,something
   private final RobotContainer m_robotContainer;
   private final Field2d m_field = new Field2d();
   boolean autoOnce = false;
   boolean periodicOnce = false;
+  //public CameraServer camera1;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -35,6 +38,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    CameraServer.startAutomaticCapture();
+    
   }
 
   /**
@@ -68,13 +73,13 @@ public class Robot extends TimedRobot {
     LimelightHelpers.setPipelineIndex("limelight", 0);
     m_robotContainer.m_gyroSwerveDrive.removeDefaultCommand();
     m_robotContainer.m_gyroSwerveDrive.resetModules();
-    m_initializecoral = m_robotContainer.ArmCoralAngle();
-    m_initializecoral.schedule();
+    //m_initializecoral = m_robotContainer.ArmCoralAngle();
+    //m_initializecoral.schedule();
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
-   
+    //if (m_autonomousCommand != null) {
+      //m_autonomousCommand.schedule();
+    m_getOffLine = m_robotContainer.AutoMoveOffLine();
+    m_getOffLine.schedule();   
   }
 
   /** This function is called periodically during autonomous. */
