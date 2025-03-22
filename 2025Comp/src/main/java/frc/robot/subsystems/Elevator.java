@@ -35,7 +35,9 @@ public class Elevator extends SubsystemBase {
   SparkClosedLoopController elevatorPIDController;
   boolean elevatorIsHomed = true;
   boolean elevatorAtPos = false;
-  DigitalInput elevatorDownLimit;
+  DigitalInput[] elevatorLimit;
+  int elevatorIndex = 0;
+
   double elevatorOffset = 0;
 
   public Elevator() {
@@ -67,7 +69,11 @@ public class Elevator extends SubsystemBase {
 
     forwardElevatorLimit = elevator.getForwardLimitSwitch();
     reverseElevatorLimit = elevator.getReverseLimitSwitch();
-    elevatorDownLimit = new DigitalInput(Constants.ELEVATOR_POSITION[0]);
+    elevatorLimit = new DigitalInput[4];
+    elevatorLimit[0] = new DigitalInput(Constants.ELEVATOR_POSITION[0]);
+    elevatorLimit[1] = new DigitalInput(Constants.ELEVATOR_POSITION[1]);
+    elevatorLimit[2] = new DigitalInput(Constants.ELEVATOR_POSITION[2]);
+    elevatorLimit[3] = new DigitalInput(Constants.ELEVATOR_POSITION[3]);
 
   }
 
@@ -76,39 +82,41 @@ public class Elevator extends SubsystemBase {
   }
 
   public void manualGoDown() {
-    //if (elevatorEncoder.getPosition() > 0.0){
+    System.out.println("down");
+    if (elevatorEncoder.getPosition() > 0.0){
       elevator.set(Constants.ELEVATOR_MAX_DOWN_SPEED);
-    //} else{
-    //elevator.set(0.0);
-    //}   
+    } else{
+    elevator.set(0.0);
+    }   
   }
 
   public void stopElevator(){
     elevator.set(0.0);
   } 
 
-  public void homeElevator(){
-    if (!elevatorDownLimit.get()){
-      elevator.set(Constants.ELEVATOR_MAX_DOWN_SPEED);
-    } else {
-      elevator.set(0.0);
-      elevatorEncoder.setPosition(0.0);
-      elevatorIsHomed = true;
-    }
-  }
-
   public boolean ArmDistance(double position) {
     elevatorIsHomed = false;
     //elevatorPIDController.setReference(position, ControlType.kPosition);
     //System.out.println("position " + elevatorEncoder.getPosition() + " offset " + elevatorOffset + " desired " + position);
     //return Math.abs(elevatorEncoder.getPosition() - position) <= 10;
-    if (position - elevatorEncoder.getPosition() >= 0.5){
+    if (position - elevatorEncoder.getPosition() >= 0.2){
       elevator.set(1.0);
       System.out.println(elevatorEncoder.getPosition());
       return false;
     } else{
       elevator.set(0.0);
       System.out.println("elevator at hight");
+      return true;
+    }
+  }
+
+  public boolean LimitDistance(int index){
+    elevatorIndex = index;
+    if(elevatorLimit[index].get()){
+      elevator.set(1.0);
+      return false;
+    } else {
+      elevator.set(0.0);
       return true;
     }
   }

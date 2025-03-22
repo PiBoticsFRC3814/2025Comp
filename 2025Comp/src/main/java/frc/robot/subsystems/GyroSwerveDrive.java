@@ -304,108 +304,15 @@ public class GyroSwerveDrive extends SubsystemBase {
     }
   }
 
-  public boolean goToFieldElementLocation(double offset) { 
+  public void goToFieldElementLocation(double xSpeed, double ySpeed, double rotSpeed, Rotation2d angle) { 
     //this will try to go to a specific april tag and/or scoring location.  this is going to need ALOT of dbugging.
-    Pose2d robotLocation;
-    double xApplied;
-    double yApplied;
-    double xDistance;
-    double yDistance;
-    double rotApplied;
-    double rotNeed;
-    double lrAdjust = offset;
+    double xApplied = xSpeed;
+    double yApplied = ySpeed;
+    double rotApplied = rotSpeed;
+    Rotation2d robotAngle = angle;
 
-    int tagID = getAprilTagID();
-    if (tagID>0){
-      fieldElementLocation = getFieldElementLocation();
-      if (tagID == 8 || tagID == 9 || tagID == 20 || tagID == 19){
-        xAdjust = lrAdjust*Math.cos(Math.toRadians(60));
-      } else if(tagID == 6 || tagID == 11 || tagID == 22 || tagID == 17){
-        xAdjust = -lrAdjust*Math.cos(Math.toRadians(60));
-      } else if(tagID == 7 || tagID == 10 || tagID == 21 || tagID == 18){
-        xAdjust = lrAdjust;
-      } else{
-        xAdjust = 0.0;
-      }
-      if (tagID == 8 || tagID == 6 || tagID == 20 || tagID == 22){
-        yAdjust = lrAdjust*Math.sin(Math.toRadians(60));
-      } else if(tagID == 9 || tagID == 11 || tagID == 19 || tagID == 17){
-        yAdjust = -lrAdjust*Math.sin(Math.toRadians(60));
-      } else if(tagID == 7 || tagID == 10 || tagID == 21 || tagID == 18){
-        yAdjust = 0.0;
-      } else{
-        yAdjust = 0.0;
-      }
-    }    
-    robotLocation = getPose();
+    setModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(xApplied, yApplied, rotApplied, robotAngle));
     
-    xDistance = robotLocation.getX() - (fieldElementLocation.getX() + xAdjust);  //distance needed to trqavel in X
-    yDistance = robotLocation.getY() - (fieldElementLocation.getY() + yAdjust);  // distance needed to travel in Y
-    
-    //scaling x speed with minimum of 0.33 m/s and max speed of 4.56 m/s if 2 meters or more away
-    xApplied = Math.abs(xDistance*2.28);
-    if (xApplied > Constants.MAX_SPEED_MperS){
-      xApplied = Constants.MAX_SPEED_MperS;
-    }
-    if (xApplied < Constants.MIN_SPEED_MperS){
-      xApplied = Constants.MIN_SPEED_MperS;
-    }
-    //scaling y speed with minimum of 0.33 m/s and max speed of 4.56 m/s if 2 meters or more away
-    yApplied = Math.abs(yDistance*2.28); 
-    if (yApplied > Constants.MAX_SPEED_MperS) {
-      yApplied = Constants.MAX_SPEED_MperS;
-    }
-    if (yApplied < Constants.MIN_SPEED_MperS){
-      yApplied = Constants.MIN_SPEED_MperS;
-    }
-    
-    //if x or y distance is negative reverse direction
-    if (xDistance < 0){
-      xApplied = -xApplied;
-    }
-    if (yDistance < 0){
-      yApplied = -yApplied;
-    }
-       
-    rotNeed = robotLocation.getRotation().getRadians() - fieldElementLocation.getRotation().getRadians();
-
-    System.out.println("x= " + xDistance + ", y= " + yDistance + ", rot= " +rotNeed);
-    
-    //rotation speed max speed at 45 degrees?  i think?
-    rotApplied = Math.abs(rotNeed*1.27);
-    
-    if (rotApplied > Constants.MAX_TURN_SPEED_MperS){
-      rotApplied = Constants.MAX_TURN_SPEED_MperS;
-    }
-    if (rotApplied < Constants.MIN_TURN_SPEED_MperS){
-      rotApplied = Constants.MAX_TURN_SPEED_MperS;
-    }
-
-    if(Math.abs(robotLocation.getX() - (fieldElementLocation.getX() + xAdjust)) > 0.01
-      || Math.abs(robotLocation.getY() - (fieldElementLocation.getY() + yAdjust)) > 0.01
-      || Math.abs(robotLocation.getRotation().getDegrees() - fieldElementLocation.getRotation().getDegrees()) > 1.0) 
-      {
-        if(DriverStation.getAlliance().get() == Alliance.Red){
-          if (Math.abs(robotLocation.getX() - (fieldElementLocation.getX() + xAdjust)) < 0.01){
-            xApplied = 0.0;
-          }
-          if (Math.abs(robotLocation.getY() - (fieldElementLocation.getY() + yAdjust)) > 0.01){
-            yApplied = 0.0;
-          }
-          if (Math.abs(robotLocation.getRotation().getDegrees() - fieldElementLocation.getRotation().getDegrees()) > 1.0){
-            rotApplied = 0.0;
-          }
-          setModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(xApplied, yApplied, rotApplied, robotLocation.getRotation()));
-          return false;    
-        } else{
-          setModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(xApplied, yApplied, rotApplied, robotLocation.getRotation()));
-          return false;
-        } 
-      } else {
-        setModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(0.0,0.0,0.0,robotLocation.getRotation()));
-        System.out.println("I made it");
-        return true;
-      }
   }
   
   public double getGyroAngle(){

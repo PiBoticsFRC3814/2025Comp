@@ -106,8 +106,8 @@ public class RobotContainer {
    */
   private void configureBindings() {
     new JoystickButton(driveStick, Button.kX.value).whileTrue(new GyroReset(m_gyroSwerveDrive));
-    new JoystickButton(driveStick, Button.kLeftBumper.value).whileTrue(new AutoAlignLeft(m_gyroSwerveDrive));
-    buttonBoard1.button(1).toggleOnTrue(new GoToProcessor(m_elevator));
+    new JoystickButton(driveStick, Button.kLeftBumper.value).whileTrue(new AutoAlignLeft(m_gyroSwerveDrive, Constants.AUTO_LEFT_OFFSET, m_robotStates));
+    buttonBoard1.button(1).onTrue(new GoToProcessor(m_elevator));
     buttonBoard1.button(2).onTrue(new GoToCoral1Angle(m_elevator, m_angle));
     buttonBoard1.button(3).onTrue(new GoToCoral2Angle(m_elevator, m_angle));
     buttonBoard1.button(4).onTrue(new GoToIntakeAngle(m_elevator, m_angle));

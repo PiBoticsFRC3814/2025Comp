@@ -31,12 +31,15 @@ public class GoToCoral4 extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    inPosition = m_elevator.ArmDistance(Constants.ELEVATOR_CORAL4_DISTANCE);
+    //inPosition = m_elevator.ArmDistance(Constants.ELEVATOR_CORAL4_DISTANCE);
+    inPosition = m_elevator.LimitDistance(0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_elevator.stopElevator();
+  }
 
   // Returns true when the command should end.
   @Override

@@ -87,9 +87,9 @@ public final class Constants {
   public static final double STEER_POSITION_FACTOR = 2.0 * Math.PI / 12.8; 
   public static final double STEER_VELOCITY_FACTOR = STEER_POSITION_FACTOR / 60;
   public static final double MAX_SPEED_MperS = 4.56;
-  public static final double MIN_SPEED_MperS = 0.33;
+  public static final double MIN_SPEED_MperS = 0.05;
   public static final double MAX_TURN_SPEED_MperS = 1.0;
-  public static final double MIN_TURN_SPEED_MperS = 0.25;
+  public static final double MIN_TURN_SPEED_MperS = 0.05;
   public static final double Max_Anglular_Speed = 2.0; //change at some point
 
   public static final double[] DRIVE_FF = {
@@ -117,38 +117,41 @@ public final class Constants {
   public static final double ELEVATOR_MAX_UP_SPEED = 1.0;
   public static final double ELEVATOR_MAX_DOWN_SPEED = -1.0;
   public static final double ELEVATOR_HOME_SPEED = -0.3;
+
+  //I swear these stupid values are gonna be the death of me save me java gods i beg -Gyrp
   public static final double ELEVATOR_PROCCESOR_DISTANCE = 0.0; //this is on the ground no elevator hight needed
   public static final double ELEVATOR_CORAL1_DISTANCE = 0.0; // ground
-  public static final double ELEVATOR_CORAL2_DISTANCE = 108.955; // measured encoder count was 108.955
-  public static final double ELEVATOR_CORAL3_DISTANCE = 165.729; // measured encoder count was 165.729
-  public static final double ELEVATOR_CORAL4_DISTANCE = 280.131; // measured encoder count was 280.131
+  public static final double ELEVATOR_CORAL2_DISTANCE = 85.0; // these are not staying the same the same... annoying.
+  public static final double ELEVATOR_CORAL3_DISTANCE = 130.0; // 
+  public static final double ELEVATOR_CORAL4_DISTANCE = 287.0; // 
   public static final double ELEVATOR_NET_DISTANCE = 0.0; // no ball so no net
-  public static final double ELEVATOR_INTAKE_DISTANCE = 99.0; // measured encoder count was 85.915
+  public static final double ELEVATOR_INTAKE_DISTANCE = 96; // 
+  //FRAME is 11 inches away from tag
 
-  public static final int[] ELEVATOR_POSITION = {0};
+  public static final int[] ELEVATOR_POSITION = {0,1,2,3};
 
   public static final int[] CLIMB_MOTOR_IDS = {60,61,59};
   public static final double[] CLIMB_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
   public static final double CLIMB_POSITION_CONVERSION = 2 * Math.PI / (5*5*4);
   public static final double CLIMB_VELOCITY_CONVERSION = 1.0;
-  public static final double CLIMB_MAX_ANGLE = 165.0; //175.0; //153.0;
+  public static final double CLIMB_MAX_ANGLE = 180.0; //175.0; //153.0;
 
   public static final int[] CORAL_MOTOR_IDS = {10,11,12,13};
   public static final int CORAL_MOTOR_CURRENT_LIMIT = 20;
   public static final int TRAP_MOTOR_CURRENT_LIMIT = 40;
-  public static final double CORAL_MAX_IN_SPEED = 0.5;
-  public static final double CORAL_MAX_OUT_SPEED = -0.5;
+  public static final double CORAL_MAX_IN_SPEED = 0.8;
+  public static final double CORAL_MAX_OUT_SPEED = -0.8;
   public static final double TRAP_MAX_OPEN_SPEED = 0.3;
   public static final double TRAP_MAX_CLOSE_SPEED = -0.3;
   public static final double[] CORAL_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
   public static final double CORAL_POSITION_FACTOR = 2.0 * Math.PI / (9*9*4); 
   public static final double CORAL_VELOCITY_FACTOR = CORAL_POSITION_FACTOR / (60);
   public static final double CORAL_MIDDLE_ANGLE = -1.533*180/Math.PI + 10;
-  public static final double CORAL_TOP_ANGLE = -2.0*180/Math.PI + 10;
+  public static final double CORAL_TOP_ANGLE = -2.36*180/Math.PI + 10; //-2
   public static final double CORAL_INTAKE_ANGLE = -0.947*180/Math.PI +10 ;
   public static final double CORAL_ARMED_ANGLE = -0.0*180/Math.PI;
-  public static final double CORAL_ANGLE_UP_SPEED = 0.5;
-  public static final double CORAL_ANGLE_DOWN_SPEED = -0.5;
+  public static final double CORAL_ANGLE_UP_SPEED = 0.2;
+  public static final double CORAL_ANGLE_DOWN_SPEED = -0.2;
   
 
   public static final int ALGAE_MOTOR_CURRENT_LIMIT = 20;

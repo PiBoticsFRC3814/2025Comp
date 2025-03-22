@@ -77,10 +77,10 @@ public class CoralAngle extends SubsystemBase {
  }
 
  public boolean goToMiddleCoral(){
-  if (getMotorAngleDegrees() < Constants.CORAL_MIDDLE_ANGLE-1){
+  if (getMotorAngleDegrees() < Constants.CORAL_MIDDLE_ANGLE-0.5){
     angleMotor.set(setAngleMotorSpeed(Constants.CORAL_MIDDLE_ANGLE)+0.3);
   }
-  else if (getMotorAngleDegrees() > Constants.CORAL_MIDDLE_ANGLE+1){
+  else if (getMotorAngleDegrees() > Constants.CORAL_MIDDLE_ANGLE+0.5){
     angleMotor.set(-setAngleMotorSpeed(Constants.CORAL_MIDDLE_ANGLE)-0.3);  
   }
   else {
@@ -91,11 +91,11 @@ public class CoralAngle extends SubsystemBase {
  }
 
  public boolean goToTopCoral(){
-  if (getMotorAngleDegrees() < Constants.CORAL_TOP_ANGLE-1){
+  if (getMotorAngleDegrees() < Constants.CORAL_TOP_ANGLE-0.5){
     angleMotor.set(setAngleMotorSpeed(Constants.CORAL_TOP_ANGLE)+0.3);
     return false;
   }
-  else if (getMotorAngleDegrees() > Constants.CORAL_TOP_ANGLE+1){
+  else if (getMotorAngleDegrees() > Constants.CORAL_TOP_ANGLE+0.5){
     angleMotor.set(-setAngleMotorSpeed(Constants.CORAL_TOP_ANGLE)-0.3);
     return false;  
   }
@@ -106,10 +106,10 @@ public class CoralAngle extends SubsystemBase {
  }
 
  public boolean goToIntakeCoral(){
-  if (getMotorAngleDegrees() < Constants.CORAL_INTAKE_ANGLE-1){
+  if (getMotorAngleDegrees() < Constants.CORAL_INTAKE_ANGLE-0.5){
     angleMotor.set(setAngleMotorSpeed(Constants.CORAL_INTAKE_ANGLE)+0.3);
   }
-  else if (getMotorAngleDegrees() > Constants.CORAL_INTAKE_ANGLE+1){
+  else if (getMotorAngleDegrees() > Constants.CORAL_INTAKE_ANGLE+0.5){
     //experiment with -1 and +1 for range
     angleMotor.set(-setAngleMotorSpeed(Constants.CORAL_INTAKE_ANGLE)-0.3);  
     //it might not exactly reach the angle, so we need to add a range
@@ -122,10 +122,10 @@ public class CoralAngle extends SubsystemBase {
  }
 
  public boolean goToArmedCoral(){
-  if (getMotorAngleDegrees() > Constants.CORAL_ARMED_ANGLE+1){
+  if (getMotorAngleDegrees() > Constants.CORAL_ARMED_ANGLE+0.2){
     angleMotor.set(-setAngleMotorSpeed(Constants.CORAL_ARMED_ANGLE)-0.3);
   }
-  else if (getMotorAngleDegrees() < Constants.CORAL_ARMED_ANGLE-1){
+  else if (getMotorAngleDegrees() < Constants.CORAL_ARMED_ANGLE-0.2){
     angleMotor.set(setAngleMotorSpeed(Constants.CORAL_ARMED_ANGLE)+0.3);  
   }
   else {
