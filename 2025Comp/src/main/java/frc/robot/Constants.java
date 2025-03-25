@@ -141,8 +141,8 @@ public final class Constants {
   public static final int TRAP_MOTOR_CURRENT_LIMIT = 40;
   public static final double CORAL_MAX_IN_SPEED = 0.8;
   public static final double CORAL_MAX_OUT_SPEED = -0.8;
-  public static final double TRAP_MAX_OPEN_SPEED = 0.3;
-  public static final double TRAP_MAX_CLOSE_SPEED = -0.3;
+  public static final double TRAP_MAX_OPEN_SPEED = 0.5;
+  public static final double TRAP_MAX_CLOSE_SPEED = -0.5;
   public static final double[] CORAL_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
   public static final double CORAL_POSITION_FACTOR = 2.0 * Math.PI / (9*9*4); 
   public static final double CORAL_VELOCITY_FACTOR = CORAL_POSITION_FACTOR / (60);
