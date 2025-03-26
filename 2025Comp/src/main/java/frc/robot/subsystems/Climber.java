@@ -70,27 +70,12 @@ public class Climber extends SubsystemBase {
     return degrees;
    }
 
-  public boolean climbUp(){
-    if (getClimbDegrees() < Constants.CLIMB_MAX_ANGLE){
-      climberMotor1.set(0.5);
-      return false;
-    }   else if (getClimbDegrees() >= Constants.CLIMB_MAX_ANGLE){ //Constants.CORAL_MIDDLE_ANGLE+1
-      climberMotor1.set(0.0);
-      System.out.println("made it1");
-      return true;  
-    }else{
-      climberMotor1.set(0.0);
-      System.out.println("made it2");
-      return true;
-    }
+  public void climbUp(){
+      climberMotor1.set(0.4);
   }
 
   public void climbDown(){
-    if (climberEncoder.getPosition() < Constants.CLIMB_MAX_ANGLE){
       climberMotor1.set(-0.4);
-    } else{
-      climberMotor1.set(0.0);
-    }
    
   }
 

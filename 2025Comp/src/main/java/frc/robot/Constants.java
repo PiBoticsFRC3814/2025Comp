@@ -73,7 +73,7 @@ public final class Constants {
   public static final double AUTO_RIGHT_OFFSET = 0.0;
 
   public static final boolean[] STEER_MOTOR_INVERTED = {false, false, false, false};
-  public static final boolean[] DRIVE_MOTOR_INVERTED = {true, false, true, false};
+  public static final boolean[] DRIVE_MOTOR_INVERTED = {true, false, true, true};
 
   /*
    * Swerve constants for swerve module calculations
@@ -134,7 +134,7 @@ public final class Constants {
   public static final double[] CLIMB_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
   public static final double CLIMB_POSITION_CONVERSION = 2 * Math.PI / (5*5*4);
   public static final double CLIMB_VELOCITY_CONVERSION = 1.0;
-  public static final double CLIMB_MAX_ANGLE = 180.0; //175.0; //153.0;
+  //public static final double CLIMB_MAX_ANGLE = 180.0; //175.0; //153.0;
 
   public static final int[] CORAL_MOTOR_IDS = {10,11,12,13};
   public static final int CORAL_MOTOR_CURRENT_LIMIT = 20;
@@ -148,7 +148,7 @@ public final class Constants {
   public static final double CORAL_VELOCITY_FACTOR = CORAL_POSITION_FACTOR / (60);
   public static final double CORAL_MIDDLE_ANGLE = -1.533*180/Math.PI + 10;
   public static final double CORAL_TOP_ANGLE = -2.36*180/Math.PI + 10; //-2
-  public static final double CORAL_INTAKE_ANGLE = -0.947*180/Math.PI +10 ;
+  public static final double CORAL_INTAKE_ANGLE = -0.947*180/Math.PI +5;
   public static final double CORAL_ARMED_ANGLE = -0.0*180/Math.PI;
   public static final double CORAL_ANGLE_UP_SPEED = 0.2;
   public static final double CORAL_ANGLE_DOWN_SPEED = -0.2;

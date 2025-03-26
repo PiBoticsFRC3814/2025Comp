@@ -11,7 +11,6 @@ import frc.robot.subsystems.Climber;
 public class ClimbUp extends Command {
   /** Creates a new ClimbUp. */
   Climber m_climber;
-  boolean stopper=false;
 
   public ClimbUp(Climber climber) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -27,8 +26,7 @@ public class ClimbUp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    stopper = m_climber.climbUp();
-    System.out.println(m_climber.getClimbDegrees());
+    m_climber.climbUp();
   }
 
   // Called once the command ends or is interrupted.
@@ -40,7 +38,6 @@ public class ClimbUp extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println(stopper);
-    return stopper;
+    return false;
   }
 }
