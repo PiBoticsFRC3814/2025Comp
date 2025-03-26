@@ -10,9 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.AngleArmed;
 import frc.robot.commands.GyroSwerveDriveCommand;
-import frc.robot.commands.ManualElevator;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -22,13 +20,11 @@ import frc.robot.commands.ManualElevator;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   //private Command m_initializecoral;
-  private Command m_getOffLine;
   //,something
   private final RobotContainer m_robotContainer;
   private final Field2d m_field = new Field2d();
   boolean autoOnce = false;
   boolean periodicOnce = false;
-  //public CameraServer camera1;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -73,13 +69,10 @@ public class Robot extends TimedRobot {
     LimelightHelpers.setPipelineIndex("limelight", 0);
     m_robotContainer.m_gyroSwerveDrive.removeDefaultCommand();
     m_robotContainer.m_gyroSwerveDrive.resetModules();
-    //m_initializecoral = m_robotContainer.ArmCoralAngle();
-    //m_initializecoral.schedule();
-    // schedule the autonomous command (example)
-    //if (m_autonomousCommand != null) {
-      //m_autonomousCommand.schedule();
-    m_getOffLine = m_robotContainer.AutoMoveOffLine();
-    m_getOffLine.schedule();   
+    // schedule the autonomous command
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.schedule();
+    }   
   }
 
   /** This function is called periodically during autonomous. */
@@ -97,6 +90,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    //actual start of teleop initialization of real stuff
     m_robotContainer.m_gyroSwerveDrive.setDefaultCommand(
         new GyroSwerveDriveCommand(
             () -> m_robotContainer.driveStick.getLeftX(),
@@ -112,9 +107,6 @@ public class Robot extends TimedRobot {
     m_robotContainer.m_gyroSwerveDrive.resetModules();
     LimelightHelpers.setPipelineIndex("limelight", 0);
     m_robotContainer.m_robotStates.autonomous = false;
-    //m_initializecoral = m_robotContainer.ArmCoralAngle();
-    //m_initializecoral.schedule();
-    //m_robotContainer.m_elevator.setDefaultCommand(new ManualElevator(() -> m_robotContainer.controlStick.getLeftX(), m_robotContainer.m_elevator));
   }
 
   /** This function is called periodically during operator control. */
@@ -123,7 +115,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Field", m_field);
     m_field.setRobotPose(m_robotContainer.m_gyroSwerveDrive.getPose());
     SmartDashboard.putNumber("Gyro", m_robotContainer.m_gyro.getAngle(m_robotContainer.m_gyro.getYawAxis()));
-    //SmartDashboard.putBoolean("Note", m_robotContainer.m_intake.gotNote)
   }
 
   @Override

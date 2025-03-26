@@ -21,6 +21,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.ADIS16448_IMU.IMUAxis;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -46,8 +47,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  //public final FlywheelShooter m_shooter = new FlywheelShooter();
   public final Elevator m_elevator = new Elevator();
   public final CoralIntake m_coral = new CoralIntake();
   public final CoralAngle m_angle = new CoralAngle(); 
@@ -57,13 +56,16 @@ public class RobotContainer {
   public final RobotStates m_robotStates = new RobotStates();
   public final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
   public final GyroSwerveDrive m_gyroSwerveDrive = new GyroSwerveDrive(m_robotStates, m_gyro);
-  //public final Climber m_climber = new Climber();
 
-  public SendableChooser<String> chooserFirst = new SendableChooser<>();
+  private final Command m_moveForward = new AutoMoveOffLine(m_gyroSwerveDrive);
+  private final Command m_moveAndScore = new AutoMoveAndScore(m_gyroSwerveDrive, m_elevator, m_angle, m_coral);
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
+  public SendableChooser<Command> chooserFirst = new SendableChooser<>();
+
+  // Joystick calls CommandPS4Controller, CommandJoystick, CommandXboxController, CommandGenericHID.
+  // can remove "command" to get just a joystick instance.  unsure what all differences are appears that command allows for .button.whiletrue calls
+  // where as non command makes us have to create a new button instance.
   XboxController driveStick = new XboxController(3);
-  //XboxController controlStick = new XboxController(1);
   CommandGenericHID buttonBoard1 = new CommandGenericHID(1);
   CommandGenericHID buttonBoard2 = new CommandGenericHID(2);
 
@@ -78,18 +80,13 @@ public class RobotContainer {
     // Configure the trigger bindings
     NamedCommands.registerCommand("gyroReset", new GyroReset(m_gyroSwerveDrive));
 
-    chooserFirst.setDefaultOption("Test", "Test Auto");
-    /*chooserFirst.addOption("Amp Side", "Left Auto");
-    chooserFirst.addOption("Stage Side", "Right Auto");
-    chooserFirst.addOption("Shoot test", "New Auto");
-    chooserFirst.addOption("4 Note Front", "YESSSSS");
-    chooserFirst.addOption("SCRAMMMM", "GetOut");
-    chooserFirst.addOption("Front Left", "Front Left");
-    chooserFirst.addOption("Front Right", "Front Right");
-    chooserFirst.addOption("Front Middle", "Front Middle");
-    //setupShuffleboard();
-    //*/
+    chooserFirst.setDefaultOption("DriveForward", m_moveForward);
+    chooserFirst.addOption("Drive and Score", m_moveAndScore);
 
+    SmartDashboard.putData(chooserFirst);
+
+    setupShuffleboard();
+    
     configureBindings();
   }
   
@@ -165,13 +162,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    m_robotStates.center = chooserFirst.getSelected() == "Center Auto";
-    return new PathPlannerAuto(chooserFirst.getSelected());
-  }
-  public Command ArmCoralAngle(){
-    return new AngleArmed(m_angle);
-  }
-  public Command AutoMoveOffLine(){
-    return new MoveOffLine(m_gyroSwerveDrive);
+    return chooserFirst.getSelected();
+
   }
 }

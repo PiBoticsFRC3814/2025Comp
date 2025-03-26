@@ -158,5 +158,9 @@ public final class Constants {
   public static final double ALGAE_IN_SPEED = 0.5;
   public static final double ALGAE_OUT_SPEED = -0.5;
   public static final double[] ANGLE_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
+
+  public static final double AUTO_DRIVE_TIME = 2.0;  //time for auto to drive forward increase or decrease as needed
+  public static final double AUTO_DRIVE_SPEED = 2.0; //speed in m/s that auto will drive froward increase or decrease as needed.
+
 }
 

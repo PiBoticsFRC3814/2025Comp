@@ -11,7 +11,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.GyroSwerveDrive;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class MoveOffLine extends Command {
+public class AutoMoveOffLine extends Command {
   /** Creates a new MoveOffLine. */
   boolean start = false;
   boolean done = false;
@@ -20,7 +20,7 @@ public class MoveOffLine extends Command {
   double invert = 0.0;
 
   
-  public MoveOffLine(GyroSwerveDrive drive) {
+  public AutoMoveOffLine(GyroSwerveDrive drive) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drive = drive;
     time = new Timer();
@@ -30,7 +30,11 @@ public class MoveOffLine extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    invert = DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? -1.0 : 1.0;
+
+    //this will invert the X speed depending on the side of the field we are on speed will be based on the contantas AUTO_DRIVE_SPEED variable
+    invert = DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? -Constants.AUTO_DRIVE_SPEED : Constants.AUTO_DRIVE_SPEED;
+
+    //timer initialization and start
     start = true;
     done = false;
     time.reset();
@@ -40,18 +44,23 @@ public class MoveOffLine extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    if (time.get() < 2.0){
+
+    //move forward for AUTO_DRIVE_TIME at AUTO_DRIVE_SPEED
+    if (time.get() < Constants.AUTO_DRIVE_TIME){
       m_drive.drive(invert,0,m_drive.getGyroAngle(),false,false,0.0);
       done = false;
     } else {
       m_drive.drive(0.0,0.0,m_drive.getGyroAngle(),false,false,0.0);
+      done = true;
     }
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_drive.drive(0.0,0.0,m_drive.getGyroAngle(),false,false,0.0);
+  }
 
   // Returns true when the command should end.
   @Override
