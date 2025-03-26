@@ -123,11 +123,11 @@ public class RobotContainer {
     .withSize(2, 2)
     .withPosition(8, 0);
 
-    Shuffleboard.getTab("Test")
+    /*Shuffleboard.getTab("Test")
     .add("Sim", m_gyroSwerveDrive.getPose())
     .withSize(3,3)
     .withWidget(BuiltInWidgets.kField)
-    .withPosition(8, 5);
+    .withPosition(8, 5);*/
 
     Shuffleboard.getTab("Test")
     .add("Auton", chooserFirst)
