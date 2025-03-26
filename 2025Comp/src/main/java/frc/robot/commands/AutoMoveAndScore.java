@@ -18,6 +18,6 @@ public class AutoMoveAndScore extends SequentialCommandGroup {
   public AutoMoveAndScore(GyroSwerveDrive drive, Elevator coral, CoralAngle angle, CoralIntake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AutoMoveOffLine(drive), new GoToCoral2Angle(coral, angle), new ShortWait(), new OuttakeCoral(intake));
+    addCommands(new AutoMoveOffLine(drive), new FullScore2(coral, angle, intake));
   }
 }
