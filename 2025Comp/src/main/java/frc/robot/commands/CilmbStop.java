@@ -25,6 +25,7 @@ public class CilmbStop extends Command {
   @Override
   public void execute() {
     m_climber.climbStop();
+    System.out.println("Climb Done! WOOHOO");
   }
 
   // Called once the command ends or is interrupted.
