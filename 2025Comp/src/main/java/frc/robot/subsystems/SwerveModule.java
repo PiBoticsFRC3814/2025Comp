@@ -199,7 +199,6 @@ public class SwerveModule {
     {
       cosineScalar = 1;
     }
-
     return desiredState.speedMetersPerSecond * (cosineScalar);
   }
 

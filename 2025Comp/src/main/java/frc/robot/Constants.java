@@ -73,7 +73,7 @@ public final class Constants {
   public static final double AUTO_RIGHT_OFFSET = 0.0;
 
   public static final boolean[] STEER_MOTOR_INVERTED = {false, false, false, false};
-  public static final boolean[] DRIVE_MOTOR_INVERTED = {true, false, true, true};
+  public static final boolean[] DRIVE_MOTOR_INVERTED = {true, true, true, true};
 
   /*
    * Swerve constants for swerve module calculations
@@ -159,7 +159,7 @@ public final class Constants {
   public static final double ALGAE_OUT_SPEED = -0.5;
   public static final double[] ANGLE_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
 
-  public static final double AUTO_DRIVE_TIME = 1.75;  //time for auto to drive forward increase or decrease as needed
+  public static final double AUTO_DRIVE_TIME = 2.0;  //time for auto to drive forward increase or decrease as needed
   public static final double AUTO_DRIVE_SPEED = 1.0; //speed in m/s that auto will drive froward increase or decrease as needed.
 
 }
