@@ -242,11 +242,14 @@ public class GyroSwerveDrive extends SubsystemBase {
     //ySpeed = slewY.calculate(ySpeed);
 
     Pose2d position = getPose();
-    if(speakerLock){setAngle = Math.toDegrees(Math.atan2(position.getY() - 5.45, position.getY()));}
+    //position.getRotation();
+    //if(speakerLock){setAngle = Math.toDegrees(Math.atan2(position.getY() - 5.45, position.getY()));}
     double rot = 0.0;
     if(lock || speakerLock) rot = -turnController.calculate(setAngle, position.getRotation().getDegrees());
     rot *= Constants.MAX_TURN_SPEED_MperS / new Rotation2d(Constants.SWERVE_FRAME_LENGTH / 2.0 * 0.0254, Constants.SWERVE_FRAME_WIDTH / 2.0 * 0.0254).getRadians();
     setModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, position.getRotation())); // third value use rot for stick angle use zSpeed for manual turn
+    //Rotation2d.fromDegrees(getGyroAngle()) instead of pose.getRotation() seems to yield same results.  there seems to be nothing to hold the angle consistant.
+
   }
 
   public void resetGyro(){

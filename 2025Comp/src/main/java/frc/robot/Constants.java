@@ -48,18 +48,18 @@ public final class Constants {
 
   public static final double[][] SWERVE_STEER_PID_CONSTANTS = {
     // kP   kI   kD  kIz  kFF  kMn  kMx
-		{ 0.4, 0.01, 0.0, 0.1, 0.0, -1.0, 1.0 }, //Front Right
-		{ 0.4, 0.01, 0.0, 0.1, 0.0, -1.0, 1.0 }, //Rear Right
-		{ 0.4, 0.01, 0.0, 0.1, 0.0, -1.0, 1.0 }, //Rear Left
-		{ 0.4, 0.01, 0.0, 0.1, 0.0, -1.0, 1.0 }  //Front Left
+		{ 0.4, 0.01, 0.0, 0.1, 0.0, -1.0, 1.0 }, //FL
+		{ 0.4, 0.01, 0.0, 0.1, 0.0, -1.0, 1.0 }, //FR
+		{ 0.4, 0.01, 0.0, 0.1, 0.0, -1.0, 1.0 }, //RL
+		{ 0.4, 0.01, 0.0, 0.1, 0.0, -1.0, 1.0 }  //RR
 	};
 
   public static double[][] SWERVE_DRIVE_PID_CONSTANTS = { 
 		// kP   kI   kD  kIz  kFF  kMn  kMx
-		{ 0.4, 0.0, 0.2e-2, 0.0, 0.215, -1.0, 1.0 }, //Front Right //0.215
-		{ 0.4, 0.0, 0.2e-2, 0.0, 0.215, -1.0, 1.0 }, //Rear Right
-		{ 0.4, 0.0, 0.2e-2, 0.0, 0.215, -1.0, 1.0 }, //Rear Left
-		{ 0.4, 0.0, 0.2e-2, 0.0, 0.215, -1.0, 1.0 }  //Front Left
+		{ 0.4, 0.0, 0.2e-2, 0.0, 0.215, -1.0, 1.0 }, //FL //0.215
+		{ 0.4, 0.0, 0.2e-2, 0.0, 0.215, -1.0, 1.0 }, //FR
+		{ 0.4, 0.0, 0.2e-2, 0.0, 0.215, -1.0, 1.0 }, //RL
+		{ 0.4, 0.0, 0.2e-2, 0.0, 0.215, -1.0, 1.0 }  //RR
 	  //Should be FL, FR, RL, RR but should be able to have all modules with same tune - Alex
 	};
 
@@ -159,7 +159,7 @@ public final class Constants {
   public static final double ALGAE_OUT_SPEED = -0.5;
   public static final double[] ANGLE_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
 
-  public static final double AUTO_DRIVE_TIME = 2.0;  //time for auto to drive forward increase or decrease as needed
+  public static final double AUTO_DRIVE_TIME = 7.0;  //time for auto to drive forward increase or decrease as needed
   public static final double AUTO_DRIVE_SPEED = 1.0; //speed in m/s that auto will drive froward increase or decrease as needed.
 
 }

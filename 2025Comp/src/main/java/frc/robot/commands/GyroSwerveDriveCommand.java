@@ -70,6 +70,7 @@ public class GyroSwerveDriveCommand extends Command {
     double g = 0.7;
     double h = unsignIn * (Math.pow(unsignIn, 5.0) * g + unsignIn * (1 - g));
     double curved = ((d * unsignIn) + ((f - d) * h));
+    steerAngle = 0.0;
     return Math.signum(input) * curved;
   }
 

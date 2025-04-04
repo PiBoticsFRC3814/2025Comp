@@ -47,10 +47,10 @@ public class AutoMoveOffLine extends Command {
 
     //move forward for AUTO_DRIVE_TIME at AUTO_DRIVE_SPEED
     if (time.get() < Constants.AUTO_DRIVE_TIME){
-      m_drive.drive(invert,0,m_drive.getGyroAngle(),false,false,0.0);
+      m_drive.drive(invert,0.0,0.0,false,false,0.0);
       done = false;
     } else {
-      m_drive.drive(0.0,0.0,m_drive.getGyroAngle(),false,false,0.0);
+      m_drive.drive(0.0,0.0,0.0,false,false,0.0);
       done = true;
     }
 
