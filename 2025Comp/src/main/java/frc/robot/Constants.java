@@ -82,7 +82,7 @@ public final class Constants {
   public static final double SWERVE_FRAME_LENGTH = 22;
   public static final double SWERVE_RADIUS = Math.sqrt(Math.pow(SWERVE_FRAME_LENGTH, 2) + Math.pow(SWERVE_FRAME_WIDTH, 2));
   public static final double SWERVE_PID_TOLERANCE = 2.8e-4;
-  public static final double DRIVE_POSITION_CONVERSION = (0.0986 * Math.PI) / (6.75);
+  public static final double DRIVE_POSITION_CONVERSION = (0.0986 * Math.PI) / (6.75); // this conversion factor is wrong wheel is 4 inches?  not 3.88
   public static final double DRIVE_VELOCITY_FACTOR = DRIVE_POSITION_CONVERSION / 60;
   public static final double STEER_POSITION_FACTOR = 2.0 * Math.PI / 12.8; 
   public static final double STEER_VELOCITY_FACTOR = STEER_POSITION_FACTOR / 60;

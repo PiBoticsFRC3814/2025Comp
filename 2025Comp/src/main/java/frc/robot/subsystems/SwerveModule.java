@@ -51,42 +51,26 @@ public class SwerveModule {
 	public static double   STATUS_TIMEOUT_SECONDS = 0.02;
 	
 	/* the SwerveModule subsystem */
-	public SwerveModule( int swerveModIndex ) {
+	public SwerveModule(int swerveModIndex) {
 		driveMotor = new SparkMax( Constants.SWERVE_DRIVE_MOTOR_IDS[swerveModIndex], MotorType.kBrushless);
     	driveMotorConfig = new SparkMaxConfig();
     	driveMotorConfig.inverted(Constants.DRIVE_MOTOR_INVERTED[swerveModIndex]);
     	driveMotorConfig.idleMode(IdleMode.kBrake);
-		//driveMotor.IdleMode(IdleMode.kBrake);
-    	//driveMotor.setIdleMode(IdleMode.kBrake);
     	driveMotorConfig.voltageCompensation(Constants.SWERVE_VOLT_COMP);
-		//driveMotor.enableVoltageCompensation(Constants.SWERVE_VOLT_COMP);
-		//driveMotor.setInverted( Constants.DRIVE_MOTOR_INVERTED[swerveModIndex] );
 		driveMotorConfig.openLoopRampRate( 0.1 );
-		driveMotorConfig.smartCurrentLimit(45, 35);
+		driveMotorConfig.smartCurrentLimit(40, 40);
 
-    //Stupid old Rev Config System. Will need to update because they broke it in 2025 - Alex
-		//driveVelocityPIDController = driveMotor.getClosedLoopController();
-		//driveVelocityPIDController.setP(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][0]);
-		//driveVelocityPIDController.setI(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][1]);
-		//driveVelocityPIDController.setD(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][2]);
-		//driveVelocityPIDController.setIZone(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][3]); 
-		//driveVelocityPIDController.setFF(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][4]);
-		//driveVelocityPIDController.setOutputRange(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][5], Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][6]);
-
-    //new REV PID stuff?
+    	//new REV PID stuff?
     	driveMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
     	driveMotorConfig.closedLoop.pidf(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][0],Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][1],Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][2],Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][4]);
     	driveMotorConfig.closedLoop.iZone(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][3]);
     	driveMotorConfig.closedLoop.outputRange(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][5],Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][6]);
-
-
 		//driveEncoder = driveMotor.getEncoder();
 		driveMotorConfig.encoder.positionConversionFactor(Constants.DRIVE_POSITION_CONVERSION);
 		driveMotorConfig.encoder.velocityConversionFactor(Constants.DRIVE_VELOCITY_FACTOR);
 		driveMotorConfig.encoder.uvwAverageDepth(4); // i think this is correct due to Neos using a hall-sensor encoder.
     	driveMotorConfig.encoder.uvwMeasurementPeriod(16);
 		configureCANStatusFrames(10, 20, 20, 500, 500, 200, 200, driveMotorConfig); //Magic numbers other teams and YAGSL uses. Makes things happier
-		//driveMotor.burnFlash();
 		
 		driveMotor.configure(driveMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 		driveVelocityPIDController = driveMotor.getClosedLoopController();
@@ -99,26 +83,11 @@ public class SwerveModule {
 		steerMotorConfig.inverted( Constants.STEER_MOTOR_INVERTED[swerveModIndex] );
 		steerMotorConfig.smartCurrentLimit(25, 25);
 
-		//steerPIDController.setP(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][0]);
-		//steerPIDController.setI(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][1]);
-		//steerPIDController.setD(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][2]);
-		//steerPIDController.setIZone(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][3]); 
-		//steerPIDController.setOutputRange(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][5], Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][6]);
-		//steerPIDController.setPositionPIDWrappingEnabled(true);
-		//steerPIDController.setPositionPIDWrappingMinInput(0);
-		//steerPIDController.setPositionPIDWrappingMaxInput(2 * Math.PI);
 		steerMotorConfig.closedLoop.pidf(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][0],Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][1],Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][2],Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][4]);
 		steerMotorConfig.closedLoop.iZone(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][3]);
 		steerMotorConfig.closedLoop.outputRange(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][5],Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][6]);
 		steerMotorConfig.closedLoop.positionWrappingEnabled(true);
 		
-		//steerEncoder = steerMotor.getEncoder();
-		//steerEncoder.setPositionConversionFactor(Constants.STEER_POSITION_FACTOR);
-		//steerEncoder.setVelocityConversionFactor(Constants.STEER_VELOCITY_FACTOR);
-		//steerEncoder.setAverageDepth(4);
-		//steerEncoder.setMeasurementPeriod(16);
-		//configureCANStatusFrames(10, 20, 20, 500, 500, 200, 200, steerMotor);
-		//steerMotor.burnFlash();
 		steerMotorConfig.encoder.positionConversionFactor(Constants.STEER_POSITION_FACTOR);
 		steerMotorConfig.encoder.velocityConversionFactor(Constants.STEER_VELOCITY_FACTOR);
 		steerMotorConfig.encoder.uvwAverageDepth(4); // i think this is correct due to Neos using a hall-sensor encoder.
@@ -139,7 +108,7 @@ public class SwerveModule {
 
 	public void configureCANStatusFrames(
       int CANStatus0, int CANStatus1, int CANStatus2, int CANStatus3, int CANStatus4, int CANStatus5, int CANStatus6, SparkMaxConfig config)
-  {
+  	{
     config.signals.appliedOutputPeriodMs(CANStatus0);
 	config.signals.motorTemperaturePeriodMs(CANStatus1);
 	config.signals.primaryEncoderPositionPeriodMs(CANStatus2);
@@ -148,7 +117,7 @@ public class SwerveModule {
 	config.signals.absoluteEncoderPositionPeriodMs(CANStatus5);
 	config.signals.absoluteEncoderVelocityPeriodMs(CANStatus6);
     //  https://docs.revrobotics.com/brushless/spark-max/control-interfaces
-  }
+  	}
 
 
 	public SwerveModulePosition getPosition() {
