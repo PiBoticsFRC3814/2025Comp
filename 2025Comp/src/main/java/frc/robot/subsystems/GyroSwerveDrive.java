@@ -44,7 +44,7 @@ public class GyroSwerveDrive extends SubsystemBase {
   private SwerveDriveKinematics kinematics;
   private SwerveDrivePoseEstimator poseEstimator;
   private ADIS16470_IMU gyro;
-  PIDController turnController = new PIDController(0.04, 0.05, 0.002);
+  PIDController turnController = new PIDController(0.04, 0.05, 0.010);
 
   RobotConfig config;
 
@@ -237,7 +237,7 @@ public class GyroSwerveDrive extends SubsystemBase {
     );
   }
 
-  public void drive(double xSpeed, double ySpeed, double setAngle, boolean lock, boolean speakerLock, double zSpeed) {
+  public void drive(double xSpeed, double ySpeed, double setAngle, boolean lock, double zSpeed) {
     //xSpeed = slewX.calculate(xSpeed);
     //ySpeed = slewY.calculate(ySpeed);
 
@@ -245,8 +245,11 @@ public class GyroSwerveDrive extends SubsystemBase {
     //position.getRotation();
     //if(speakerLock){setAngle = Math.toDegrees(Math.atan2(position.getY() - 5.45, position.getY()));}
     double rot = 0.0;
-    if(lock || speakerLock) rot = -turnController.calculate(setAngle, position.getRotation().getDegrees());
+    if(lock) rot = -turnController.calculate(setAngle, position.getRotation().getDegrees());
     rot *= Constants.MAX_TURN_SPEED_MperS / new Rotation2d(Constants.SWERVE_FRAME_LENGTH / 2.0 * 0.0254, Constants.SWERVE_FRAME_WIDTH / 2.0 * 0.0254).getRadians();
+    if(m_RobotStates.autonomous){
+      rot = zSpeed;
+    }    
     setModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, position.getRotation())); // third value use rot for stick angle use zSpeed for manual turn
     //Rotation2d.fromDegrees(getGyroAngle()) instead of pose.getRotation() seems to yield same results.  there seems to be nothing to hold the angle consistant.
 

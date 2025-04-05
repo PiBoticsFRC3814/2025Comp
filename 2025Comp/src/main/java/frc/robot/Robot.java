@@ -64,11 +64,13 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     m_robotContainer.m_robotStates.autonomous = true;
-    LimelightHelpers.setPipelineIndex("limelight", 0);
+    m_robotContainer.m_angle.ZeroCoralAngle();
     m_robotContainer.m_gyroSwerveDrive.removeDefaultCommand();
     m_robotContainer.m_gyroSwerveDrive.resetModules();
+    m_robotContainer.m_gyroSwerveDrive.resetGyro();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    LimelightHelpers.setPipelineIndex("limelight", 0);
     // schedule the autonomous command
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -121,6 +123,7 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    m_robotContainer.m_angle.ZeroCoralAngle();
   }
 
   /** This function is called periodically during test mode. */

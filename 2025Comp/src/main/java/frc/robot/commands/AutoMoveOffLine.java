@@ -18,6 +18,8 @@ public class AutoMoveOffLine extends Command {
   GyroSwerveDrive m_drive;
   Timer time;
   double invert = 0.0;
+  double angleMaintain = 0.0;
+  double zSpeed = 0.0;
 
   
   public AutoMoveOffLine(GyroSwerveDrive drive) {
@@ -37,6 +39,8 @@ public class AutoMoveOffLine extends Command {
     //timer initialization and start
     start = true;
     done = false;
+    zSpeed = 0.0;
+    angleMaintain = m_drive.getGyroAngle();
     time.reset();
     time.start();
   }
@@ -47,10 +51,17 @@ public class AutoMoveOffLine extends Command {
 
     //move forward for AUTO_DRIVE_TIME at AUTO_DRIVE_SPEED
     if (time.get() < Constants.AUTO_DRIVE_TIME){
-      m_drive.drive(invert,0.0,0.0,false,false,0.0);
+      if (angleMaintain < m_drive.getGyroAngle()){
+        zSpeed = 0.00;
+      } else if (angleMaintain > m_drive.getGyroAngle()){
+        zSpeed = -0.00;
+      } else {
+        zSpeed = 0.0;
+      }
+      m_drive.drive(invert,0.0,0.0,false,zSpeed);
       done = false;
     } else {
-      m_drive.drive(0.0,0.0,0.0,false,false,0.0);
+      m_drive.drive(0.0,0.0,0.0,false,0.0);
       done = true;
     }
 
@@ -59,7 +70,7 @@ public class AutoMoveOffLine extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drive.drive(0.0,0.0,m_drive.getGyroAngle(),false,false,0.0);
+    m_drive.drive(0.0,0.0,0.0,false,0.0);
   }
 
   // Returns true when the command should end.

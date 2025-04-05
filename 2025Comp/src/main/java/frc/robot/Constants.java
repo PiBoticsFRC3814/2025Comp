@@ -137,12 +137,12 @@ public final class Constants {
   //public static final double CLIMB_MAX_ANGLE = 180.0; //175.0; //153.0;
 
   public static final int[] CORAL_MOTOR_IDS = {10,11,12,13};
-  public static final int CORAL_MOTOR_CURRENT_LIMIT = 20;
+  public static final int CORAL_MOTOR_CURRENT_LIMIT = 40;
   public static final int TRAP_MOTOR_CURRENT_LIMIT = 40;
   public static final double CORAL_MAX_IN_SPEED = 0.8;
   public static final double CORAL_MAX_OUT_SPEED = -0.8;
-  public static final double TRAP_MAX_OPEN_SPEED = 0.5;
-  public static final double TRAP_MAX_CLOSE_SPEED = -0.5;
+  public static final double TRAP_MAX_OPEN_SPEED = 1.0;
+  public static final double TRAP_MAX_CLOSE_SPEED = -1.0;
   public static final double[] CORAL_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
   public static final double CORAL_POSITION_FACTOR = 2.0 * Math.PI / (9*9*4); 
   public static final double CORAL_VELOCITY_FACTOR = CORAL_POSITION_FACTOR / (60);
@@ -159,7 +159,7 @@ public final class Constants {
   public static final double ALGAE_OUT_SPEED = -0.5;
   public static final double[] ANGLE_PID_CONSTANTS = {1.0e-1, 0.0, 0.0, 0.0, 0.0, -1.0, 1.0};
 
-  public static final double AUTO_DRIVE_TIME = 7.0;  //time for auto to drive forward increase or decrease as needed
+  public static final double AUTO_DRIVE_TIME = 2.0;  //time for auto to drive forward increase or decrease as needed
   public static final double AUTO_DRIVE_SPEED = 1.0; //speed in m/s that auto will drive froward increase or decrease as needed.
 
 }

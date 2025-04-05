@@ -88,7 +88,6 @@ public class GyroSwerveDriveCommand extends Command {
           applyDeadzone(-dX.getAsDouble() * -invert, Constants.JOYSTICK_X_DEADZONE) * Constants.MAX_SPEED_MperS * mult,
             steerAngle,
               driveHeading,
-                false,
                   dZ.getAsDouble()
     );
     //*/

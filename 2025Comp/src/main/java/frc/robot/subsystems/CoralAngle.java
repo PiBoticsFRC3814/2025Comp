@@ -61,6 +61,10 @@ public class CoralAngle extends SubsystemBase {
 
  }
 
+ public void ZeroCoralAngle(){
+  angleEncoder.setPosition(0.0);
+ }
+
  public double getMotorAngleRadians(){
   return angleEncoder.getPosition();
  }
@@ -78,11 +82,11 @@ public class CoralAngle extends SubsystemBase {
 
  public boolean goToMiddleCoral(){
   if (getMotorAngleDegrees() < Constants.CORAL_MIDDLE_ANGLE-0.1){
-    angleMotor.set(setAngleMotorSpeed(Constants.CORAL_MIDDLE_ANGLE)+0.25);
+    angleMotor.set(setAngleMotorSpeed(Constants.CORAL_MIDDLE_ANGLE)+0.2);
     return false;
   }
   else if (getMotorAngleDegrees() > Constants.CORAL_MIDDLE_ANGLE+0.1){
-    angleMotor.set(-setAngleMotorSpeed(Constants.CORAL_MIDDLE_ANGLE)-0.25); 
+    angleMotor.set(-setAngleMotorSpeed(Constants.CORAL_MIDDLE_ANGLE)-0.2); 
     return false; 
   }
   else {
