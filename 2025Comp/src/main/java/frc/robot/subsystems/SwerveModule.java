@@ -35,7 +35,7 @@ import frc.robot.Constants;
 public class SwerveModule {
 	public  SparkMax            driveMotor;
   	public  SparkMaxConfig      driveMotorConfig;
-	private SparkClosedLoopController driveVelocityPIDController;  //i this needed anymore?  seems the closed loop control is handeled in the config
+	private SparkClosedLoopController driveVelocityPIDController;
 	private SparkClosedLoopController steerPIDController;
 
 	public  SparkMax            steerMotor;
@@ -52,46 +52,39 @@ public class SwerveModule {
 	
 	/* the SwerveModule subsystem */
 	public SwerveModule( int swerveModIndex ) {
+		
+		//drive motor general config
 		driveMotor = new SparkMax( Constants.SWERVE_DRIVE_MOTOR_IDS[swerveModIndex], MotorType.kBrushless);
     	driveMotorConfig = new SparkMaxConfig();
     	driveMotorConfig.inverted(Constants.DRIVE_MOTOR_INVERTED[swerveModIndex]);
     	driveMotorConfig.idleMode(IdleMode.kBrake);
-		//driveMotor.IdleMode(IdleMode.kBrake);
-    	//driveMotor.setIdleMode(IdleMode.kBrake);
     	driveMotorConfig.voltageCompensation(Constants.SWERVE_VOLT_COMP);
-		//driveMotor.enableVoltageCompensation(Constants.SWERVE_VOLT_COMP);
-		//driveMotor.setInverted( Constants.DRIVE_MOTOR_INVERTED[swerveModIndex] );
 		driveMotorConfig.openLoopRampRate( 0.1 );
 		driveMotorConfig.smartCurrentLimit(45, 35);
 
-    //Stupid old Rev Config System. Will need to update because they broke it in 2025 - Alex
-		//driveVelocityPIDController = driveMotor.getClosedLoopController();
-		//driveVelocityPIDController.setP(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][0]);
-		//driveVelocityPIDController.setI(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][1]);
-		//driveVelocityPIDController.setD(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][2]);
-		//driveVelocityPIDController.setIZone(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][3]); 
-		//driveVelocityPIDController.setFF(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][4]);
-		//driveVelocityPIDController.setOutputRange(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][5], Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][6]);
-
-    //new REV PID stuff?
+   		//drive motor PID config
     	driveMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
     	driveMotorConfig.closedLoop.pidf(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][0],Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][1],Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][2],Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][4]);
     	driveMotorConfig.closedLoop.iZone(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][3]);
     	driveMotorConfig.closedLoop.outputRange(Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][5],Constants.SWERVE_DRIVE_PID_CONSTANTS[swerveModIndex][6]);
 
-
-		//driveEncoder = driveMotor.getEncoder();
+		//drive motor encoder config
 		driveMotorConfig.encoder.positionConversionFactor(Constants.DRIVE_POSITION_CONVERSION);
 		driveMotorConfig.encoder.velocityConversionFactor(Constants.DRIVE_VELOCITY_FACTOR);
 		driveMotorConfig.encoder.uvwAverageDepth(4); // i think this is correct due to Neos using a hall-sensor encoder.
     	driveMotorConfig.encoder.uvwMeasurementPeriod(16);
 		configureCANStatusFrames(10, 20, 20, 500, 500, 200, 200, driveMotorConfig); //Magic numbers other teams and YAGSL uses. Makes things happier
-		//driveMotor.burnFlash();
 		
+		//Write the drive configs we made to the actual motor controller
 		driveMotor.configure(driveMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+		//setup drive velocity PID controller
 		driveVelocityPIDController = driveMotor.getClosedLoopController();
+		
+		//setup drive encoder so we can get stuff from it using the driveEncoder
 		driveEncoder = driveMotor.getEncoder();
 
+		//steer moto general config
 		steerMotor = new SparkMax( Constants.SWERVE_STEER_MOTOR_IDS[swerveModIndex], MotorType.kBrushless );
 		steerMotorConfig = new SparkMaxConfig();
 		steerMotorConfig.voltageCompensation(Constants.SWERVE_VOLT_COMP);
@@ -99,47 +92,45 @@ public class SwerveModule {
 		steerMotorConfig.inverted( Constants.STEER_MOTOR_INVERTED[swerveModIndex] );
 		steerMotorConfig.smartCurrentLimit(25, 25);
 
-		//steerPIDController.setP(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][0]);
-		//steerPIDController.setI(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][1]);
-		//steerPIDController.setD(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][2]);
-		//steerPIDController.setIZone(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][3]); 
-		//steerPIDController.setOutputRange(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][5], Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][6]);
-		//steerPIDController.setPositionPIDWrappingEnabled(true);
-		//steerPIDController.setPositionPIDWrappingMinInput(0);
-		//steerPIDController.setPositionPIDWrappingMaxInput(2 * Math.PI);
+		//steer motor PID config
 		steerMotorConfig.closedLoop.pidf(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][0],Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][1],Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][2],Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][4]);
 		steerMotorConfig.closedLoop.iZone(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][3]);
 		steerMotorConfig.closedLoop.outputRange(Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][5],Constants.SWERVE_STEER_PID_CONSTANTS[swerveModIndex][6]);
 		steerMotorConfig.closedLoop.positionWrappingEnabled(true);
 		
-		//steerEncoder = steerMotor.getEncoder();
-		//steerEncoder.setPositionConversionFactor(Constants.STEER_POSITION_FACTOR);
-		//steerEncoder.setVelocityConversionFactor(Constants.STEER_VELOCITY_FACTOR);
-		//steerEncoder.setAverageDepth(4);
-		//steerEncoder.setMeasurementPeriod(16);
-		//configureCANStatusFrames(10, 20, 20, 500, 500, 200, 200, steerMotor);
-		//steerMotor.burnFlash();
+		//steer motor encoder config
 		steerMotorConfig.encoder.positionConversionFactor(Constants.STEER_POSITION_FACTOR);
 		steerMotorConfig.encoder.velocityConversionFactor(Constants.STEER_VELOCITY_FACTOR);
 		steerMotorConfig.encoder.uvwAverageDepth(4); // i think this is correct due to Neos using a hall-sensor encoder.
     	steerMotorConfig.encoder.uvwMeasurementPeriod(16);
 
+		//setup and build the absolute angle encoder (cancoder)
 		steerAngleEncoder = new CANcoder( Constants.SWERVE_ENCODER_IDS[swerveModIndex] );
 
+		//write the steer configs we madee to the actual motor controller
 		steerMotor.configure(steerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+		//setup steer PID controller
 		steerPIDController = steerMotor.getClosedLoopController();
+
+		//this setsup the steer Encoder and sets the internal encoder count to match the the position of the adsolute encoder.
+		//doing this makes the two encoders essential equal the same angles.  this allows us to just read the sparkmax encoder instead of cancoder for deturmining the wheel angle
 		steerEncoder = steerMotor.getEncoder();
 		steerEncoder.setPosition(getAbsolutePosition());
 
 		index = swerveModIndex;
 	}
+
+	//not sure what this does used in gyroswerve drive to get chasis speeds.	
 	public SwerveModuleState getState() {
         return new SwerveModuleState(driveEncoder.getVelocity(), new Rotation2d(getStateAngle()));
     }
 
+	//this configure the can communication speed for specific data that the controller can send.  these numbers are from other teams libraries and other teams code
+	//this is done supposibly to cause less load on the CAN bus by sending less important data less
 	public void configureCANStatusFrames(
       int CANStatus0, int CANStatus1, int CANStatus2, int CANStatus3, int CANStatus4, int CANStatus5, int CANStatus6, SparkMaxConfig config)
-  {
+  	{
     config.signals.appliedOutputPeriodMs(CANStatus0);
 	config.signals.motorTemperaturePeriodMs(CANStatus1);
 	config.signals.primaryEncoderPositionPeriodMs(CANStatus2);
@@ -148,60 +139,66 @@ public class SwerveModule {
 	config.signals.absoluteEncoderPositionPeriodMs(CANStatus5);
 	config.signals.absoluteEncoderVelocityPeriodMs(CANStatus6);
     //  https://docs.revrobotics.com/brushless/spark-max/control-interfaces
-  }
+ 	}
 
-
+	//not sure what this does used in gyroSwerveDrive to get module positions.  not sure why this would be useeful.
 	public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(driveEncoder.getPosition(), new Rotation2d(getStateAngle()));
     }
 
+	//wrties module stuff to spartdashboard periodically.  gyroSwrveDrive seems to call this every command loop
 	public void output(){
 		SmartDashboard.putNumber("speed mod " + index, driveEncoder.getVelocity());
 		SmartDashboard.putNumber("angle mod " + index, new Rotation2d(getStateAngle()).getDegrees());
 		SmartDashboard.putNumber("absolute" + index, (getAbsolutePosition()*180/3.14));
 	}
 
+	//not sure exaclty what this does since it is used in two separate setModuleState classes in thee gyroSwerveDrive.
 	public void setDesiredState(SwerveModuleState desiredState) {
         // Optimize the reference state to avoid spinning further than 90 degrees
         SwerveModuleState state;
 		state = desiredState;
 		state.optimize(new Rotation2d(getStateAngle()));
-	if((Math.abs(state.angle.getRadians() - getStateAngle()) < Math.toRadians(1.0) ) && steerEncoder.getVelocity() < Math.toRadians(5.0)){
+		
+		if((Math.abs(state.angle.getRadians() - getStateAngle()) < Math.toRadians(1.0) ) && steerEncoder.getVelocity() < Math.toRadians(5.0)){
 		steerMotor.set(0);
-	} else {
-		setReferenceAngle(state.angle.getRadians());
-	}
-	if(Math.abs(state.speedMetersPerSecond) < 0.05){
-		driveMotor.set(0);
-	} else {
-		double velocity = RobotState.isAutonomous() ? getCosineCompensatedVelocity(state) : state.speedMetersPerSecond;
-		//Applies compensation to prevent unintended sideways motion and reduce slippage when module is not at setpoint position
-		//Does not run during teleop due to it making direction changes far more aggressive and driver will naturally compensate for slight skewing
-		//and drift
-        driveVelocityPIDController.setReference(velocity, ControlType.kVelocity);
+		}else {
+			setReferenceAngle(state.angle.getRadians());
+		}
+		if(Math.abs(state.speedMetersPerSecond) < 0.05){
+			driveMotor.set(0);
+		} else {
+			double velocity = RobotState.isAutonomous() ? getCosineCompensatedVelocity(state) : state.speedMetersPerSecond;
+			//Applies compensation to prevent unintended sideways motion and reduce slippage when module is not at setpoint position
+			//Does not run during teleop due to it making direction changes far more aggressive and driver will naturally compensate for slight skewing
+			//and drift
+			//based on auto movement thhis slippage compensations seems to not work.  not sure why and have no clue how to fix.
+        	driveVelocityPIDController.setReference(velocity, ControlType.kVelocity);
         	//driveVelocityPIDController.setReference(Constants.MAX_SPEED_MperS, ControlType.kVelocity);
-	}
-    	}
-	
+		}
+    }
+
+	//magic code to compesate for the skew that can occur when rotating due to how the wheels rotate.  	
 	private double getCosineCompensatedVelocity(SwerveModuleState desiredState){
-    double cosineScalar = 1.0;
-    // Taken from the CTRE SwerveModule class.
-    // https://api.ctr-electronics.com/phoenix6/release/java/src-html/com/ctre/phoenix6/mechanisms/swerve/SwerveModule.html#line.46
-    /* From FRC 900's whitepaper, we add a cosine compensator to the applied drive velocity */
-    /* To reduce the "skew" that occurs when changing direction */
-    /* If error is close to 0 rotations, we're already there, so apply full power */
-    /* If the error is close to 0.25 rotations, then we're 90 degrees, so movement doesn't help us at all */
-    cosineScalar = Rotation2d.fromDegrees(desiredState.angle.getDegrees())
+   		double cosineScalar = 1.0;
+    	// Taken from the CTRE SwerveModule class.
+    	// https://api.ctr-electronics.com/phoenix6/release/java/src-html/com/ctre/phoenix6/mechanisms/swerve/SwerveModule.html#line.46
+    	/* From FRC 900's whitepaper, we add a cosine compensator to the applied drive velocity */
+    	/* To reduce the "skew" that occurs when changing direction */
+    	/* If error is close to 0 rotations, we're already there, so apply full power */
+    	/* If the error is close to 0.25 rotations, then we're 90 degrees, so movement doesn't help us at all */
+    	cosineScalar = Rotation2d.fromDegrees(desiredState.angle.getDegrees())
                              .minus(new Rotation2d(getStateAngle()))
                              .getCos(); // TODO: Investigate angle modulus by 180.
-    /* Make sure we don't invert our drive, even though we shouldn't ever target over 90 degrees anyway */
-    if (cosineScalar < 0.0)
-    {
-      cosineScalar = 1;
-    }
-    return desiredState.speedMetersPerSecond * (cosineScalar);
-  }
+    	/* Make sure we don't invert our drive, even though we shouldn't ever target over 90 degrees anyway */
+    	if (cosineScalar < 0.0)
+    	{
+      		cosineScalar = 1;
+    	}
+    	return desiredState.speedMetersPerSecond * (cosineScalar);
+  	}
 
+	//this is run at the start of the code to initialize the wheel angle i think.
 	public void resetModule(){
 		steerEncoder.setPosition(getAbsolutePosition());
 		setDesiredState(new SwerveModuleState(0.0, new Rotation2d(0)));
@@ -214,9 +211,9 @@ public class SwerveModule {
         if (currentAngleRadiansMod < 0.0) {
             currentAngleRadiansMod += 2.0 * Math.PI;
         }
-
         // The reference angle has the range [0, 2pi) but the Neo's encoder can go above
         // that
+
         double adjustedReferenceAngleRadians = referenceAngleRadians + currentAngleRadians - currentAngleRadiansMod;
         if (referenceAngleRadians - currentAngleRadiansMod > Math.PI) {
             adjustedReferenceAngleRadians -= 2.0 * Math.PI;
@@ -238,24 +235,24 @@ public class SwerveModule {
         return motorAngleRadians;
     }
 
-public double getAbsolutePosition()
-  {
+	public double getAbsolutePosition()
+  	{
 
-    StatusSignal<Angle> angle = steerAngleEncoder.getAbsolutePosition();
+    	StatusSignal<Angle> angle = steerAngleEncoder.getAbsolutePosition();
 
-    // Taken from democat's library.
-    // Source: https://github.com/democat3457/swerve-lib/blob/7c03126b8c22f23a501b2c2742f9d173a5bcbc40/src/main/java/com/swervedrivespecialties/swervelib/ctre/CanCoderFactoryBuilder.java#L51-L74
-    for (int i = 0; i < 10; i++)
-    {
-      if (angle.getStatus() == StatusCode.OK)
-      {
-        break;
-      }
-      angle = angle.waitForUpdate(STATUS_TIMEOUT_SECONDS);
-    }
+    	// Taken from democat's library.
+    	// Source: https://github.com/democat3457/swerve-lib/blob/7c03126b8c22f23a501b2c2742f9d173a5bcbc40/src/main/java/com/swervedrivespecialties/swervelib/ctre/CanCoderFactoryBuilder.java#L51-L74
+    	for (int i = 0; i < 10; i++)
+    	{
+      		if (angle.getStatus() == StatusCode.OK)
+      		{
+        	break;
+      		}
+      	angle = angle.waitForUpdate(STATUS_TIMEOUT_SECONDS);
+    	}
 
-    return angle.getValueAsDouble() * Math.PI * 2.0;
-  }
+    	return angle.getValueAsDouble() * Math.PI * 2.0;
+  	}
 
   public void initDefaultCommand() {
     // NOTE: no default command unless running swerve modules seperately
