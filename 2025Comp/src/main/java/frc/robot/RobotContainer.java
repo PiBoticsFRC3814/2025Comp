@@ -44,7 +44,8 @@ public class RobotContainer {
   public final GyroSwerveDrive m_gyroSwerveDrive = new GyroSwerveDrive(m_robotStates, m_gyro);
 
   private final Command m_moveForward = new AutoMoveOffLine(m_gyroSwerveDrive);
-  private final Command m_moveAndScore = new AutoMoveAndScore(m_gyroSwerveDrive, m_elevator, m_angle, m_coral);
+  private final Command m_moveAndScoreLow = new AutoMoveAndScoreLow(m_gyroSwerveDrive, m_elevator, m_angle, m_coral);
+  private final Command m_moveAndSetHigh = new AutoMoveAndSetHigh(m_gyroSwerveDrive, m_elevator, m_angle);
 
   public SendableChooser<Command> chooserFirst = new SendableChooser<>();
 
@@ -67,7 +68,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("gyroReset", new GyroReset(m_gyroSwerveDrive));
 
     chooserFirst.setDefaultOption("DriveForward", m_moveForward);
-    chooserFirst.addOption("Drive and Score", m_moveAndScore);
+    chooserFirst.addOption("Drive and Score", m_moveAndScoreLow);
+    chooserFirst.addOption("Move and set to L4", m_moveAndSetHigh);
 
     SmartDashboard.putData(chooserFirst);
 
