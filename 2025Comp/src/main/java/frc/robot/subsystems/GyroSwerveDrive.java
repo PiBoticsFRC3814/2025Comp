@@ -32,10 +32,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
+//import edu.wpi.first.math.kinematics.ChassisSpeeds
 
 public class GyroSwerveDrive extends SubsystemBase {
-  private double[] speed = {0.0, 0.0, 0.0, 0.0};
-  private double[] angle = {0.0, 0.0, 0.0, 0.0};
+  /*private double[] speed = {0.0, 0.0, 0.0, 0.0};
+  private double[] angle = {0.0, 0.0, 0.0, 0.0};*/
   private RobotStates m_RobotStates;
   
   private SlewRateLimiter slewX = new SlewRateLimiter(Constants.JOYSTICK_X_SLEW_RATE);
@@ -57,8 +58,9 @@ public class GyroSwerveDrive extends SubsystemBase {
   public ProfiledPIDController translationRotController;
   public double xAdjust = 0.0;
   public double yAdjust = 0.0;
-
+  public boolean xSpeed;
   public Pose2d fieldElementLocation;
+  public double ChassisSpeed;
 
   private SwerveModule[] swerveMod = {
     new SwerveModule(0), 
@@ -316,4 +318,5 @@ public class GyroSwerveDrive extends SubsystemBase {
   public double getGyroAngle(){
     return gyro.getAngle(gyro.getYawAxis()) % 360;
   } 
+ 
 }

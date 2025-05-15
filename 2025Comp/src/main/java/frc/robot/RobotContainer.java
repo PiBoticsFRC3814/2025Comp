@@ -6,12 +6,11 @@ package frc.robot;
 
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.GyroSwerveDrive;
-import frc.robot.subsystems.RobotStates;
-
 
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -24,6 +23,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
+import com.ctre.phoenix6.SignalLogger;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -59,7 +62,13 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     //*
+    DriverStation.startDataLog(DataLogManager.getLog());
+    SignalLogger.setPath("/media/ATKINS/");
 
+    DataLogManager.start();
+    SignalLogger.start();
+
+  
    /* m_climber.setDefaultCommand(
       new ClimbMaunal(m_climber, () -> -controlStick.getRightY(), () -> controlStick.getLeftY())
     );*/
@@ -141,6 +150,17 @@ public class RobotContainer {
     .add("Elevator", m_elevator.elevatorEncoder.getPosition())
     .withWidget(BuiltInWidgets.kTextView)
     .withSize(2,1);
+
+    /*Shuffleboard.getTab("Test")
+    .add("ChassisSpeed", m_gyroSwerveDrive)
+    .withWidget(BuiltInWidgets.kTextView)
+    .withSize(2, 1);
+     */
+    
+    /*Shuffleboard.getTab("Test")
+    .add("Speed",m_gyro.)
+    .withWidget(BuiltInWidgets.kTextView);
+    */
   }
 
   /**
