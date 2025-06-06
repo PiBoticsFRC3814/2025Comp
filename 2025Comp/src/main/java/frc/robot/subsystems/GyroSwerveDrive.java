@@ -45,7 +45,10 @@ public class GyroSwerveDrive extends SubsystemBase {
   private SwerveDriveKinematics kinematics;
   private SwerveDrivePoseEstimator poseEstimator;
   private ADIS16470_IMU gyro;
-  PIDController turnController = new PIDController(0.04, 0.05, 0.010);
+  public double curveP = 0.04;
+  public double curveI = 0.05;
+  public double curveD = 0.01;
+  PIDController turnController = new PIDController(SmartDashboard.getNumber("curveP", curveP),SmartDashboard.getNumber("curveP", curveI),SmartDashboard.getNumber("curveP", curveD));
 
   RobotConfig config;
 
@@ -172,6 +175,8 @@ public class GyroSwerveDrive extends SubsystemBase {
     swerveMod[1].output();
     swerveMod[2].output();
     swerveMod[3].output();
+    SmartDashboard.putNumber("ChassisSpeed", cSpeed());
+
 
     poseEstimator.updateWithTime(
       Timer.getFPGATimestamp(),
@@ -240,14 +245,23 @@ public class GyroSwerveDrive extends SubsystemBase {
   }
 
   public void drive(double xSpeed, double ySpeed, double setAngle, boolean lock, double zSpeed) {
+    //SmartDashboard.putNumber("ChassisSpeed", ChassisSpeed);
     //xSpeed = slewX.calculate(xSpeed);
     //ySpeed = slewY.calculate(ySpeed);
+    turnController.setP(SmartDashboard.getNumber("curveP", curveP));
+    turnController.setI(SmartDashboard.getNumber("curveI", curveI));
+    turnController.setD(SmartDashboard.getNumber("curveD", curveD));
 
     Pose2d position = getPose();
     //position.getRotation();
     //if(speakerLock){setAngle = Math.toDegrees(Math.atan2(position.getY() - 5.45, position.getY()));}
     double rot = 0.0;
-    if(lock) rot = -turnController.calculate(setAngle, position.getRotation().getDegrees());
+    //found the problemn with the stupid turn.  turnController.calculate was calculating the wrong angle difference 
+    //there is a sign flip somewhere that we need to fix becasue stupid code stupid flipped a stupid sign somewhere.
+    //we had/have a situation where the difference between set angle and position.getrotation is 0 when 180 out and 180 in 0...
+    //need to figre out if our position needs to be negative (seems to have fixe it?) or if our set angle needs to be corrected
+    //need to test now that we know the issue
+    if(lock) rot = -turnController.calculate(setAngle, -position.getRotation().getDegrees());
     rot *= Constants.MAX_TURN_SPEED_MperS / new Rotation2d(Constants.SWERVE_FRAME_LENGTH / 2.0 * 0.0254, Constants.SWERVE_FRAME_WIDTH / 2.0 * 0.0254).getRadians();
     if(m_RobotStates.autonomous){
       rot = zSpeed;
@@ -319,4 +333,7 @@ public class GyroSwerveDrive extends SubsystemBase {
     return gyro.getAngle(gyro.getYawAxis()) % 360;
   } 
  
+  public double cSpeed(){
+   return Math.sqrt((getChassisSpeed().vxMetersPerSecond*getChassisSpeed().vxMetersPerSecond) + (getChassisSpeed().vyMetersPerSecond*getChassisSpeed().vyMetersPerSecond));
+  }
 }

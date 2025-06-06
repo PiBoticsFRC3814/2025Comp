@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+/*package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.*;
 
@@ -10,7 +10,9 @@ import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveModuleSimulation;
 import org.ironmaple.simulation.motorsims.SimMotorConfigs;
 
-// Removed SwerveModuleSimulationConfig class from this file.
+//i have beef with this subsystem its so confusing i thought i got it but NOPE
+
+public class SwerveModuleSimulationConfig implements Supplier<SwerveModuleSimulation> { //I DID WHAT IT WANTED WHY U MAD YOU WANNA GO? WE CAN BRAWL
     public final SimMotorConfigs driveMotorConfigs, steerMotorConfigs;
     public final double DRIVE_GEAR_RATIO, STEER_GEAR_RATIO, WHEELS_COEFFICIENT_OF_FRICTION;
     public final Voltage DRIVE_FRICTION_VOLTAGE;
@@ -43,9 +45,10 @@ import org.ironmaple.simulation.motorsims.SimMotorConfigs;
      * @param wheelRadius the radius of the wheels.
      * @param steerRotationalInertia the rotational inertia of the entire steering mechanism
      * @param wheelsCoefficientOfFriction the <a
-     *     href='https://simple.wikipedia.org/wiki/Coefficient_of_friction#:~:text=A%20coefficient%20of%20friction%20is%20a%20value%20that%20shows%20the'>coefficient
-     *     of friction</a> of the tires, normally around 1.2 {@link Units#inchesToMeters(double)}.
+     *     https://simple.wikipedia.org/wiki/Coefficient_of_friction#:~:text=A%20coefficient%20of%20friction%20is%20a%20value%20that%20shows%20the'
+     *      {@link Units#inchesToMeters(double)}.
      */
+    /* //COMMENT HERE
     public SwerveModuleSimulationConfig(
             DCMotor driveMotorModel,
             DCMotor steerMotorModel,
@@ -75,10 +78,10 @@ import org.ironmaple.simulation.motorsims.SimMotorConfigs;
         DRIVE_FRICTION_VOLTAGE = driveFrictionVoltage;
         WHEEL_RADIUS = wheelRadius;
     }
-    
+
     @Override
     public SwerveModuleSimulation get() {
-        return new SwerveModuleSimulation(this);
+        return new SwerveModuleSimulation(this); // idk why this wont work i hate it
     }
 
     public double getGrippingForceNewtons(double gravityForceOnModuleNewtons) {
@@ -92,7 +95,7 @@ import org.ironmaple.simulation.motorsims.SimMotorConfigs;
      *
      * @return the theoretical maximum ground speed that the module can achieve, in m/s
      */
-    public LinearVelocity maximumGroundSpeed() {
+   /*public LinearVelocity maximumGroundSpeed() {  //HERE
         return MetersPerSecond.of(
                 driveMotorConfigs.freeSpinMechanismVelocity().in(RadiansPerSecond) * WHEEL_RADIUS.in(Meters));
     }
@@ -109,7 +112,7 @@ import org.ironmaple.simulation.motorsims.SimMotorConfigs;
      * @param modulesCount the amount of modules on the robot, assumed to be sharing the gravity force equally
      * @return the maximum propelling force of EACH module
      */
-    public Force getTheoreticalPropellingForcePerModule(Mass robotMass, int modulesCount, Current statorCurrentLimit) {
+   /* public Force getTheoreticalPropellingForcePerModule(Mass robotMass, int modulesCount, Current statorCurrentLimit) {
         final double
                 maxThrustNewtons =
                         driveMotorConfigs.calculateTorque(statorCurrentLimit).in(NewtonMeters)
@@ -130,9 +133,9 @@ import org.ironmaple.simulation.motorsims.SimMotorConfigs;
      * @param robotMass the mass of the robot
      * @param modulesCount the amount of modules on the robot, assumed to be sharing the gravity force equally
      */
-    public LinearAcceleration maxAcceleration(Mass robotMass, int modulesCount, Current statorCurrentLimit) {
+    /* public LinearAcceleration maxAcceleration(Mass robotMass, int modulesCount, Current statorCurrentLimit) {
         return getTheoreticalPropellingForcePerModule(robotMass, modulesCount, statorCurrentLimit)
                 .times(modulesCount)
                 .div(robotMass);
     }
-}
+} */

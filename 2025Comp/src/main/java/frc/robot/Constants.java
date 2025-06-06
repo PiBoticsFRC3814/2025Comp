@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.Voltage;
+
 public final class Constants {
   ////////////////////////////////////////
   //                 OI                 //
@@ -161,6 +164,15 @@ public final class Constants {
 
   public static final double AUTO_DRIVE_TIME = 2.0;  //time for auto to drive forward increase or decrease as needed
   public static final double AUTO_DRIVE_SPEED = 1.0; //speed in m/s that auto will drive froward increase or decrease as needed.
+
+
+  public final double DRIVE_GEAR_RATIO = 1.0;
+  public final double STEER_GEAR_RATIO = 1.0;
+  public final double WHEELS_COEFFICIENT_OF_FRICTION = 1.2;
+  public final double DRIVE_FRICTION_VOLTAGE = 1.0;
+  public final double WHEEL_RADIUS = 1.0;
+  public final double STEER_MOI = 6.883;
+
 
 }
 

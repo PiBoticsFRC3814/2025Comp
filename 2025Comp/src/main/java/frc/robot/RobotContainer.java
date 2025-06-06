@@ -151,11 +151,11 @@ public class RobotContainer {
     .withWidget(BuiltInWidgets.kTextView)
     .withSize(2,1);
 
-    /*Shuffleboard.getTab("Test")
+    Shuffleboard.getTab("Test")
     .add("ChassisSpeed", m_gyroSwerveDrive)
     .withWidget(BuiltInWidgets.kTextView)
     .withSize(2, 1);
-     */
+     
     
     /*Shuffleboard.getTab("Test")
     .add("Speed",m_gyro.)

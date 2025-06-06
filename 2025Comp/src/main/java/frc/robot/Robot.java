@@ -109,6 +109,9 @@ public class Robot extends TimedRobot {
     m_robotContainer.m_gyroSwerveDrive.resetModules();
     LimelightHelpers.setPipelineIndex("limelight", 0);
     m_robotContainer.m_robotStates.autonomous = false;
+    SmartDashboard.putNumber("curveP", m_robotContainer.m_gyroSwerveDrive.curveP);
+    SmartDashboard.putNumber("curveI", m_robotContainer.m_gyroSwerveDrive.curveI);
+    SmartDashboard.putNumber("curveD", m_robotContainer.m_gyroSwerveDrive.curveD);
   }
 
   /** This function is called periodically during operator control. */
