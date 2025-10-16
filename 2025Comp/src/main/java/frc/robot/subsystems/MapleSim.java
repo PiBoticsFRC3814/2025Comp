@@ -5,18 +5,29 @@ import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.*;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import frc.robot.Constants;
+
 import java.util.function.Supplier;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveModuleSimulation;
 import org.ironmaple.simulation.motorsims.SimMotorConfigs;
+import org.ironmaple.simulation.motorsims.SimulatedMotorController;
+import org.ironmaple.simulation.motorsims.SimulatedMotorController.GenericMotorController;
 
 //i have beef with this subsystem its so confusing i thought i got it but NOPE
+public class MapleSim<DriveMotor> implements Supplier<MapleSim> { //I DID WHAT IT WANTED WHY U MAD YOU WANNA GO? WE CAN BRAWL
+    private final SwerveModuleSimulation moduleSimulation;
+    public final DCMotorSim driveMotor;
+    public final SimulatedMotorController.GenericMotorController turnMotorController;
 
-public class SwerveModuleSimulationConfig implements Supplier<SwerveModuleSimulation> { //I DID WHAT IT WANTED WHY U MAD YOU WANNA GO? WE CAN BRAWL
-    public final SimMotorConfigs driveMotorConfigs, steerMotorConfigs;
+    
+    public  SimMotorConfigs driveMotorConfigs, steerMotorConfigs;
     public final double DRIVE_GEAR_RATIO, STEER_GEAR_RATIO, WHEELS_COEFFICIENT_OF_FRICTION;
     public final Voltage DRIVE_FRICTION_VOLTAGE;
+    public final Voltage STEER_FRICTION_VOLTAGE;
     public final Distance WHEEL_RADIUS;
+    public final MomentOfInertia STEER_ROTATIONAL_INERTIA;
     public static void check(double value, double min, double max, String parameterName, String unitDescription) {
         if (value < min || value > max) {
             throw new IllegalArgumentException(
@@ -24,7 +35,11 @@ public class SwerveModuleSimulationConfig implements Supplier<SwerveModuleSimula
                     "%s (%f %s) is out of bounds. Must be between %f and %f %s.",
                     parameterName, value, unitDescription, min, max, unitDescription
                 )
+                
             );
+    
+           
+           
         }
     }
 
@@ -48,10 +63,10 @@ public class SwerveModuleSimulationConfig implements Supplier<SwerveModuleSimula
      *     https://simple.wikipedia.org/wiki/Coefficient_of_friction#:~:text=A%20coefficient%20of%20friction%20is%20a%20value%20that%20shows%20the'
      *      {@link Units#inchesToMeters(double)}.
      */
-    /* //COMMENT HERE
-    public SwerveModuleSimulationConfig(
-            DCMotor driveMotorModel,
-            DCMotor steerMotorModel,
+   
+    /*public MapleSim(
+            DCMotor driveMotor,
+            DCMotor steerMotor,
             double driveGearRatio,
             double steerGearRatio,
             Voltage driveFrictionVoltage,
@@ -64,24 +79,23 @@ public class SwerveModuleSimulationConfig implements Supplier<SwerveModuleSimula
         check(driveFrictionVoltage.in(Volts), 0.01, 0.35, "drive friction voltage", "volts");
         check(steerFrictionVoltage.in(Volts), 0.01, 0.6, "steer friction voltage", "volts");
         check(wheelRadius.in(Inches), 1, 3.2, "drive wheel radius", "inches");
-        check(
-                steerRotationalInertia.in(KilogramSquareMeters), 0.005, 0.06, "steer rotation inertia", "kg * m^2");
+        check(steerRotationalInertia.in(KilogramSquareMeters), 0.005, 0.06, "steer rotation inertia", "kg * m^2");
         check(wheelsCoefficientOfFriction, 0.6, 1.9, "tire coefficient of friction", "");
 
-        this.driveMotorConfigs =
-                new SimMotorConfigs(driveMotorModel, driveGearRatio, KilogramSquareMeters.zero(), driveFrictionVoltage);
-        this.steerMotorConfigs =
-                new SimMotorConfigs(steerMotorModel, steerGearRatio, steerRotationalInertia, steerFrictionVoltage);
         DRIVE_GEAR_RATIO = driveGearRatio;
         STEER_GEAR_RATIO = steerGearRatio;
-        WHEELS_COEFFICIENT_OF_FRICTION = wheelsCoefficientOfFriction;
         DRIVE_FRICTION_VOLTAGE = driveFrictionVoltage;
+        STEER_FRICTION_VOLTAGE = steerFrictionVoltage;
         WHEEL_RADIUS = wheelRadius;
+        STEER_ROTATIONAL_INERTIA = steerRotationalInertia;
+        WHEELS_COEFFICIENT_OF_FRICTION = wheelsCoefficientOfFriction;
+
+            
     }
 
     @Override
-    public SwerveModuleSimulation get() {
-        return new SwerveModuleSimulation(this); // idk why this wont work i hate it
+    public MapleSim get() {
+        return this;
     }
 
     public double getGrippingForceNewtons(double gravityForceOnModuleNewtons) {
@@ -112,7 +126,7 @@ public class SwerveModuleSimulationConfig implements Supplier<SwerveModuleSimula
      * @param modulesCount the amount of modules on the robot, assumed to be sharing the gravity force equally
      * @return the maximum propelling force of EACH module
      */
-   /* public Force getTheoreticalPropellingForcePerModule(Mass robotMass, int modulesCount, Current statorCurrentLimit) {
+    /*public Force getTheoreticalPropellingForcePerModule(Mass robotMass, int modulesCount, Current statorCurrentLimit) {
         final double
                 maxThrustNewtons =
                         driveMotorConfigs.calculateTorque(statorCurrentLimit).in(NewtonMeters)
@@ -133,9 +147,10 @@ public class SwerveModuleSimulationConfig implements Supplier<SwerveModuleSimula
      * @param robotMass the mass of the robot
      * @param modulesCount the amount of modules on the robot, assumed to be sharing the gravity force equally
      */
-    /* public LinearAcceleration maxAcceleration(Mass robotMass, int modulesCount, Current statorCurrentLimit) {
+   /*public LinearAcceleration maxAcceleration(Mass robotMass, int modulesCount, Current statorCurrentLimit) {
         return getTheoreticalPropellingForcePerModule(robotMass, modulesCount, statorCurrentLimit)
                 .times(modulesCount)
                 .div(robotMass);
     }
-} */
+} 
+*/
