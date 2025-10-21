@@ -104,8 +104,7 @@ public class GyroSwerveDrive extends SubsystemBase {
        new Translation2d(Constants.SWERVE_FRAME_LENGTH / 2.0 * 0.0254, -Constants.SWERVE_FRAME_WIDTH / 2.0 * 0.0254),   //FR
         new Translation2d(-Constants.SWERVE_FRAME_LENGTH / 2.0 * 0.0254, Constants.SWERVE_FRAME_WIDTH / 2.0 * 0.0254),  //RL
          new Translation2d(-Constants.SWERVE_FRAME_LENGTH / 2.0 * 0.0254, -Constants.SWERVE_FRAME_WIDTH / 2.0 * 0.0254) //RR
-    ); //physical locations of the mnodules -- +x towards front, +y towards left -- appears to be in millimeters 0.0245 divider -- this should be usable to tell us if our mmodules are called out correctly.
-       //From Alex: this is correct. WPiLib is FL, FR, RL, RR
+    ); // WPiLib is FL, FR, RL, RR
     poseEstimator = new SwerveDrivePoseEstimator(
       kinematics, 
       Rotation2d.fromDegrees(gyro.getAngle(gyro.getYawAxis())),
@@ -114,7 +113,7 @@ public class GyroSwerveDrive extends SubsystemBase {
           VecBuilder.fill(0.1, 0.1, 0.05),
             VecBuilder.fill(0.5, 0.5, 1.0)); //Alex: This needs to be properly setup. Look up Extended Kalman Filter for tuning
 
-    trustVision = false;
+    trustVision = false; 
   
 
     AutoBuilder.configure(
@@ -175,7 +174,8 @@ public class GyroSwerveDrive extends SubsystemBase {
     swerveMod[1].output();
     swerveMod[2].output();
     swerveMod[3].output();
-    SmartDashboard.putNumber("ChassisSpeed", cSpeed());
+    SmartDashboard.putNumber("ChassisSpeed", cSpeed()); 
+
 
 
     poseEstimator.updateWithTime(
@@ -319,7 +319,7 @@ public class GyroSwerveDrive extends SubsystemBase {
   }
 
   public void goToFieldElementLocation(double xSpeed, double ySpeed, double rotSpeed, Rotation2d angle) { 
-    //this will try to go to a specific april tag and/or scoring location.  this is going to need ALOT of dbugging.
+    //this will try to go to a specific april tag and/or scoring location.  this is going to need ALOT of dbugging. tell me abt it
     double xApplied = xSpeed;
     double yApplied = ySpeed;
     double rotApplied = rotSpeed;
@@ -334,6 +334,7 @@ public class GyroSwerveDrive extends SubsystemBase {
   } 
  
   public double cSpeed(){
+    System.out.println(ChassisSpeed); // basic test to see if this is ever even given a value
    return Math.sqrt((getChassisSpeed().vxMetersPerSecond*getChassisSpeed().vxMetersPerSecond) + (getChassisSpeed().vyMetersPerSecond*getChassisSpeed().vyMetersPerSecond));
   }
 }

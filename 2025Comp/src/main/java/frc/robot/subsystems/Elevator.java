@@ -22,10 +22,10 @@ import com.revrobotics.spark.SparkClosedLoopController;
 public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
 
+  public RelativeEncoder elevatorEncoder;
 
   SparkMax elevator;
   SparkMaxConfig elevatorConfig;
-  public RelativeEncoder elevatorEncoder;
   SparkLimitSwitch forwardElevatorLimit;
   SparkLimitSwitch reverseElevatorLimit;
   SparkClosedLoopController elevatorPIDController;
@@ -101,7 +101,7 @@ public class Elevator extends SubsystemBase {
       return false;
     } else{
       elevator.set(0.0);
-      System.out.println("elevator at hight");
+      System.out.println("elevator at height");
       return true;
     }
   }

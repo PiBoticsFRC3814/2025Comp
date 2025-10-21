@@ -65,7 +65,7 @@ public class CoralAngle extends SubsystemBase {
   angleEncoder.setPosition(0.0);
  }
 
- public double getMotorAngleRadians(){
+ public double getMotorAngleRadians(){ // this is in rotations not radians? may need fixing 
   return angleEncoder.getPosition();
  }
 
